@@ -1,1 +1,197 @@
-<p>productividad works!</p>
+<app-header></app-header>
+<p id="titulo">Modulo de gestión de priductividad</p>
+<div class="row" style="padding: 20px;">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <p id="sub-titulo">Filtros de busqueda de actividades</p>
+                <div class="row">
+                    <div class="col-3">
+                        <mat-form-field appearance="fill" class="mat-form-full-width">
+                            <mat-label>Clave de empleado</mat-label>
+                            <mat-select>
+                                <mat-option *ngFor="let empleado of listaEmpleados" [value]="empleado.clave">
+                                    {{empleado.clave}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                        <mat-form-field appearance="fill" class="mat-form-full-width">
+                            <mat-label>Periodo</mat-label>
+                            <mat-select>
+                                <mat-option *ngFor="let periodo of periodos" [value]="periodo.id">
+                                    {{periodo.descripcion}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                        <mat-form-field appearance="fill" class="mat-form-full-width">
+                            <mat-label>Mes</mat-label>
+                            <mat-select>
+                                <mat-option *ngFor="let mes of meses" [value]="mes.id">
+                                    {{mes.descripcion}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                        <mat-form-field appearance="fill" class="mat-form-full-width">
+                            <mat-label>Año</mat-label>
+                            <mat-select>
+                                <mat-option *ngFor="let anio of anios" [value]="anio.id">
+                                    {{anio.descripcion}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <hr class="m-t-0 m-b-10">
+                <p id="sub-titulo">Tabla de resultados</p>
+
+                <div>
+                    <mat-accordion class="example-headers-align">
+                        <mat-expansion-panel disabled>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <div class="col-1" id="idTextBody">
+                                        Id
+                                    </div>
+                                    <div class="col-1" id="idTextBody">
+                                        Mes-Año
+                                    </div>
+                                    <div class="col-1" id="idTextBody">
+                                        Clv. Empleado
+                                    </div>
+                                    <div class="col-1" id="idTextBody">
+                                        Periodo
+                                    </div>
+                                    <div class="col-1" id="idTextBody">
+                                        Solicitud pedido
+                                    </div>
+                                    <div class="col-1" id="idTextBody">
+                                        Orden compra
+                                    </div>
+                                    <div class="col-1" id="idTextBody">
+                                        Dias OC
+                                    </div>
+                                    <div class="col-1" id="idTextBody">
+                                        Dias SP
+                                    </div>
+                                    <div class="col-1" id="idTextBody">
+                                        Criterio
+                                    </div>
+                                    <div class="col-1" id="idTextBody">
+                                        Discrecional
+                                    </div>
+                                    <div class="col-1" id="idTextBody">
+                                        Ahorro
+                                    </div>
+                                    <div class="col-1" id="idTextBody">
+                                        Captura a timepo
+                                    </div>
+                                    <div class="col-1" id="idTextBody">
+                                        Total
+                                    </div>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                        </mat-expansion-panel>
+
+                        <div *ngFor="let servicio of servicios; let i= index;">
+                            <mat-expansion-panel [expanded]="step === i" (opened)="setStep(i)" hideToggle>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        <div class="col-1" id="idTextBody">
+                                            {{servicio.idServicio}}
+                                        </div>
+                                        <div class="col-1" id="idTextBody">
+                                            {{servicio.mes}}-{{servicio.anio}}
+                                        </div>
+                                        <div class="col-1" id="idTextBody">
+                                            {{servicio.empleado.clave}}
+                                        </div>
+                                        <div class="col-1" id="idTextBody">
+                                            {{servicio.periodo}}
+                                        </div>
+                                        <div class="col-1" id="idTextBody">
+                                            {{servicio.totalSolPed}}
+                                        </div>
+                                        <div class="col-1" id="idTextBody">
+                                            {{servicio.totalOC}}
+                                        </div>
+                                        <div class="col-1" id="idTextBody">
+                                            {{servicio.diasOC}}
+                                        </div>
+                                        <div class="col-1" id="idTextBody">
+                                            {{servicio.diasSP}}
+                                        </div>
+                                        <div class="col-1" id="idTextBody">
+                                            {{servicio.criterio}}
+                                        </div>
+                                        <div class="col-1" id="idTextBody">
+                                            {{servicio.discrecional}}
+                                        </div>
+                                        <div class="col-1" id="idTextBody">
+                                            {{servicio.ahorro}}
+                                        </div>
+                                        <div class="col-1" id="idTextBody">
+                                            {{servicio.capturaTiempo}}
+                                        </div>
+                                        <div class="col-1" id="idTextBody">
+                                            {{servicio.total}}
+                                            <!-- <button id="idIconCss" mat-icon-button color="secondary" matTooltip=""
+                                                aria-label="Example icon button with a heart icon">
+                                                <mat-icon class="iconInaiCss">attach_money</mat-icon>
+                                            </button> -->
+                                        </div>
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+
+                                <div class="example-button-row">
+                                    <div class="row">
+                                        <div class="col-1">
+                                            <button mat-icon-button pTooltip="Bonos de empleado"
+                                                aria-label="Example icon button with a heart icon">
+                                                <mat-icon class="iconInaiCss">attach_money</mat-icon>
+                                            </button>
+                                        </div>
+                                        <div class="col-1">
+                                            <button mat-icon-button color="secondary" pTooltip="Editar empleado"
+                                                aria-label="Example icon button with a heart icon">
+                                                <mat-icon class="iconInaiCss">edit</mat-icon>
+                                            </button>
+                                        </div>
+                                        <div class="col-1">
+                                            <button mat-icon-button color="secondary" pTooltip="Baja empleado"
+                                                aria-label="Example icon button with a heart icon">
+                                                <mat-icon class="iconInaiCss">delete_outline</mat-icon>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <mat-action-row>
+                                    <button id="idButtonCss" mat-button color="warn" (click)="prevStep()">
+                                        <i class="mdi mdi-chevron-double-left"></i>
+                                        Anterior
+                                    </button>
+                                    <button id="idButtonCss" mat-button color="warn" (click)="nextStep()">
+                                        Siguiente
+                                        <i class="mdi mdi-chevron-double-right"></i>
+                                    </button>
+                                </mat-action-row>
+                            </mat-expansion-panel>
+                        </div>
+                    </mat-accordion>
+
+                    <div>
+                        <p-paginator [rows]="pageSize" [totalRecords]="this.totalElements"
+                            (onPageChange)="buscarPorPagina($event)">
+                        </p-paginator>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
