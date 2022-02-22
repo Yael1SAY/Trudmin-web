@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
     if (this.authService.isAuthtenticated()) {
       //swal.fire('Login', 'Hola ' + this.authService.comprador.nombreUsuario + ' ya estas autenticado!' , 'info');
       this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Message Content' });
-      this.router.navigate(['/clientes']);
+      this.router.navigate(['pages/inicio']);
     }
   }
 
@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
       this.authService.guardarToken(response.access_token);
 
       let comprador = this.authService.comprador;
-      this.router.navigate(['/pages/inicio']);
+      this.router.navigate(['pages/inicio']);
       this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Hola ' + comprador.nombre + ', has iniciado sesión con éxito!' });
       //swal.fire('Login', 'Hola ' + comprador.nombre + ', has iniciado sesión con éxito!', 'success');
     }, error => {

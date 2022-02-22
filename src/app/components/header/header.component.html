@@ -1,0 +1,61 @@
+<p-toast></p-toast>
+
+<p-menubar>
+    <ng-template pTemplate="start">
+      <a class="navbar-brand" href="pages/inicio">
+        <img src="./assets/Images/truper.ico" style="height: 60px; width: 150px;" />
+      </a>
+      <button mat-icon-button color="secondary" (click)="visibleSidebar1 = true"
+        aria-label="Example icon button with a heart icon">
+        <mat-icon class="iconUsarioCss">reorder</mat-icon>
+      </button>
+    </ng-template>
+    <div>
+      <form class="d-flex" style="padding-right: 15px;">
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+          <mat-icon class="iconUsarioCss">person</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>
+            <mat-icon class="iconCss">person</mat-icon>
+            <span>{{authService.comprador.nombre}} {{authService.comprador.apellidoPaterno}}</span>
+          </button>
+          <button mat-menu-item>
+            <mat-icon class="iconCss">how_to_reg</mat-icon>
+            <span>{{authService.comprador.roles[0]}}</span>
+          </button>
+          <button mat-menu-item (click)='logout()'>
+            <mat-icon class="iconCss">exit_to_app</mat-icon>
+            <span>Cerrar sesión</span>
+          </button>
+        </mat-menu>
+      </form>
+    </div>
+  </p-menubar>
+  
+  <p-sidebar [(visible)]="visibleSidebar1" [baseZIndex]="10000">
+    <p class="titulo">Menú</p>
+    <hr class="m-t-0 m-b-10">
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <button mat-menu-item [routerLink]="'/pages/inicio'">
+        <mat-icon class="iconCss">person</mat-icon>
+        <span class="subtitulo">Inicio</span>
+      </button>
+      <button mat-menu-item [routerLink]="'/pages/usuarios'">
+        <mat-icon class="iconCss">supervisor_account</mat-icon>
+        <span class="subtitulo">Usuarios</span>
+      </button>
+      <button mat-menu-item [routerLink]="'/pages/trabajadores'">
+        <mat-icon class="iconCss">work_outline</mat-icon>
+        <span class="subtitulo">Trabajadores</span>
+      </button>
+      <button mat-menu-item [routerLink]="'/pages/bonos'">
+        <mat-icon class="iconCss">attach_money</mat-icon>
+        <span class="subtitulo">Bonos</span>
+      </button>
+      <button mat-menu-item [routerLink]="'/pages/productividad'">
+        <mat-icon class="iconCss">trending_up</mat-icon>
+        <span class="subtitulo">Productividad</span>
+      </button>
+    </ul>
+    </p-sidebar>
