@@ -1,2 +1,42 @@
 <app-header></app-header>
-<p>INICIO works!</p>
+
+<div class="row" style="padding: 20px; text-align: center;">
+    <p id="titulo">Inicio</p>
+    <br>
+
+    
+    <div class="col-4">
+        <div class="card" class="shadow p-3 mb-5 bg-body rounded">
+            <div class="card-title">
+                <!-- <figure class="figure" style="padding: 20px;">
+                    <img class="figure-img img-fluid rounded" style="border-radius: 100%;" src="./assets/Images/spider-man.jpg">
+                </figure> -->
+                <div class="container">
+                    <div class="conatiner-body" [ngStyle]="{'background-image':'url(' + idImagen + ')'}">
+                        <div id="id-body" (click)="cambiarImagen()">
+                            <i class="bi bi-camera-fill" id="id-icono" style="font-size: 2rem;"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <p style="color: darkgray;">Nombre: <b>{{usuario.nombre}} {{usuario.apellidoPaterno}} {{usuario.apellidoMaterno}}</b></p>
+                </div>
+                <div class="row">
+                    <p style="color: darkgray;">Usuario: <b>{{usuario.nombreUsuario}}</b></p>
+                </div>
+                <div class="row">
+                    <p style="color: darkgray;">E-mail: <b>{{usuario.email}}</b></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-8">
+        <div class="card" class="shadow p-3 mb-5 bg-body rounded">
+            <p id="sub-titulo">Mi productividad</p>
+            <div class="card">
+                <p-chart type="bar" [data]="basicData" [options]="basicOptions"></p-chart>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -20,6 +20,8 @@ import {TableModule} from 'primeng/table';
 import {ButtonModule} from 'primeng/button';
 import {TooltipModule} from 'primeng/tooltip';
 import {RippleModule} from 'primeng/ripple';
+import {ChartModule} from 'primeng/chart';
+
 
 /** Componentes de Material */
 import { MatSliderModule } from '@angular/material/slider';
@@ -81,7 +83,8 @@ const routes: Routes = [
     ButtonModule,
     TooltipModule,
     RippleModule,
-    MatMenuModule
+    MatMenuModule,
+    ChartModule
 
   ],
   providers: [],
