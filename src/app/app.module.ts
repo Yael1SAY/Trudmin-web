@@ -9,6 +9,8 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { NuevoUsuarioComponent } from './pages/nuevo-usuario/nuevo-usuario.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UsuarioService } from './services/usuario.service';
+import { AuthService } from './services/auth.service';
 
 /** Componentes de PrimeNG */
 import {AccordionModule} from 'primeng/accordion';
@@ -36,6 +38,8 @@ import { ProductividadComponent } from './pages/productividad/productividad.comp
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { MatMenuModule} from '@angular/material/menu';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatButtonModule} from '@angular/material/button';
 
 
 const routes: Routes = [
@@ -84,10 +88,12 @@ const routes: Routes = [
     TooltipModule,
     RippleModule,
     MatMenuModule,
-    ChartModule
+    ChartModule,
+    MatExpansionModule,
+    MatButtonModule
 
   ],
-  providers: [],
+  providers: [UsuarioService, AuthService],
   bootstrap: [AppComponent],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
