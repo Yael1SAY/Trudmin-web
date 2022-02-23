@@ -4,7 +4,7 @@
     <p id="titulo">Inicio</p>
     <br>
 
-    
+
     <div class="col-4">
         <div class="card" class="shadow p-3 mb-5 bg-body rounded">
             <div class="card-title">
@@ -19,7 +19,8 @@
                     </div>
                 </div>
                 <div class="row">
-                    <p style="color: darkgray;">Nombre: <b>{{usuario.nombre}} {{usuario.apellidoPaterno}} {{usuario.apellidoMaterno}}</b></p>
+                    <p style="color: darkgray;">Nombre: <b>{{usuario.nombre}} {{usuario.apellidoPaterno}}
+                            {{usuario.apellidoMaterno}}</b></p>
                 </div>
                 <div class="row">
                     <p style="color: darkgray;">Usuario: <b>{{usuario.nombreUsuario}}</b></p>
@@ -28,10 +29,21 @@
                     <p style="color: darkgray;">E-mail: <b>{{usuario.email}}</b></p>
                 </div>
                 <div class="row">
-                    <button id="idButtonPrimary" class="mat-form-full-width" style="margin-top: 6px"
-                                mat-raised-button (click)="openDialogactualizarPerfil()">
-                                <mat-icon>edit</mat-icon>
-                                Actualizar perfil</button>
+                    <div class="col-6">
+                        <button id="idButtonPrimary" class="mat-form-full-width" style="margin-top: 6px"
+                            mat-raised-button (click)="openDialogactualizarPerfil()">
+                            <mat-icon>edit</mat-icon>
+                            Actualizar perfil
+                        </button>
+                    </div>
+                    <div class="col-6">
+                        <button id="idButtonSecondary" class="mat-form-full-width" style="margin-top: 6px"
+                            mat-raised-button (click)="openDialogMisBonos()">
+                            <mat-icon> attach_money</mat-icon>
+                            Mis Bonos
+                        </button>
+                    </div>
+
                 </div>
             </div>
         </div>

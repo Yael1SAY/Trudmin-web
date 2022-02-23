@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from 'src/app/services/auth.service';
 import { EditarUsuarioComponent } from '../editar-usuario/editar-usuario.component';
+import { MisBonosComponent } from '../mis-bonos/mis-bonos.component';
 
 @Component({
   selector: 'app-inicio',
@@ -73,6 +74,16 @@ export class InicioComponent implements OnInit {
 
   openDialogactualizarPerfil() {
     const dialogRef = this.dialog.open(EditarUsuarioComponent, {
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  openDialogMisBonos() {
+    const dialogRef = this.dialog.open(MisBonosComponent, {
       data: {}
     });
 
