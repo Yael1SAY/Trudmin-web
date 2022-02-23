@@ -41,6 +41,7 @@ import { MatMenuModule} from '@angular/material/menu';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSelectModule} from '@angular/material/select';
+import { EditarUsuarioComponent } from './pages/editar-usuario/editar-usuario.component';
 
 
 const routes: Routes = [
@@ -64,7 +65,8 @@ const routes: Routes = [
     TrabajadoresComponent,
     ProductividadComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    EditarUsuarioComponent
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,4 @@
-<p id="titulo">Registrarse</p>
+<p id="titulo">Editar mi perfil</p>
 
 <div class="row" style="padding: 5px;">
     <div class="col-12">
@@ -83,14 +83,46 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-12">
-                        <div class="col-md-12">
-                            <button id="idButtonPrimary" class="mat-form-full-width" style="margin-top: 6px"
-                                mat-raised-button (click)="RegustrarUsuario()">REGISTRAR</button>
+                    <div class="col-md-6">
+                        <div style="font-size: 12px">
+                            <mat-form-field class="mat-form-full-width" appearance="outline">
+                                <mat-label>Subarea</mat-label>
+                                <input matInput [(ngModel)]="datos.subareaId">
+                                <mat-icon matSuffix></mat-icon>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div style="font-size: 12px">
+                            <mat-form-field class="mat-form-full-width" appearance="outline">
+                                <mat-label>Puesto</mat-label>
+                                <input matInput [(ngModel)]="datos.puestoId">
+                                <mat-icon matSuffix></mat-icon>
+                            </mat-form-field>
                         </div>
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-md-6">
+                        <div style="font-size: 12px">
+                            <mat-form-field class="mat-form-full-width" appearance="outline">
+                                <mat-label>Telefono</mat-label>
+                                <input matInput [(ngModel)]="datos.telefono" type="number">
+                                <mat-icon matSuffix></mat-icon>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="col-md-12">
+                            <button id="idButtonPrimary" class="mat-form-full-width" style="margin-top: 6px"
+                                mat-raised-button (click)="GuardarUsuario()">GUARDAR</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

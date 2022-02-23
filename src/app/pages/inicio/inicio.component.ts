@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from 'src/app/services/auth.service';
+import { EditarUsuarioComponent } from '../editar-usuario/editar-usuario.component';
 
 @Component({
   selector: 'app-inicio',
@@ -14,7 +16,7 @@ export class InicioComponent implements OnInit {
 
   idImagen = "../../../assets/Images/spider-man.jpg";
 
-  constructor(public authService: AuthService) { }
+  constructor(public authService: AuthService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.usuario = this.authService.comprador;
@@ -37,36 +39,46 @@ export class InicioComponent implements OnInit {
 
   applyLightTheme() {
     this.basicOptions = {
-        plugins: {
-            legend: {
-                labels: {
-                    color: '#495057'
-                }
-            }
-        },
-        scales: {
-            x: {
-                ticks: {
-                    color: '#495057'
-                },
-                grid: {
-                    color: '#ebedef'
-                }
-            },
-            y: {
-                ticks: {
-                    color: '#495057'
-                },
-                grid: {
-                    color: '#ebedef'
-                }
-            }
+      plugins: {
+        legend: {
+          labels: {
+            color: '#495057'
+          }
         }
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: '#495057'
+          },
+          grid: {
+            color: '#ebedef'
+          }
+        },
+        y: {
+          ticks: {
+            color: '#495057'
+          },
+          grid: {
+            color: '#ebedef'
+          }
+        }
+      }
     };
   }
 
-  cambiarImagen(){
-      console.log("Cambiando imagen de perfil")
+  cambiarImagen() {
+    console.log("Cambiando imagen de perfil")
+  }
+
+  openDialogactualizarPerfil() {
+    const dialogRef = this.dialog.open(EditarUsuarioComponent, {
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 
 }

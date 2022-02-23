@@ -62,3 +62,9 @@
     border-color: aliceblue;
     border-style: solid;
 }
+
+#idButtonPrimary {
+    color: #ffffff;
+    background-color: #f16d00;
+    width: 100%;
+}
