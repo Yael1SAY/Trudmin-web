@@ -6,13 +6,14 @@ import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../services/auth.service';
 import swal from 'sweetalert2';
+import { clavesEmpleado } from '../model/ClavesEmpleado';
 
 const URL = environment.url;
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProductividadService {
+export class CatalogosService {
 
   private httpHeader = new HttpHeaders({'Content-Type': 'application/json'})
 
@@ -26,8 +27,8 @@ export class ProductividadService {
     return this.httpHeader;
   }
 
-  obtenerServicios(empleadoId: number, anio: number): Observable<any[]>{
-    return this.http.get<any[]>(`${URL}servicio/obtenerServiciosPorCompradorAnio?anio=${anio}&empleadoId=${empleadoId}`, {headers: this.agregarAuthorizationHeader()})
+  obtenerServicios(): Observable<clavesEmpleado[]>{
+    return this.http.get<clavesEmpleado[]>(`${URL}catalogos/clavesEmpleado`, {headers: this.agregarAuthorizationHeader()})
     .pipe(
       catchError(e =>{
         if(e.status==0){

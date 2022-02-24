@@ -4,13 +4,14 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <p id="sub-titulo">Filtros de busqueda de actividades</p>
+                <p id="sub-titulo">Nuevo Registro</p>
                 <div class="row">
                     <div class="col-3">
                         <mat-form-field appearance="fill" class="mat-form-full-width">
                             <mat-label>Clave de empleado</mat-label>
-                            <mat-select>
-                                <mat-option *ngFor="let empleado of listaEmpleados" [value]="empleado.clave">
+                            <mat-select (selectionChange)="BuscarServicios($event.value)" required>
+                                <mat-option>--Seleccione--</mat-option>
+                                <mat-option *ngFor="let empleado of catalogoClaveEmpleados" [value]="empleado.empleadoId">
                                     {{empleado.clave}}
                                 </mat-option>
                             </mat-select>
@@ -18,35 +19,124 @@
                     </div>
                     <div class="col-3">
                         <mat-form-field appearance="fill" class="mat-form-full-width">
-                            <mat-label>Periodo</mat-label>
-                            <mat-select>
-                                <mat-option *ngFor="let periodo of periodos" [value]="periodo.id">
-                                    {{periodo.descripcion}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <div class="col-3">
-                        <mat-form-field appearance="fill" class="mat-form-full-width">
-                            <mat-label>Mes</mat-label>
-                            <mat-select>
-                                <mat-option *ngFor="let mes of meses" [value]="mes.id">
-                                    {{mes.descripcion}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <div class="col-3">
-                        <mat-form-field appearance="fill" class="mat-form-full-width">
                             <mat-label>Año</mat-label>
-                            <mat-select>
-                                <mat-option *ngFor="let anio of anios" [value]="anio.id">
+                            <mat-select (selectionChange)="actualizarAnio($event.value)" [(ngModel)]="datos.anio"
+                            required>
+                                <mat-option>--Seleccione--</mat-option>
+                                <mat-option *ngFor="let anio of anios" [value]="anio.descripcion">
                                     {{anio.descripcion}}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
+                    
+                    <div class="col-3">
+                        <mat-form-field appearance="fill" class="mat-form-full-width">
+                            <mat-label>Mes</mat-label>
+                            <mat-select [(ngModel)]="mes" required>
+                                <mat-option *ngFor="let mes of meses" [value]="mes">
+                                    {{mes.descripcion}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div style="font-size: 12px">
+                            <mat-form-field class="mat-form-full-width" appearance="outline">
+                                <mat-label>Criterio</mat-label>
+                                <input matInput [(ngModel)]="datos.criterio" type="number" required>
+                                <mat-icon matSuffix></mat-icon>
+                            </mat-form-field>
+                        </div>
+                    </div>                    
                 </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <div style="font-size: 12px">
+                            <mat-form-field class="mat-form-full-width" appearance="outline">
+                                <mat-label>Solicitud de pedido %</mat-label>
+                                <input matInput [(ngModel)]="datos.totalSolPed" type="number" required>
+                                <mat-icon matSuffix></mat-icon>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div style="font-size: 12px">
+                            <mat-form-field class="mat-form-full-width" appearance="outline">
+                                <mat-label>Orden de compra %</mat-label>
+                                <input matInput [(ngModel)]="datos.totalOC" type="number" required>
+                                <mat-icon matSuffix></mat-icon>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div style="font-size: 12px">
+                            <mat-form-field class="mat-form-full-width" appearance="outline">
+                                <mat-label>Dias OC</mat-label>
+                                <input matInput [(ngModel)]="datos.diasOc" type="number" required>
+                                <mat-icon matSuffix></mat-icon>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div style="font-size: 12px">
+                            <mat-form-field class="mat-form-full-width" appearance="outline">
+                                <mat-label>Dias SP</mat-label>
+                                <input matInput [(ngModel)]="datos.diasSP" type="number" required>
+                                <mat-icon matSuffix></mat-icon>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <div style="font-size: 12px">
+                            <mat-form-field class="mat-form-full-width" appearance="outline">
+                                <mat-label>Discrecional</mat-label>
+                                <input matInput [(ngModel)]="datos.discrecional" type="number" required>
+                                <mat-icon matSuffix></mat-icon>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div style="font-size: 12px">
+                            <mat-form-field class="mat-form-full-width" appearance="outline">
+                                <mat-label>Ahorro</mat-label>
+                                <input matInput [(ngModel)]="datos.ahorro" type="number" required>
+                                <mat-icon matSuffix></mat-icon>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div style="font-size: 12px">
+                            <mat-form-field class="mat-form-full-width" appearance="outline">
+                                <mat-label>Captura a timepo</mat-label>
+                                <input matInput [(ngModel)]="datos.capturaTiempo" type="number" required>
+                                <mat-icon matSuffix></mat-icon>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div style="font-size: 12px">
+                            <mat-form-field class="mat-form-full-width" appearance="outline">
+                                <mat-label>Total</mat-label>
+                                <input matInput [(ngModel)]="datos.total" type="number" required>
+                                <mat-icon matSuffix></mat-icon>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-9"></div>
+                    <div class="col-md-3">
+                        <button id="idButtonPrimary" class="mat-form-full-width" style="margin-top: 6px"
+                            mat-raised-button (click)="guardarRegistro()">GUARDAR</button>
+                    </div>
+                </div>
+
                 <hr class="m-t-0 m-b-10">
                 <p id="sub-titulo">Tabla de resultados</p>
 
@@ -61,9 +151,9 @@
                                     <div class="col-1" id="idTextBody">
                                         Mes-Año
                                     </div>
-                                    <div class="col-1" id="idTextBody">
+                                    <!-- <div class="col-1" id="idTextBody">
                                         Clv. Empleado
-                                    </div>
+                                    </div> -->
                                     <div class="col-1" id="idTextBody">
                                         Periodo
                                     </div>
@@ -99,7 +189,7 @@
                         </mat-expansion-panel>
 
                         <div *ngFor="let servicio of servicios; let i= index;">
-                            <mat-expansion-panel [expanded]="step === i" (opened)="setStep(i)" hideToggle>
+                            <mat-expansion-panel (opened)="setStep(i)" hideToggle>
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
                                         <div class="col-1" id="idTextBody">
@@ -108,17 +198,17 @@
                                         <div class="col-1" id="idTextBody">
                                             {{servicio.mes}}-{{servicio.anio}}
                                         </div>
-                                        <div class="col-1" id="idTextBody">
+                                        <!-- <div class="col-1" id="idTextBody">
                                             {{servicio.empleado.clave}}
-                                        </div>
+                                        </div> -->
                                         <div class="col-1" id="idTextBody">
                                             {{servicio.periodo}}
                                         </div>
                                         <div class="col-1" id="idTextBody">
-                                            {{servicio.totalSolPed}}
+                                            {{servicio.totalSolPed}}%
                                         </div>
                                         <div class="col-1" id="idTextBody">
-                                            {{servicio.totalOC}}
+                                            {{servicio.totalOC}}%
                                         </div>
                                         <div class="col-1" id="idTextBody">
                                             {{servicio.diasOC}}

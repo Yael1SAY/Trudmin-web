@@ -31,6 +31,7 @@ hr {
     word-spacing:-2px;
     line-height: 100%;
     font-size: 13px;
+    text-align: center;
  }
 
  .example-button-row {
@@ -63,7 +64,6 @@ hr {
     font-size: 20px;
     padding: 2px;
 }
-
 
 .example-headers-align .mat-expansion-panel-header-title,
 .example-headers-align .mat-expansion-panel-header-description {
