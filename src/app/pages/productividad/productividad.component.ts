@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { clavesEmpleado } from 'src/app/model/ClavesEmpleado';
 import { AuthService } from 'src/app/services/auth.service';
 import { CatalogosService } from 'src/app/services/catalogos.service';
 import { ProductividadService } from 'src/app/services/productividad.service';
+import Swal from 'sweetalert2';
+import { EditarProductividadComponent } from '../editar-productividad/editar-productividad.component';
 
 const ANIOS: any = [
   { id: 1, descripcion: 2015 },
@@ -32,7 +35,7 @@ const MESES: any = [
   { id: "10", descripcion: "Octubre" },
   { id: "11", descripcion: "Noviembre" },
   { id: "12", descripcion: "Diciembre" }
-]
+];
 
 @Component({
   selector: 'app-productividad',
@@ -73,8 +76,8 @@ export class ProductividadComponent implements OnInit {
     total: ""
   }
 
-  constructor(private authService: AuthService, private productividad: ProductividadService,
-    private router: Router, private catalogoService: CatalogosService) { }
+  constructor(private authService: AuthService, private productividadServ: ProductividadService,
+    private router: Router, private catalogoService: CatalogosService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     if (!this.authService.isAuthtenticated()) {
@@ -91,11 +94,11 @@ export class ProductividadComponent implements OnInit {
     //this.BuscarServicios()
   }
 
-  BuscarServicios(valor) {
+  actualizaComprador(valor) {
     if (valor != undefined) {
       this.claveEmpleado = valor;
       this.datos.empleadoId = valor;
-      this.productividad.obtenerServicios(valor, this.fecha).subscribe(servicios => {
+      this.productividadServ.obtenerServicios(valor, this.fecha).subscribe(servicios => {
         this.servicios = servicios;
       });
     } else {
@@ -108,13 +111,13 @@ export class ProductividadComponent implements OnInit {
     if (valor != undefined) {
       this.fecha = valor;
       if (this.claveEmpleado != undefined) {
-        this.productividad.obtenerServicios(this.claveEmpleado, this.fecha).subscribe(servicios => {
+        this.productividadServ.obtenerServicios(this.claveEmpleado, this.fecha).subscribe(servicios => {
           this.servicios = servicios;
         });
       }
     } else {
       this.fecha = new Date().getFullYear();
-      this.BuscarServicios(this.claveEmpleado);
+      this.actualizaComprador(this.claveEmpleado);
     }
 
   }
@@ -138,6 +141,56 @@ export class ProductividadComponent implements OnInit {
     this.datos.periodo = `${this.mes.id}-${this.datos.anio}`;
     this.datos.mes = this.mes.descripcion;
     console.log("datos: ", this.datos);
+    this.productividadServ.altaDeProductividad(this.datos).subscribe(e => {
+      console.log("respuesta alta: ", e);
+      this.limpiarDatosAlata();
+      this.actualizaComprador(this.claveEmpleado);
+    })
+  }
+
+  limpiarDatosAlata() {
+    this.datos.mes = "",
+      this.datos.periodo = "",
+      this.datos.totalSolPed = "",
+      this.datos.totalOC = "",
+      this.datos.diasOc = "",
+      this.datos.diasSP = "",
+      this.datos.criterio = "",
+      this.datos.discrecional = "",
+      this.datos.ahorro = "",
+      this.datos.capturaTiempo = "",
+      this.datos.total = ""
+  }
+
+  openDialogEditarRegistro(servicioId: number) {
+    console.log('abriendo modal actualizar registro de productividad');
+    const dialogRef = this.dialog.open(EditarProductividadComponent, {
+      data: {id: servicioId}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  eliminarRegistro(servicioId: number) {
+    console.log("ServicioId: ", servicioId);
+    Swal.fire({
+      title: '¿Esta seguro de dar de baja el registro?',
+      text: "Se dara de baja el registro con id " + servicioId,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#f16d00',
+      cancelButtonColor: '#0000002a',
+      confirmButtonText: 'SI',
+      cancelButtonText: 'NO'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.productividadServ.eliminarRegistro(servicioId).subscribe(resp => {
+          console.log(resp);
+        });
+      }
+    });
   }
 
   setStep(index: number) {

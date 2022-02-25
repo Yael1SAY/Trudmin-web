@@ -14,34 +14,72 @@ const URL = environment.url;
 })
 export class ProductividadService {
 
-  private httpHeader = new HttpHeaders({'Content-Type': 'application/json'})
+  private httpHeader = new HttpHeaders({ 'Content-Type': 'application/json' })
 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) { }
 
-  private agregarAuthorizationHeader(){
+  private agregarAuthorizationHeader() {
     let token = this.authService.token;
-    if(token != null){
+    if (token != null) {
       return this.httpHeader.append('Authorization', 'Bearer ' + token);
     }
     return this.httpHeader;
   }
 
-  obtenerServicios(empleadoId: number, anio: number): Observable<any[]>{
-    return this.http.get<any[]>(`${URL}servicio/obtenerServiciosPorCompradorAnio?anio=${anio}&empleadoId=${empleadoId}`, {headers: this.agregarAuthorizationHeader()})
+  obtenerServicios(empleadoId: number, anio: number): Observable<any[]> {
+    return this.http.get<any[]>(`${URL}servicio/obtenerServiciosPorCompradorAnio?anio=${anio}&empleadoId=${empleadoId}`, { headers: this.agregarAuthorizationHeader() })
+      .pipe(
+        catchError(e => {
+          if (e.status == 0) {
+            this.router.navigate(['/login']);
+            swal.fire("Servicio fuera de linea", 'No es posible conectar al servicio, contacte al administrador', 'error');
+            return throwError(() => e);
+          }
+          if (e.status == 401) {//realiza la validacion cuando no se a autenticado
+            this.router.navigate(['/login'])
+            return throwError(() => e);
+          }
+          //return map(response => response as Comprador[])
+          return throwError(() => e);
+        })
+      );
+  }
+
+  altaDeProductividad(productividad: any) {
+    return this.http.post<any[]>(`${URL}servicio/crearServicio`, productividad, { headers: this.agregarAuthorizationHeader() })
+      .pipe(
+        catchError(e => {
+          if (e.status == 0) {
+            this.router.navigate(['/login']);
+            swal.fire("Servicio fuera de linea", 'No es posible conectar al servicio, contacte al administrador', 'error');
+            return throwError(() => e);
+          }
+          if (e.status == 401) {//realiza la validacion cuando no se a autenticado
+            this.router.navigate(['/login'])
+            return throwError(() => e);
+          }
+          //return map(response => response as Comprador[])
+          return throwError(() => e);
+        })
+      )
+  }
+
+  eliminarRegistro(servicioId) {
+    return this.http.delete<any[]>(`${URL}servicio/bajaServicio/${servicioId}`, { headers: this.agregarAuthorizationHeader() })
     .pipe(
-      catchError(e =>{
-        if(e.status==0){
+      catchError(e => {
+        if (e.status == 0) {
           this.router.navigate(['/login']);
-          swal.fire("Servicio fuera de linea", 'No es posible conectar al servicio, contacte al administrador','error');
+          swal.fire("Servicio fuera de linea", 'No es posible conectar al servicio, contacte al administrador', 'error');
           return throwError(() => e);
         }
-        if(e.status==401){//realiza la validacion cuando no se a autenticado
+        if (e.status == 401) {//realiza la validacion cuando no se a autenticado
           this.router.navigate(['/login'])
           return throwError(() => e);
         }
         //return map(response => response as Comprador[])
         return throwError(() => e);
       })
-    );
+    )
   }
 }

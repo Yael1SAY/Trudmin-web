@@ -43,6 +43,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatSelectModule} from '@angular/material/select';
 import { EditarUsuarioComponent } from './pages/editar-usuario/editar-usuario.component';
 import { MisBonosComponent } from './pages/mis-bonos/mis-bonos.component';
+import { EditarProductividadComponent } from './pages/editar-productividad/editar-productividad.component';
 
 
 const routes: Routes = [
@@ -68,7 +69,8 @@ const routes: Routes = [
     HeaderComponent,
     FooterComponent,
     EditarUsuarioComponent,
-    MisBonosComponent
+    MisBonosComponent,
+    EditarProductividadComponent
   ],
   imports: [
     BrowserModule,

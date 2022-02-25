@@ -9,7 +9,7 @@
                     <div class="col-3">
                         <mat-form-field appearance="fill" class="mat-form-full-width">
                             <mat-label>Clave de empleado</mat-label>
-                            <mat-select (selectionChange)="BuscarServicios($event.value)" required>
+                            <mat-select (selectionChange)="actualizaComprador($event.value)" required>
                                 <mat-option>--Seleccione--</mat-option>
                                 <mat-option *ngFor="let empleado of catalogoClaveEmpleados" [value]="empleado.empleadoId">
                                     {{empleado.clave}}
@@ -240,21 +240,23 @@
 
                                 <div class="example-button-row">
                                     <div class="row">
-                                        <div class="col-1">
+                                        <!-- <div class="col-1">
                                             <button mat-icon-button pTooltip="Bonos de empleado"
                                                 aria-label="Example icon button with a heart icon">
                                                 <mat-icon class="iconInaiCss">attach_money</mat-icon>
                                             </button>
-                                        </div>
+                                        </div> -->
                                         <div class="col-1">
                                             <button mat-icon-button color="secondary" pTooltip="Editar empleado"
-                                                aria-label="Example icon button with a heart icon">
+                                                aria-label="Example icon button with a heart icon"
+                                                (click)="openDialogEditarRegistro(servicio.idServicio)">
                                                 <mat-icon class="iconInaiCss">edit</mat-icon>
                                             </button>
                                         </div>
                                         <div class="col-1">
                                             <button mat-icon-button color="secondary" pTooltip="Baja empleado"
-                                                aria-label="Example icon button with a heart icon">
+                                                aria-label="Example icon button with a heart icon"
+                                                (click)="eliminarRegistro(servicio.idServicio)">
                                                 <mat-icon class="iconInaiCss">delete_outline</mat-icon>
                                             </button>
                                         </div>
