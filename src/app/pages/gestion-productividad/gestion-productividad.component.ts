@@ -39,10 +39,10 @@ const MESES: any = [
 
 @Component({
   selector: 'app-productividad',
-  templateUrl: './productividad.component.html',
-  styleUrls: ['./productividad.component.css']
+  templateUrl: './gestion-productividad.component.html',
+  styleUrls: ['./gestion-productividad.component.css']
 })
-export class ProductividadComponent implements OnInit {
+export class GestionProductividadComponent implements OnInit {
 
   catalogoClaveEmpleados: clavesEmpleado[];
   fecha = new Date().getFullYear();

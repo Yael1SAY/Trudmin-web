@@ -34,7 +34,7 @@ import {MatIconModule} from '@angular/material/icon';
 import { InicioComponent } from './pages/inicio/inicio.component';
 import { UsuariosComponent } from './pages/usuarios/usuarios.component';
 import { TrabajadoresComponent } from './pages/trabajadores/trabajadores.component';
-import { ProductividadComponent } from './pages/gestion-productividad/productividad.component';
+import { GestionProductividadComponent } from './pages/gestion-productividad/gestion-productividad.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { MatMenuModule} from '@angular/material/menu';
@@ -44,7 +44,7 @@ import {MatSelectModule} from '@angular/material/select';
 import { EditarUsuarioComponent } from './pages/editar-usuario/editar-usuario.component';
 import { MisBonosComponent } from './pages/mis-bonos/mis-bonos.component';
 import { EditarProductividadComponent } from './pages/editar-productividad/editar-productividad.component';
-
+import { ProductividadComponent } from './pages/productividad/productividad.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -52,6 +52,7 @@ const routes: Routes = [
   // {path: 'pages/bonos', component: BonosComponent},
   {path: 'login', component: LoginComponent},
   //{path: 'pages/compradores', component: CompradoresComponent},
+  {path: 'pages/gestion-productividad', component: GestionProductividadComponent},
   {path: 'pages/productividad', component: ProductividadComponent},
   {path: 'pages/inicio', component: InicioComponent},
   {path: 'pages/usuarios', component: UsuariosComponent}
@@ -65,12 +66,13 @@ const routes: Routes = [
     InicioComponent,
     UsuariosComponent,
     TrabajadoresComponent,
-    ProductividadComponent,
+    GestionProductividadComponent,
     HeaderComponent,
     FooterComponent,
     EditarUsuarioComponent,
     MisBonosComponent,
-    EditarProductividadComponent
+    EditarProductividadComponent,
+    ProductividadComponent
   ],
   imports: [
     BrowserModule,

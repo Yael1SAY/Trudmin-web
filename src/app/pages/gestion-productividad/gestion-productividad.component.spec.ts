@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProductividadComponent } from './productividad.component';
+import { GestionProductividadComponent } from './gestion-productividad.component';
 
 describe('ProductividadComponent', () => {
-  let component: ProductividadComponent;
-  let fixture: ComponentFixture<ProductividadComponent>;
+  let component: GestionProductividadComponent;
+  let fixture: ComponentFixture<GestionProductividadComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ProductividadComponent ]
+      declarations: [ GestionProductividadComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ProductividadComponent);
+    fixture = TestBed.createComponent(GestionProductividadComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
