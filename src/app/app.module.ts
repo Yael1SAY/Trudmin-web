@@ -34,7 +34,7 @@ import {MatIconModule} from '@angular/material/icon';
 import { InicioComponent } from './pages/inicio/inicio.component';
 import { UsuariosComponent } from './pages/usuarios/usuarios.component';
 import { TrabajadoresComponent } from './pages/trabajadores/trabajadores.component';
-import { ProductividadComponent } from './pages/productividad/productividad.component';
+import { ProductividadComponent } from './pages/gestion-productividad/productividad.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { MatMenuModule} from '@angular/material/menu';
