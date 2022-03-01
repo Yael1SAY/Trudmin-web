@@ -41,6 +41,8 @@ import { MatMenuModule} from '@angular/material/menu';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSelectModule} from '@angular/material/select';
+import {MatTabsModule} from '@angular/material/tabs';
+
 import { EditarUsuarioComponent } from './pages/editar-usuario/editar-usuario.component';
 import { MisBonosComponent } from './pages/mis-bonos/mis-bonos.component';
 import { EditarProductividadComponent } from './pages/editar-productividad/editar-productividad.component';
@@ -100,8 +102,8 @@ const routes: Routes = [
     ChartModule,
     MatExpansionModule,
     MatButtonModule,
-    MatSelectModule
-
+    MatSelectModule,
+    MatTabsModule
   ],
   providers: [UsuarioService, AuthService],
   bootstrap: [AppComponent],

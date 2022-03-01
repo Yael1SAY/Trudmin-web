@@ -62,7 +62,7 @@
               </mat-expansion-panel>
 
               <div *ngFor="let trabajadores of trabajadores; let i= index;">
-                <mat-expansion-panel [expanded]="step === i" (opened)="setStep(i)" hideToggle>
+                <mat-expansion-panel (opened)="setStep(i)" hideToggle>
                   <mat-expansion-panel-header>
                     <mat-panel-title>
                       <div class="col-1" id="idTextBody">
