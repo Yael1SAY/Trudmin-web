@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -12,11 +12,38 @@ const URL = environment.url;
 @Injectable({
   providedIn: 'root'
 })
-export class ProductividadService {
+export class ProductividadService implements HttpInterceptor {
 
   private httpHeader = new HttpHeaders({ 'Content-Type': 'application/json' })
 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) { }
+
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const token: string = localStorage.getItem('token');
+    console.log("token: ", token);
+
+    let request = req;
+
+    if (token) {
+      request = req.clone({
+        setHeaders: {
+          authorization: `Bearer ${ token }`
+        }
+      });
+    }
+    return next.handle(request).pipe(
+      catchError((err: HttpErrorResponse) => {
+        console.log("Error intercept: ", err);
+
+        if (err.status === 401) {
+          this.router.navigateByUrl('/login');
+        }
+
+        return throwError( () => err );
+
+      })
+    );
+  }
 
   private agregarAuthorizationHeader() {
     let token = this.authService.token;

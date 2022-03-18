@@ -1,20 +1,46 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { catchError, Observable, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Usuario } from '../model/usuario'
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 
 const URL = environment.url;
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class AuthService implements HttpInterceptor{
 
   private _usuario: Usuario | undefined;
   private _token: string | undefined;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
+  
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const token: string = localStorage.getItem('token');
+    console.log("token: ", token);
+
+    let request = req;
+
+    if (token) {
+      request = req.clone({
+        setHeaders: {
+          authorization: `Bearer ${ token }`
+        }
+      });
+    }
+    return next.handle(request).pipe(
+      catchError((err: HttpErrorResponse) => {
+        console.log("Error intercept: ", err);
+
+        if (err.status === 401) {
+          this.router.navigateByUrl('/login');
+        }
+        return throwError( () => err );
+      })
+    );
+  }
 
   public get comprador(): Usuario {
     if (this._usuario != null) {

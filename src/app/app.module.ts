@@ -1,7 +1,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {CommonModule} from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -47,17 +47,21 @@ import { EditarUsuarioComponent } from './pages/editar-usuario/editar-usuario.co
 import { MisBonosComponent } from './pages/mis-bonos/mis-bonos.component';
 import { EditarProductividadComponent } from './pages/editar-productividad/editar-productividad.component';
 import { ProductividadComponent } from './pages/productividad/productividad.component';
+import { ProductividadService } from './services/productividad.service';
+import { AccesoRutasGuard } from './guards/acceso-rutas.guard';
+//import { AuthInterceptorService } from './auth-interceptor.service';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
-  {path: 'pages/trabajadores', component: TrabajadoresComponent},
+  //{path: 'pages/trabajadores', component: TrabajadoresComponent},
   // {path: 'pages/bonos', component: BonosComponent},
   {path: 'login', component: LoginComponent},
   //{path: 'pages/compradores', component: CompradoresComponent},
-  {path: 'pages/gestion-productividad', component: GestionProductividadComponent},
+  {path: 'pages/gestion-productividad', component: GestionProductividadComponent, canActivate: [AccesoRutasGuard]},
   {path: 'pages/productividad', component: ProductividadComponent},
   {path: 'pages/inicio', component: InicioComponent},
-  {path: 'pages/usuarios', component: UsuariosComponent}
+  {path: 'pages/usuarios', component: UsuariosComponent, canActivate: [AccesoRutasGuard]},
+  {path:'pages/trabajadores', component: TrabajadoresComponent, canActivate: [AccesoRutasGuard]},
 ]
 
 @NgModule({
@@ -105,7 +109,17 @@ const routes: Routes = [
     MatSelectModule,
     MatTabsModule
   ],
-  providers: [UsuarioService, AuthService],
+  providers: [UsuarioService, AuthService, 
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ProductividadService,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthService,
+      multi: true
+    }],
   bootstrap: [AppComponent],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
