@@ -64,7 +64,7 @@ export class UsuarioService {
   }
 
   registrarUsuario(usuario: Usuario){
-    return this.http.post<Usuario>(`${URL}usuario/crearUsuario`, {headers: this.agregarAuthorizationHeader()})
+    return this.http.post<Usuario>(`${URL}usuario/crearUsuario`, usuario, {headers: this.agregarAuthorizationHeader()})
     .pipe(
       catchError(e=> {
         if(e.status==0){

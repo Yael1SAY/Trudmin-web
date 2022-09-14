@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
-import { UsuarioService } from 'src/app/services/usuario.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { Usuario } from 'src/app/model/usuario';
+import { altaUsuario } from './store/actions';
+
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-nuevo-usuario',
@@ -9,23 +13,35 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 })
 export class NuevoUsuarioComponent implements OnInit {
 
-  public datos: any = {
-    nombreUsuario: '',
-    nombre: '',
-    apellidoPaterno: '',
-    apellidoMaterno: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
-  };
+  public usuarioForm: FormGroup;
 
-  constructor(private authService: AuthService, private usuarioService: UsuarioService) { }
+  constructor(private formBuilder: FormBuilder, private store: Store) { }
+
+  
 
   ngOnInit(): void {
+    this.usuarioForm = this.formBuilder.group({
+      nombreUsuario: [null, Validators.required],
+      nombre: [null, Validators.required],
+      apellidoPaterno: [null, Validators.required],
+      apellidoMaterno: [null, Validators.required],
+      email: [null, Validators.required],
+      password: [null, Validators.required],
+      confirmPassword: [null, Validators.required]
+    })
   }
 
   RegustrarUsuario(){
+    if (this.usuarioForm.controls['password'].value !== this.usuarioForm.controls['confirmPassword'].value){
+      this.usuarioForm.controls['password'].setValue('');
+      this.usuarioForm.controls['confirmPassword'].setValue('');
+      return;
+    }
+    const usuario: Usuario =  this.usuarioForm.value;
 
+    let store = this.store.dispatch(altaUsuario({usuario: usuario}));
+    console.log('resp store: ', store);
+    
   }
 
 }

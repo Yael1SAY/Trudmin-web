@@ -4,93 +4,94 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
+                <form [formGroup]="usuarioForm">
 
-                <div class="row">
-                    <div class="col-md-6">
-                        <div style="font-size: 12px">
-                            <mat-form-field class="mat-form-full-width" appearance="outline">
-                                <mat-label>Nombre de Usuario</mat-label>
-                                <input matInput [(ngModel)]="datos.nombreUsuario">
-                                <mat-icon matSuffix></mat-icon>
-                            </mat-form-field>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div style="font-size: 12px">
+                                <mat-form-field class="mat-form-full-width" appearance="outline">
+                                    <mat-label>Nombre de Usuario</mat-label>
+                                    <input matInput formControlName="nombreUsuario">
+                                    <mat-icon matSuffix></mat-icon>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div style="font-size: 12px">
+                                <mat-form-field class="mat-form-full-width" appearance="outline">
+                                    <mat-label>Nombre
+                                    </mat-label>
+                                    <input matInput formControlName="nombre">
+                                    <mat-icon matSuffix></mat-icon>
+                                </mat-form-field>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div style="font-size: 12px">
-                            <mat-form-field class="mat-form-full-width" appearance="outline">
-                                <mat-label>Nombre
-                                </mat-label>
-                                <input matInput [(ngModel)]="datos.nombre">
-                                <mat-icon matSuffix></mat-icon>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-md-6">
-                        <div style="font-size: 12px">
-                            <mat-form-field class="mat-form-full-width" appearance="outline">
-                                <mat-label>Apellido paterno</mat-label>
-                                <input matInput [(ngModel)]="datos.apellidoPaterno">
-                                <mat-icon matSuffix></mat-icon>
-                            </mat-form-field>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div style="font-size: 12px">
+                                <mat-form-field class="mat-form-full-width" appearance="outline">
+                                    <mat-label>Apellido paterno</mat-label>
+                                    <input matInput formControlName="apellidoPaterno">
+                                    <mat-icon matSuffix></mat-icon>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div style="font-size: 12px">
+                                <mat-form-field class="mat-form-full-width" appearance="outline">
+                                    <mat-label>Apellido materno
+                                    </mat-label>
+                                    <input matInput formControlName="apellidoMaterno">
+                                    <mat-icon matSuffix></mat-icon>
+                                </mat-form-field>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div style="font-size: 12px">
-                            <mat-form-field class="mat-form-full-width" appearance="outline">
-                                <mat-label>Apellido materno
-                                </mat-label>
-                                <input matInput [(ngModel)]="datos.apellidoMaterno">
-                                <mat-icon matSuffix></mat-icon>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-md-12">
-                        <div style="font-size: 12px">
-                            <mat-form-field class="mat-form-full-width" appearance="outline">
-                                <mat-label>Correo</mat-label>
-                                <input matInput [(ngModel)]="datos.email">
-                                <mat-icon matSuffix></mat-icon>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div style="font-size: 12px">
-                            <mat-form-field class="mat-form-full-width" appearance="outline">
-                                <mat-label>Contraseña</mat-label>
-                                <input matInput [(ngModel)]="datos.password" type="password">
-                                <mat-icon matSuffix></mat-icon>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div style="font-size: 12px">
-                            <mat-form-field class="mat-form-full-width" appearance="outline">
-                                <mat-label>Confirmar contraseña
-                                </mat-label>
-                                <input matInput [(ngModel)]="datos.confirmPassword" type="password">
-                                <mat-icon matSuffix></mat-icon>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12">
+                    <div class="row">
                         <div class="col-md-12">
-                            <button id="idButtonPrimary" class="mat-form-full-width" style="margin-top: 6px"
-                                mat-raised-button (click)="RegustrarUsuario()">REGISTRAR</button>
+                            <div style="font-size: 12px">
+                                <mat-form-field class="mat-form-full-width" appearance="outline">
+                                    <mat-label>Correo</mat-label>
+                                    <input matInput formControlName="email">
+                                    <mat-icon matSuffix></mat-icon>
+                                </mat-form-field>
+                            </div>
                         </div>
                     </div>
-                </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div style="font-size: 12px">
+                                <mat-form-field class="mat-form-full-width" appearance="outline">
+                                    <mat-label>Contraseña</mat-label>
+                                    <input matInput formControlName="password" type="password">
+                                    <mat-icon matSuffix></mat-icon>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div style="font-size: 12px">
+                                <mat-form-field class="mat-form-full-width" appearance="outline">
+                                    <mat-label>Confirmar contraseña
+                                    </mat-label>
+                                    <input matInput formControlName="confirmPassword" type="password">
+                                    <mat-icon matSuffix></mat-icon>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="col-md-12">
+                                <button id="idButtonPrimary" class="mat-form-full-width" style="margin-top: 6px"
+                                    mat-raised-button (click)="RegustrarUsuario()">REGISTRAR</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
