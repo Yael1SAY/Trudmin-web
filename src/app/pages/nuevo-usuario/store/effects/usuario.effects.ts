@@ -24,7 +24,6 @@ export class UsuarioEffects {
                         //     of(altaUsuarioError({ payload: err }))
                         // )
                         map((data) => {
-                            console.log('respuesta de servicio: ', data);
                             return altaUsuarioSuccess({usuario: data})
                         }),
                         catchError((error) =>

@@ -4,22 +4,24 @@ import { Store } from '@ngrx/store';
 import { Usuario } from 'src/app/model/usuario';
 import { altaUsuario } from './store/actions';
 
-import swal from 'sweetalert2';
+import { MessageService } from 'primeng/api';
+import { AppState } from './store/app.reducers';
 
 @Component({
   selector: 'app-nuevo-usuario',
   templateUrl: './nuevo-usuario.component.html',
-  styleUrls: ['./nuevo-usuario.component.css']
+  styleUrls: ['./nuevo-usuario.component.css'],
+  providers: [MessageService]
 })
 export class NuevoUsuarioComponent implements OnInit {
 
   public usuarioForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private store: Store) { }
+  constructor(private formBuilder: FormBuilder, private store: Store<AppState>, private messageService: MessageService) { }
 
-  
 
   ngOnInit(): void {
+
     this.usuarioForm = this.formBuilder.group({
       nombreUsuario: [null, Validators.required],
       nombre: [null, Validators.required],
@@ -35,13 +37,21 @@ export class NuevoUsuarioComponent implements OnInit {
     if (this.usuarioForm.controls['password'].value !== this.usuarioForm.controls['confirmPassword'].value){
       this.usuarioForm.controls['password'].setValue('');
       this.usuarioForm.controls['confirmPassword'].setValue('');
+      this.messageService.add({severity:'error', summary:'Error', detail:'Las contraseñas no coinciden'});
       return;
     }
     const usuario: Usuario =  this.usuarioForm.value;
 
-    let store = this.store.dispatch(altaUsuario({usuario: usuario}));
-    console.log('resp store: ', store);
-    
+    this.store.dispatch(altaUsuario({usuario: usuario}));
+
+    this.store.select('usuario').subscribe((data: any) => {
+      console.log('Respuesta servicio: ', data);
+      if(data.user.status===200) {
+        this.messageService.add({severity:'success', summary:'Error', detail: data.user.message});
+      } else {
+        this.messageService.add({severity:'error', summary:'Error', detail: data.user.error.message});
+      }
+    })
   }
 
 }

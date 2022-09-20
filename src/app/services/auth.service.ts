@@ -19,7 +19,7 @@ export class AuthService implements HttpInterceptor{
   
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token: string = localStorage.getItem('token');
-    console.log("token: ", token);
+    //console.log("token: ", token);
 
     let request = req;
 
@@ -32,7 +32,7 @@ export class AuthService implements HttpInterceptor{
     }
     return next.handle(request).pipe(
       catchError((err: HttpErrorResponse) => {
-        console.log("Error intercept: ", err);
+        //console.log("Error intercept: ", err);
 
         if (err.status === 401) {
           this.router.navigateByUrl('/login');
