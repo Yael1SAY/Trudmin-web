@@ -42,9 +42,9 @@ export class NuevoUsuarioComponent implements OnInit {
     }
     const usuario: Usuario =  this.usuarioForm.value;
 
-    this.store.dispatch(altaUsuario({usuarioNew: usuario}));
+    this.store.dispatch(altaUsuario({usuario: usuario}));
     
-    this.store.select('newUsuario').subscribe((data: any) => {
+    this.store.select('usuario').subscribe((data: any) => {
       console.log('Respuesta servicio: ', data);
       if(data.user.status===200) {
         this.messageService.clear();

@@ -12,13 +12,13 @@ export const usuarioInitialState: UsuarioState = {
 
 export const _usuarioReducer = createReducer(
     usuarioInitialState,
-    on(altaUsuario, (state, { usuarioNew }) => ({
+    on(altaUsuario, (state, { usuario }) => ({
         ...state,
-        user: { ...usuarioNew },
+        user: { ...usuario },
     })),
-    on(altaUsuarioSuccess, (state, { usuarioNew }) => ({
+    on(altaUsuarioSuccess, (state, { usuario }) => ({
         ...state,
-        user: { ...usuarioNew },
+        user: { ...usuario },
     })),
     on(altaUsuarioError, (state, { payload }) => ({
         ...state,

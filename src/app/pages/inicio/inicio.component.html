@@ -1,16 +1,12 @@
 <app-header></app-header>
 
-<div class="row" style="padding: 20px; text-align: center;">
+<div class="row" id="id_panel_main">
     <p id="titulo">Inicio</p>
-    <br>
-
 
     <div class="col-4">
         <div class="card" class="shadow p-3 mb-5 bg-body rounded">
             <div class="card-title">
-                <!-- <figure class="figure" style="padding: 20px;">
-                    <img class="figure-img img-fluid rounded" style="border-radius: 100%;" src="./assets/Images/spider-man.jpg">
-                </figure> -->
+                <p id="sub-titulo">Mi Perfil</p>
                 <div class="container">
                     <div class="conatiner-body" [ngStyle]="{'background-image':'url(' + idImagen + ')'}">
                         <div id="id-body" (click)="cambiarImagen()">
@@ -30,14 +26,14 @@
                 </div>
                 <div class="row">
                     <div class="col-6">
-                        <button id="idButtonPrimary" class="mat-form-full-width" style="margin-top: 6px"
+                        <button id="idButtonPrimary" class="mat-form-full-width" appearance="outline"
                             mat-raised-button (click)="openDialogactualizarPerfil()">
                             <mat-icon>edit</mat-icon>
                             Actualizar perfil
                         </button>
                     </div>
                     <div class="col-6">
-                        <button id="idButtonSecondary" class="mat-form-full-width" style="margin-top: 6px"
+                        <button id="idButtonSecondary" class="mat-form-full-width" appearance="outline"
                             mat-raised-button (click)="openDialogMisBonos()">
                             <mat-icon> attach_money</mat-icon>
                             Mis Bonos

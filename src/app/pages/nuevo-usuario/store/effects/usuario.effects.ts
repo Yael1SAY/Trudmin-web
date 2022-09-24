@@ -17,7 +17,7 @@ export class UsuarioEffects {
             ofType(altaUsuario),
             tap(data => console.log('effect tap', data)),
             mergeMap(
-                (action) => this.usuarioServices.registrarUsuario(action.usuarioNew)
+                (action) => this.usuarioServices.registrarUsuario(action.usuario)
                     .pipe(
                         // map(data => altaUsuarioSuccess({ usuario: data })),
                         // catchError(err => 
@@ -25,7 +25,7 @@ export class UsuarioEffects {
                         // )
                         map((data) => {
                             console.log("respuesta al ejecutar cervicio: ", data)
-                            return altaUsuarioSuccess({usuarioNew: data})
+                            return altaUsuarioSuccess({usuario: data})
                         }),
                         catchError((error) =>
                         of(altaUsuarioError({ payload: error }))

@@ -3,9 +3,9 @@ import { UsuarioState, usuarioReducers } from './reducers/usuario.reducer';
 
 
 export interface AppUsuarioState {
-    newUsuario: UsuarioState
+    usuario: UsuarioState
 }
 
 export const appUsuarioReducers: ActionReducerMap<AppUsuarioState> = {
-    newUsuario: usuarioReducers,
+    usuario: usuarioReducers,
 }

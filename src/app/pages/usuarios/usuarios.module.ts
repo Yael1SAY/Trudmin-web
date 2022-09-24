@@ -4,6 +4,7 @@ import { StoreModule } from '@ngrx/store';
 import { appUsuariosReducers } from './store/appUsuarios.reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { UsuariosEffects } from './store/effects/usuarios.effects';
+import { usuariosReducer } from './store/reducers/usuarios.reducers';
 //import { usuariosReducer } from './store/reducers/usuarios.reducers'
 
 
@@ -12,8 +13,8 @@ import { UsuariosEffects } from './store/effects/usuarios.effects';
   declarations: [],
   imports: [
     CommonModule,
-    StoreModule.forRoot(appUsuariosReducers),
-    EffectsModule.forRoot([UsuariosEffects]),
+    StoreModule.forFeature('usuarios', usuariosReducer),
+    EffectsModule.forFeature([UsuariosEffects]),
   ]
 })
 export class UsuariosModule { }

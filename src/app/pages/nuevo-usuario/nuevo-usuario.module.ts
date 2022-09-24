@@ -12,8 +12,8 @@ import { usuarioReducers } from './store/reducers/usuario.reducer';
   declarations: [],
   imports: [
     CommonModule,
-    EffectsModule.forRoot([UsuarioEffects]),
-    StoreModule.forRoot(appUsuarioReducers),
+    EffectsModule.forFeature([UsuarioEffects]),
+    StoreModule.forFeature('usuario', usuarioReducers),
   ]
 })
 export class NuevoUsuarioModule { }

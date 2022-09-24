@@ -125,8 +125,8 @@ const routes: Routes = [
     MatTabsModule,
     //StoreModule.forRoot({ usuario: _usuarioReducer, usuarios: _usuariosReducer }),
     //StoreModule.forRoot(appReducers),
-    // StoreModule.forRoot({}),
-    // EffectsModule.forRoot([]),
+    StoreModule.forRoot({}),
+    EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     
   ],

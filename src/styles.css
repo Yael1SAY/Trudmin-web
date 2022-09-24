@@ -1,4 +1,51 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.mat-form-full-width {
+    width: 100%;
+}
+
+#titulo {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: #f16d00;
+    font-size: 25px;
+    padding: 20px;
+}
+
+#sub-titulo {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: #f16d00;
+    font-size: 20px;
+    padding: 2px;
+}
+
+.button-row {
+    display: table-cell;
+    width: 490px;
+}
+
+.iconPrimaryCss {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+    color: #f16d00;
+}
+
+#idButtonTableCss {
+    color: #712684;
+}
+
+#idButtonPrimary {
+    color: #ffffff;
+    background-color: #f16d00;
+}
