@@ -28,7 +28,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.primengConfig.ripple = true;
     this.usuario = this.authService.comprador;
-    console.log("usuario: ", this.usuario);
+    //console.log("usuario: ", this.usuario);
   }
 
   showToast(){

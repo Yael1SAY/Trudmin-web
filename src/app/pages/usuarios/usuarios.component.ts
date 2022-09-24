@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Usuario } from 'src/app/model/usuario';
 import { AuthService } from 'src/app/services/auth.service';
-import { UsuarioService } from 'src/app/services/usuario.service';
+import { obtenerUsuarios } from './store/acctions/usuarios.actions';
+import { AppUsuariosState } from './store/appUsuarios.reducers';
 
 @Component({
   selector: 'app-usuarios',
@@ -20,32 +22,41 @@ export class UsuariosComponent implements OnInit {
   totalElements: number | undefined;
   pageSize: Number = 40;
 
-  constructor(private usuarioService: UsuarioService, private authService: AuthService,
+  constructor(private authService: AuthService, private store: Store<AppUsuariosState>,
     private router: Router) { }
 
   ngOnInit(): void {
+
+    this.store.dispatch(obtenerUsuarios());
+
     if (!this.authService.isAuthtenticated()) {
       this.router.navigate(['/login']);
     }
-    this.BuscarUsuarios();
+    this.store.select('usuarios').subscribe(data => {
+      console.log('usuarios: ', data);
+      this.usuarios = data.users;
+    })
+
+    
+    // this.BuscarUsuarios();
   }
 
   llamarMetodoBuscarUsuarios() {
     this.page = 0;
     this.pageSize = 40;
-    this.BuscarUsuarios()
+    // this.BuscarUsuarios()
   }
 
   BuscarUsuarios() {
-    this.usuarioService.obtenerUsarios(this.authService.getRol()).subscribe(
-      usuarios => this.usuarios = usuarios
-    );
+    // this.usuarioService.obtenerUsarios().subscribe(
+    //   usuarios => this.usuarios = usuarios
+    // );
   }
 
   buscarPorPagina(event: any) {
     this.page = event.page;
     this.pageSize = event.rows;
-    this.BuscarUsuarios();
+    // this.BuscarUsuarios();
     //console.log("Pagina: ", event);
   }
 

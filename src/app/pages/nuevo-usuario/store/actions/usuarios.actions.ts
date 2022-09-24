@@ -2,12 +2,12 @@ import { createAction, props } from "@ngrx/store";
 import { Usuario } from "../../../../model/usuario"
 
 export const altaUsuario = createAction('[Usuario] Alta Usuario',
-    props<{ usuario: Usuario }>()
+    props<{ usuarioNew: Usuario }>()
 );
 
 export const altaUsuarioSuccess = createAction(
     '[Usuario] Alta usuario success',
-    props<{ usuario: Usuario }>()
+    props<{ usuarioNew: Usuario }>()
 );
 
 export const altaUsuarioError = createAction(

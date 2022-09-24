@@ -53,13 +53,15 @@ import { AccesoRutasGuard } from './guards/acceso-rutas.guard';
 /**
  * NGRX
  */
-import { StoreModule } from '@ngrx/store';
-import { appReducers } from './pages/nuevo-usuario/store/app.reducers';
-import { _usuarioReducer } from './pages/nuevo-usuario/store/reducers';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
-import { EffectsModule } from '@ngrx/effects';
+import { _usuariosReducer } from './pages/usuarios/store/reducers/usuarios.reducers';
+import { NuevoUsuarioModule } from './pages/nuevo-usuario/nuevo-usuario.module';
+import { UsuariosModule } from './pages/usuarios/usuarios.module';
+import { appUsuarioReducers } from './pages/nuevo-usuario/store/appUsuario.reducers';
 import { UsuarioEffects } from './pages/nuevo-usuario/store/effects/usuario.effects';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 //import { AuthInterceptorService } from './auth-interceptor.service';
 
 const routes: Routes = [
@@ -93,6 +95,8 @@ const routes: Routes = [
   ],
   imports: [
     BrowserModule,
+    NuevoUsuarioModule,
+    UsuariosModule,
     AppRoutingModule,
     HttpClientModule,
     CommonModule,
@@ -119,9 +123,11 @@ const routes: Routes = [
     MatButtonModule,
     MatSelectModule,
     MatTabsModule,
-    StoreModule.forRoot({ usuario: _usuarioReducer }),
+    //StoreModule.forRoot({ usuario: _usuarioReducer, usuarios: _usuariosReducer }),
+    //StoreModule.forRoot(appReducers),
+    // StoreModule.forRoot({}),
+    // EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-    EffectsModule.forRoot([UsuarioEffects]),
     
   ],
   providers: [UsuarioService, AuthService,

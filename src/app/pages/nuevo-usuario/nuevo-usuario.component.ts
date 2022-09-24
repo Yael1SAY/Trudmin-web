@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Usuario } from 'src/app/model/usuario';
-import { altaUsuario } from './store/actions';
+import { altaUsuario } from '../nuevo-usuario/store/actions/usuarios.actions';
+import { AppUsuarioState } from './store/appUsuario.reducers';
 
 import { MessageService } from 'primeng/api';
-import { AppState } from './store/app.reducers';
 
 @Component({
   selector: 'app-nuevo-usuario',
@@ -17,7 +17,7 @@ export class NuevoUsuarioComponent implements OnInit {
 
   public usuarioForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private store: Store<AppState>, private messageService: MessageService) { }
+  constructor(private formBuilder: FormBuilder, private store: Store<AppUsuarioState>, private messageService: MessageService) { }
 
 
   ngOnInit(): void {
@@ -42,16 +42,23 @@ export class NuevoUsuarioComponent implements OnInit {
     }
     const usuario: Usuario =  this.usuarioForm.value;
 
-    this.store.dispatch(altaUsuario({usuario: usuario}));
-
-    this.store.select('usuario').subscribe((data: any) => {
+    this.store.dispatch(altaUsuario({usuarioNew: usuario}));
+    
+    this.store.select('newUsuario').subscribe((data: any) => {
       console.log('Respuesta servicio: ', data);
       if(data.user.status===200) {
-        this.messageService.add({severity:'success', summary:'Error', detail: data.user.message});
+        this.messageService.clear();
+        this.messageService.add({severity:'success', summary:'Error', detail: data.user.message!});
+        this.resetFrom();
       } else {
-        this.messageService.add({severity:'error', summary:'Error', detail: data.user.error.message});
+        this.messageService.clear();
+        this.messageService.add({severity:'error', summary:'Error', detail: data.user.error!.message});
       }
     })
+  }
+
+  private resetFrom() {
+    this.usuarioForm.reset();
   }
 
 }

@@ -44,7 +44,7 @@ export class UsuarioService {
     return false;
   }
 
-  obtenerUsarios(rol: string): Observable<Usuario[]>{
+  obtenerUsarios(): Observable<Usuario[]>{
     return this.http.get<Usuario[]>(`${URL}usuario/obtenerUsuarios`, {headers: this.agregarAuthorizationHeader()})
     .pipe(
       catchError(e =>{
@@ -65,20 +65,20 @@ export class UsuarioService {
 
   registrarUsuario(usuario: Usuario){
     return this.http.post<Usuario>(`${URL}usuario/crearUsuario`, usuario, {headers: this.agregarAuthorizationHeader()})
-    .pipe(
-      catchError(e=> {
-        if(e.status==0){
-          this.router.navigate(['/login']);
-          swal.fire("Servicio fuera de linea", 'No es posible conectar al servicio, contacte al administrador','error');
-          return throwError(() => e);
-        }
-        if(e.status==401){//realiza la validacion cuando no se a autenticado
-          this.router.navigate(['/login'])
-          return throwError(() => e);
-        }
-        //return map(response => response as Comprador[])
-        return throwError(() => e);
-      })
-    )
+    // .pipe(
+    //   catchError(e=> {
+    //     if(e.status==0){
+    //       this.router.navigate(['/login']);
+    //       swal.fire("Servicio fuera de linea", 'No es posible conectar al servicio, contacte al administrador','error');
+    //       return throwError(() => e);
+    //     }
+    //     if(e.status==401){//realiza la validacion cuando no se a autenticado
+    //       this.router.navigate(['/login'])
+    //       return throwError(() => e);
+    //     }
+    //     //return map(response => response as Comprador[])
+    //     return throwError(() => e);
+    //   })
+    // )
   }
 }

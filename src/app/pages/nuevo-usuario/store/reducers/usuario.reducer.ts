@@ -1,6 +1,6 @@
-import { Action, createReducer, on, State } from '@ngrx/store';
+import { Action, createReducer, on } from '@ngrx/store';
 import { Usuario } from 'src/app/model/usuario';
-import { altaUsuario, altaUsuarioError, altaUsuarioSuccess } from '../actions/index';
+import { altaUsuario, altaUsuarioError, altaUsuarioSuccess } from '../../store/actions/usuarios.actions';
 
 export interface UsuarioState {
     user: Usuario;
@@ -12,13 +12,13 @@ export const usuarioInitialState: UsuarioState = {
 
 export const _usuarioReducer = createReducer(
     usuarioInitialState,
-    on(altaUsuario, (state, { usuario }) => ({
+    on(altaUsuario, (state, { usuarioNew }) => ({
         ...state,
-        user: { ...usuario },
+        user: { ...usuarioNew },
     })),
-    on(altaUsuarioSuccess, (state, { usuario }) => ({
+    on(altaUsuarioSuccess, (state, { usuarioNew }) => ({
         ...state,
-        user: { ...usuario },
+        user: { ...usuarioNew },
     })),
     on(altaUsuarioError, (state, { payload }) => ({
         ...state,
@@ -26,6 +26,6 @@ export const _usuarioReducer = createReducer(
     })),
 );
 
-// export function usuarioReducers(state , action: Action) {
-//     return _usuarioReducer(state, action);
-// }
+export function usuarioReducers(state: UsuarioState | undefined, action: Action) {
+    return _usuarioReducer(state, action);
+}
