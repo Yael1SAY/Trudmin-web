@@ -48,7 +48,7 @@ export class NuevoUsuarioComponent implements OnInit {
       console.log('Respuesta servicio: ', data);
       if(data.user.status===200) {
         this.messageService.clear();
-        this.messageService.add({severity:'success', summary:'Error', detail: data.user.message!});
+        this.messageService.add({severity:'success', summary:'OK', detail: data.user.message!});
         this.resetFrom();
       } else {
         this.messageService.clear();

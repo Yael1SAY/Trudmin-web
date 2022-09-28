@@ -6,6 +6,7 @@ import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../services/auth.service';
 import swal from 'sweetalert2';
+import { Productividad } from '../model/productividad';
 
 const URL = environment.url;
 
@@ -53,42 +54,47 @@ export class ProductividadService implements HttpInterceptor {
     return this.httpHeader;
   }
 
-  obtenerServicios(empleadoId: number, anio: number): Observable<any[]> {
-    return this.http.get<any[]>(`${URL}servicio/obtenerServiciosPorCompradorAnio?anio=${anio}&empleadoId=${empleadoId}`, { headers: this.agregarAuthorizationHeader() })
-      .pipe(
-        catchError(e => {
-          if (e.status == 0) {
-            this.router.navigate(['/login']);
-            swal.fire("Servicio fuera de linea", 'No es posible conectar al servicio, contacte al administrador', 'error');
-            return throwError(() => e);
-          }
-          if (e.status == 401) {//realiza la validacion cuando no se a autenticado
-            this.router.navigate(['/login'])
-            return throwError(() => e);
-          }
-          //return map(response => response as Comprador[])
-          return throwError(() => e);
-        })
-      );
+  obtenerProductividades() {
+    return this.http.get<any>(`${URL}servicio/obtenerServicios`, { headers: this.agregarAuthorizationHeader() });
   }
 
-  altaDeProductividad(productividad: any) {
-    return this.http.post<any[]>(`${URL}servicio/crearServicio`, productividad, { headers: this.agregarAuthorizationHeader() })
-      .pipe(
-        catchError(e => {
-          if (e.status == 0) {
-            this.router.navigate(['/login']);
-            swal.fire("Servicio fuera de linea", 'No es posible conectar al servicio, contacte al administrador', 'error');
-            return throwError(() => e);
-          }
-          if (e.status == 401) {//realiza la validacion cuando no se a autenticado
-            this.router.navigate(['/login'])
-            return throwError(() => e);
-          }
-          //return map(response => response as Comprador[])
-          return throwError(() => e);
-        })
-      )
+  obtenerServicios(empleadoId: number, anio: number): Observable<any[]> {
+    return this.http.get<any[]>(`${URL}servicio/obtenerServiciosPorCompradorAnio?anio=${anio}&empleadoId=${empleadoId}`, { headers: this.agregarAuthorizationHeader() })
+      // .pipe(
+      //   catchError(e => {
+      //     if (e.status == 0) {
+      //       this.router.navigate(['/login']);
+      //       swal.fire("Servicio fuera de linea", 'No es posible conectar al servicio, contacte al administrador', 'error');
+      //       return throwError(() => e);
+      //     }
+      //     if (e.status == 401) {//realiza la validacion cuando no se a autenticado
+      //       this.router.navigate(['/login'])
+      //       return throwError(() => e);
+      //     }
+      //     //return map(response => response as Comprador[])
+      //     return throwError(() => e);
+      //   })
+      // );
+  }
+
+  altaDeProductividad(productividad: Productividad) {
+    console.log('Datos a insertar: ', productividad);
+    return this.http.post<any>(`${URL}servicio/crearServicio`, productividad, { headers: this.agregarAuthorizationHeader() })
+      // .pipe(
+      //   catchError(e => {
+      //     if (e.status == 0) {
+      //       this.router.navigate(['/login']);
+      //       swal.fire("Servicio fuera de linea", 'No es posible conectar al servicio, contacte al administrador', 'error');
+      //       return throwError(() => e);
+      //     }
+      //     if (e.status == 401) {//realiza la validacion cuando no se a autenticado
+      //       this.router.navigate(['/login'])
+      //       return throwError(() => e);
+      //     }
+      //     //return map(response => response as Comprador[])
+      //     return throwError(() => e);
+      //   })
+      //)
   }
 
   eliminarRegistro(servicioId) {

@@ -1,12 +1,22 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { clavesEmpleado } from 'src/app/model/ClavesEmpleado';
+import { Store } from '@ngrx/store';
+import { MessageService } from 'primeng/api';
+import { Productividad } from '../../model/productividad';
+import { clavesEmpleado } from '../../model/ClavesEmpleado';
 import { AuthService } from 'src/app/services/auth.service';
 import { CatalogosService } from 'src/app/services/catalogos.service';
 import { ProductividadService } from 'src/app/services/productividad.service';
 import Swal from 'sweetalert2';
 import { EditarProductividadComponent } from '../editar-productividad/editar-productividad.component';
+import {
+  ALTA_PRODUCTIVIDADES,
+  // altaProductividad, 
+  GET_LIST_PRODUCTIVIDADES
+} from './store/actions/gestion-productividad.actions';
+import { appProductividadState } from './store/appProductividaes.reducer';
 
 const ANIOS: any = [
   { id: 1, descripcion: 2015 },
@@ -40,9 +50,12 @@ const MESES: any = [
 @Component({
   selector: 'app-productividad',
   templateUrl: './gestion-productividad.component.html',
-  styleUrls: ['./gestion-productividad.component.css']
+  styleUrls: ['./gestion-productividad.component.css'],
+  providers: [MessageService]
 })
 export class GestionProductividadComponent implements OnInit {
+
+  public productividadForm: FormGroup;
 
   catalogoClaveEmpleados: clavesEmpleado[];
   fecha = new Date().getFullYear();
@@ -51,7 +64,7 @@ export class GestionProductividadComponent implements OnInit {
   meses: any = MESES;
   anios: any = ANIOS;
   mes: any;
-  servicios: any[] = [];
+  servicios: Productividad[];;
   first = 0;
   rows = 10;
   step = 0;
@@ -60,65 +73,74 @@ export class GestionProductividadComponent implements OnInit {
   totalElements: number | undefined;
   pageSize: Number = 40;
 
-  public datos: any = {
-    empleadoId: "",
-    mes: "",
-    anio: "",
-    periodo: "",
-    totalSolPed: "",
-    totalOC: "",
-    diasOc: "",
-    diasSP: "",
-    criterio: "",
-    discrecional: "",
-    ahorro: "",
-    capturaTiempo: "",
-    total: ""
-  }
-
   constructor(private authService: AuthService, private productividadServ: ProductividadService,
-    private router: Router, private catalogoService: CatalogosService, public dialog: MatDialog) { }
+    private router: Router, private catalogoService: CatalogosService, public dialog: MatDialog,
+    private formBuilder: FormBuilder, private messageService: MessageService,
+    private store: Store<appProductividadState>
+  ) { }
 
   ngOnInit(): void {
     if (!this.authService.isAuthtenticated()) {
       this.router.navigate(['/login']);
     }
+
+    this.productividadForm = this.formBuilder.group({
+      empleadoId: [null, Validators.required],
+      mes: [null, Validators.required],
+      anio: [null, Validators.required],
+      periodo: [null, Validators.required],
+      totalSolPed: [null, Validators.required],
+      totalOC: [null, Validators.required],
+      diasOc: [null, Validators.required],
+      diasSP: [null, Validators.required],
+      criterio: [null, Validators.required],
+      discrecional: [null, Validators.required],
+      ahorro: [null, Validators.required],
+      capturaTiempo: [null, Validators.required],
+      total: [null, Validators.required]
+    })
+
     //this.BuscarServicios()
-    this.catalogoCalveEmpleados()
-    this.datos.anio = this.fecha;
+    this.catalogoCalveEmpleados();
+    this.productividadForm.controls['anio'].setValue(this.fecha);
+    this.store.dispatch(GET_LIST_PRODUCTIVIDADES())
+
+    this.store.select('listProductividades').subscribe(resp => {
+      console.log('resp: ', resp.dataGet);
+      this.servicios = resp.dataGet.data;
+    })
   }
 
   llamarMetodoBuscarServicios() {
-    this.page = 0;
-    this.pageSize = 40;
+    // this.page = 0;
+    // this.pageSize = 40;
     //this.BuscarServicios()
   }
 
   actualizaComprador(valor) {
-    if (valor != undefined) {
-      this.claveEmpleado = valor;
-      this.datos.empleadoId = valor;
-      this.productividadServ.obtenerServicios(valor, this.fecha).subscribe(servicios => {
-        this.servicios = servicios;
-      });
-    } else {
-      this.servicios = [];
-    }
+    // if (valor != undefined) {
+    //   this.productividadForm.controls['empleadoId'].setValue(valor);
+    //   this.productividadServ.obtenerServicios(valor, this.fecha).subscribe(servicios => {
+    //     this.servicios = servicios;
+    //   });
+    // } else {
+    //   this.servicios = [];
+    // }
   }
 
   actualizarAnio(valor: any) {
-    console.log("descripcion anio: ", valor);
-    if (valor != undefined) {
-      this.fecha = valor;
-      if (this.claveEmpleado != undefined) {
-        this.productividadServ.obtenerServicios(this.claveEmpleado, this.fecha).subscribe(servicios => {
-          this.servicios = servicios;
-        });
-      }
-    } else {
-      this.fecha = new Date().getFullYear();
-      this.actualizaComprador(this.claveEmpleado);
-    }
+    // console.log("descripcion anio: ", valor);
+    // if (valor != undefined) {
+    //   this.fecha = valor;
+    //   if (this.claveEmpleado != undefined) {
+    //     this.productividadServ.obtenerServicios(this.claveEmpleado, this.fecha).subscribe(servicios => {
+    //       this.servicios = servicios;
+    //     });
+    //   }
+    // } else {
+    //   this.fecha = new Date().getFullYear();
+    //   this.actualizaComprador(this.claveEmpleado);
+    // }
 
   }
 
@@ -131,41 +153,50 @@ export class GestionProductividadComponent implements OnInit {
 
   catalogoCalveEmpleados() {
     this.catalogoService.obtenerServicios().subscribe(list => {
-      console.log("Catalogo de claves de empleados: ", list);
       this.catalogoClaveEmpleados = list;
-      console.log("Catalogo de claves de empleados mapeado: ", this.catalogoClaveEmpleados);
     });
   }
 
   guardarRegistro() {
-    this.datos.periodo = `${this.mes.id}-${this.datos.anio}`;
-    this.datos.mes = this.mes.descripcion;
-    console.log("datos: ", this.datos);
-    this.productividadServ.altaDeProductividad(this.datos).subscribe(e => {
-      console.log("respuesta alta: ", e);
-      this.limpiarDatosAlata();
-      this.actualizaComprador(this.claveEmpleado);
-    })
+    let productividad: Productividad = { ...this.productividadForm.value };
+
+    productividad.periodo = this.productividadForm.controls['mes'].value.id + '-' +
+      this.productividadForm.controls['anio'].value;
+    productividad.mes = this.productividadForm.controls['mes'].value.descripcion;
+
+    this.store.dispatch(ALTA_PRODUCTIVIDADES({ altaProductividades: productividad }));
+
+    this.store.select('altaProductividades').subscribe(data => {
+      if(data.dataHigh.status===200) {
+        this.messageService.clear();
+        this.messageService.add({severity:'success', summary:'OK', detail: data.dataHigh.message!});
+        this.productividadForm.reset();
+        console.log('Lista de productividades final: ', this.servicios);
+      } else {
+        this.messageService.clear();
+        this.messageService.add({severity:'error', summary:'Error', detail: data.error!.message});
+      }
+    });
   }
 
-  limpiarDatosAlata() {
-    this.datos.mes = "",
-      this.datos.periodo = "",
-      this.datos.totalSolPed = "",
-      this.datos.totalOC = "",
-      this.datos.diasOc = "",
-      this.datos.diasSP = "",
-      this.datos.criterio = "",
-      this.datos.discrecional = "",
-      this.datos.ahorro = "",
-      this.datos.capturaTiempo = "",
-      this.datos.total = ""
-  }
+  // limpiarDatosAlata() {
+  //   this.datos.mes = "",
+  //     this.datos.periodo = "",
+  //     this.datos.totalSolPed = "",
+  //     this.datos.totalOC = "",
+  //     this.datos.diasOc = "",
+  //     this.datos.diasSP = "",
+  //     this.datos.criterio = "",
+  //     this.datos.discrecional = "",
+  //     this.datos.ahorro = "",
+  //     this.datos.capturaTiempo = "",
+  //     this.datos.total = ""
+  // }
 
   openDialogEditarRegistro(servicioId: number) {
     console.log('abriendo modal actualizar registro de productividad');
     const dialogRef = this.dialog.open(EditarProductividadComponent, {
-      data: {id: servicioId}
+      data: { id: servicioId }
     });
 
     dialogRef.afterClosed().subscribe(result => {
