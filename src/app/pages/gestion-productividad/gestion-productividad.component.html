@@ -11,11 +11,11 @@
                         <div class="col-md-4">
                             <mat-form-field appearance="fill" class="mat-form-full-width">
                                 <mat-label>Clave de empleado</mat-label>
-                                <mat-select (selectionChange)="actualizaComprador($event.value)" formControlName="empleadoId"
+                                <mat-select (selectionChange)="actualizaComprador($event.value)" formControlName="empleado"
                                 required>
                                     <mat-option>--Seleccione--</mat-option>
                                     <mat-option *ngFor="let empleado of catalogoClaveEmpleados"
-                                        [value]="empleado.empleadoId">
+                                        [value]="empleado">
                                         {{empleado.clave}}
                                     </mat-option>
                                 </mat-select>

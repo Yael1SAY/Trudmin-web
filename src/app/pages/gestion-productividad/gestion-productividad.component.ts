@@ -56,6 +56,7 @@ const MESES: any = [
 export class GestionProductividadComponent implements OnInit {
 
   public productividadForm: FormGroup;
+  listaProductividades$ = this.store.select('listProductividades');
 
   catalogoClaveEmpleados: clavesEmpleado[];
   fecha = new Date().getFullYear();
@@ -64,7 +65,7 @@ export class GestionProductividadComponent implements OnInit {
   meses: any = MESES;
   anios: any = ANIOS;
   mes: any;
-  servicios: Productividad[];;
+  servicios: Productividad[];
   first = 0;
   rows = 10;
   step = 0;
@@ -84,8 +85,21 @@ export class GestionProductividadComponent implements OnInit {
       this.router.navigate(['/login']);
     }
 
+    this.initForm();
+
+    this.listaProductividades$.subscribe(resp => {
+      this.servicios = resp.dataGet.data;
+    })
+
+    this.catalogoCalveEmpleados();
+    this.productividadForm.controls['anio'].setValue(this.fecha);
+    this.store.dispatch(GET_LIST_PRODUCTIVIDADES())
+
+  }
+
+  initForm() {
     this.productividadForm = this.formBuilder.group({
-      empleadoId: [null, Validators.required],
+      empleado: [null, Validators.required],
       mes: [null, Validators.required],
       anio: [null, Validators.required],
       periodo: [null, Validators.required],
@@ -98,16 +112,6 @@ export class GestionProductividadComponent implements OnInit {
       ahorro: [null, Validators.required],
       capturaTiempo: [null, Validators.required],
       total: [null, Validators.required]
-    })
-
-    //this.BuscarServicios()
-    this.catalogoCalveEmpleados();
-    this.productividadForm.controls['anio'].setValue(this.fecha);
-    this.store.dispatch(GET_LIST_PRODUCTIVIDADES())
-
-    this.store.select('listProductividades').subscribe(resp => {
-      console.log('resp: ', resp.dataGet);
-      this.servicios = resp.dataGet.data;
     })
   }
 
@@ -163,35 +167,29 @@ export class GestionProductividadComponent implements OnInit {
     productividad.periodo = this.productividadForm.controls['mes'].value.id + '-' +
       this.productividadForm.controls['anio'].value;
     productividad.mes = this.productividadForm.controls['mes'].value.descripcion;
+    productividad.empleadoId = this.productividadForm.controls['empleado'].value.empleadoId
 
     this.store.dispatch(ALTA_PRODUCTIVIDADES({ altaProductividades: productividad }));
 
     this.store.select('altaProductividades').subscribe(data => {
       if(data.dataHigh.status===200) {
+        //console.log('respuetsa: ', data.dataHigh.data);
+        let newProductividad: Productividad = {...data.dataHigh.data};
         this.messageService.clear();
         this.messageService.add({severity:'success', summary:'OK', detail: data.dataHigh.message!});
+        //console.log('empleado: ', this.productividadForm.controls['empleado'].value)
+        newProductividad.empleadoId = this.productividadForm.controls['empleado'].value.empleadoId;
+        newProductividad.empleado = {clave: this.productividadForm.controls['empleado'].value.clave}
+        this.servicios = [...this.servicios, newProductividad];
+        //console.log('Lista de productividades final: ', this.servicios);
+
         this.productividadForm.reset();
-        console.log('Lista de productividades final: ', this.servicios);
       } else {
         this.messageService.clear();
         this.messageService.add({severity:'error', summary:'Error', detail: data.error!.message});
       }
     });
   }
-
-  // limpiarDatosAlata() {
-  //   this.datos.mes = "",
-  //     this.datos.periodo = "",
-  //     this.datos.totalSolPed = "",
-  //     this.datos.totalOC = "",
-  //     this.datos.diasOc = "",
-  //     this.datos.diasSP = "",
-  //     this.datos.criterio = "",
-  //     this.datos.discrecional = "",
-  //     this.datos.ahorro = "",
-  //     this.datos.capturaTiempo = "",
-  //     this.datos.total = ""
-  // }
 
   openDialogEditarRegistro(servicioId: number) {
     console.log('abriendo modal actualizar registro de productividad');

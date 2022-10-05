@@ -13,5 +13,6 @@ export class Productividad {
     ahorro: number
     capturaTiempo: number
     total: number
+    empleadoId: number;
     empleado: any;
 }
