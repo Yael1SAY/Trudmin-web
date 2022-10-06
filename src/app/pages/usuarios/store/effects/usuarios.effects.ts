@@ -20,7 +20,7 @@ export class UsuariosEffects {
                 () => this.usuarioServices.obtenerUsarios()
                     .pipe(
                         map((data) => {
-                            return obtenerUsuariosSuccess({usuarios: data})
+                            return obtenerUsuariosSuccess({payload: data})
                         }),
                         catchError((error) =>
                         of(obtenerUsuariosError({ payload: error }))

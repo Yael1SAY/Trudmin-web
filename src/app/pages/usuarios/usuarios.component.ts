@@ -33,8 +33,8 @@ export class UsuariosComponent implements OnInit {
       this.router.navigate(['/login']);
     }
     this.store.select('usuarios').subscribe(data => {
-      console.log('usuarios: ', data);
-      this.usuarios = data.users;
+      console.log('usuarios paginador: ', data);
+      this.usuarios = data.payload.content;
     })
 
     

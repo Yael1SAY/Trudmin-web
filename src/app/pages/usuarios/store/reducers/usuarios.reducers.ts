@@ -3,14 +3,14 @@ import { Usuario } from 'src/app/model/usuario';
 import { obtenerUsuarios, obtenerUsuariosError, obtenerUsuariosSuccess } from '../acctions/usuarios.actions';
 
 export interface UsuariosState {
-    users: Usuario[];
+    payload: any;
     loaded: boolean;
     loading: boolean;
     error: any;
 }
 
 export const usuariosInitialState: UsuariosState = {
-    users: [],
+    payload: null,
     loaded: false,
     loading: false,
     error: null,
@@ -22,11 +22,11 @@ export const _usuariosReducer = createReducer(
         ...state,
         loading: true,
     })),
-    on(obtenerUsuariosSuccess, (state, { usuarios }) => ({
+    on(obtenerUsuariosSuccess, (state, { payload }) => ({
         ...state,
         loading: false,
         loaded: true,
-        users: [...usuarios],
+        payload: {...payload},
     })),
     on(obtenerUsuariosError, (state, { payload }) => ({
         ...state,

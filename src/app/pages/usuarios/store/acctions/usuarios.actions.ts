@@ -7,7 +7,7 @@ export const obtenerUsuarios = createAction(
 
 export const obtenerUsuariosSuccess = createAction(
     '[Usuarios] Obtener usuario success',
-    props<{ usuarios: Usuario[] }>()
+    props<{ payload: any }>()
 );
 
 export const obtenerUsuariosError = createAction(
