@@ -21,7 +21,7 @@ export class ProductividadesEffects {
             ofType(GET_LIST_PRODUCTIVIDADES),
             tap(data => console.log('effect getProductividades', data)),
             mergeMap(
-                () => this.productividadServices.obtenerProductividades()
+                (data) => this.productividadServices.obtenerProductividadesPage(data.pagination)
                     .pipe(
                         map((data) => {
                             return GET_LIST_PRODUCTIVIDADES_SUCCESS({productividadesResponse: data})

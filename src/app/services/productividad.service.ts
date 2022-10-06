@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
 import { AuthService } from '../services/auth.service';
 import swal from 'sweetalert2';
 import { Productividad } from '../model/productividad';
+import { PaginationModel } from '../model/paginationModel';
 
 const URL = environment.url;
 
@@ -56,6 +57,10 @@ export class ProductividadService implements HttpInterceptor {
 
   obtenerProductividades() {
     return this.http.get<any>(`${URL}servicio/obtenerServicios`, { headers: this.agregarAuthorizationHeader() });
+  }
+
+  obtenerProductividadesPage(pagination: PaginationModel) {
+    return this.http.get<any>(`${URL}servicio/obtenerServicios/page/${pagination.page}/${pagination.size}`, { headers: this.agregarAuthorizationHeader() });
   }
 
   obtenerServicios(empleadoId: number, anio: number): Observable<any[]> {

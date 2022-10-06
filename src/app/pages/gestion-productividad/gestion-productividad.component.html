@@ -11,11 +11,10 @@
                         <div class="col-md-4">
                             <mat-form-field appearance="fill" class="mat-form-full-width">
                                 <mat-label>Clave de empleado</mat-label>
-                                <mat-select (selectionChange)="actualizaComprador($event.value)" formControlName="empleado"
-                                required>
+                                <mat-select (selectionChange)="actualizaComprador($event.value)"
+                                    formControlName="empleado" required>
                                     <mat-option>--Seleccione--</mat-option>
-                                    <mat-option *ngFor="let empleado of catalogoClaveEmpleados"
-                                        [value]="empleado">
+                                    <mat-option *ngFor="let empleado of catalogoClaveEmpleados" [value]="empleado">
                                         {{empleado.clave}}
                                     </mat-option>
                                 </mat-select>
@@ -195,7 +194,7 @@
                         </mat-expansion-panel>
 
                         <div *ngFor="let servicio of servicios; let i= index;">
-                            <mat-expansion-panel (opened)="setStep(i)" hideToggle>
+                            <mat-expansion-panel (opened)="setStep(i)" [expanded]="step === i" hideToggle>
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
                                         <div class="col-md-1" id="idTextBody">
@@ -271,9 +270,9 @@
                     </mat-accordion>
 
                     <div>
-                        <!-- <p-paginator [rows]="pageSize" [totalRecords]="this.totalElements"
-                            (onPageChange)="buscarPorPagina($event)">
-                        </p-paginator> -->
+                        <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+                            aria-label="Select page" (page)="pageEvent = getPaginatorData($event)">
+                        </mat-paginator>
                     </div>
                 </div>
             </div>

@@ -1,16 +1,19 @@
 import { Action, createReducer, on } from "@ngrx/store";
 import { GenericResponse } from "src/app/model/generic-response";
+import { PaginationModel } from "src/app/model/paginationModel";
 import { Productividad } from "src/app/model/productividad";
-import { 
+import {
     ALTA_PRODUCTIVIDADES,
     ALTA_PRODUCTIVIDADES_SUCCESS,
     // altaProductividad, altaProductividadSuccess, 
-    GET_LIST_PRODUCTIVIDADES, GET_LIST_PRODUCTIVIDADES_SUCCESS } from "../actions/gestion-productividad.actions";
+    GET_LIST_PRODUCTIVIDADES, GET_LIST_PRODUCTIVIDADES_SUCCESS
+} from "../actions/gestion-productividad.actions";
 
 
 export interface productividadState {
     dataGet?: GenericResponse;
     dataHigh?: GenericResponse;
+    pagination: PaginationModel,
     loaded: boolean;
     loading: boolean;
     error?: any;
@@ -19,6 +22,7 @@ export interface productividadState {
 export const productividadInitialState: productividadState = {
     dataGet: null,
     dataHigh: null,
+    pagination: null,
     loaded: false,
     loading: false,
     error: null,
@@ -26,27 +30,27 @@ export const productividadInitialState: productividadState = {
 
 export const _productividadReducer = createReducer(
     productividadInitialState,
-    on(GET_LIST_PRODUCTIVIDADES, state => ({
+    on(GET_LIST_PRODUCTIVIDADES, (state, { pagination }) => ({
         ...state,
-        loading: true,
+        pagination: {...pagination}
     })),
-    on(GET_LIST_PRODUCTIVIDADES_SUCCESS, (state,{ productividadesResponse }) => ({
+    on(GET_LIST_PRODUCTIVIDADES_SUCCESS, (state, { productividadesResponse }) => ({
         ...state,
         loading: false,
         loaded: true,
-        dataGet: {...productividadesResponse},
+        dataGet: { ...productividadesResponse },
     })),
-    on(ALTA_PRODUCTIVIDADES, (state, {altaProductividades}) => ({
+    on(ALTA_PRODUCTIVIDADES, (state, { altaProductividades }) => ({
         ...state,
         loading: false,
         loaded: true,
-        productividad: {...altaProductividades},
+        productividad: { ...altaProductividades },
     })),
-    on(ALTA_PRODUCTIVIDADES_SUCCESS, (state, {altaProductividades}) => ({
+    on(ALTA_PRODUCTIVIDADES_SUCCESS, (state, { altaProductividades }) => ({
         ...state,
         loading: false,
         loaded: true,
-        dataHigh: {...altaProductividades},
+        dataHigh: { ...altaProductividades },
     })),
 )
 

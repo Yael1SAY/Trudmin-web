@@ -13,10 +13,11 @@ import Swal from 'sweetalert2';
 import { EditarProductividadComponent } from '../editar-productividad/editar-productividad.component';
 import {
   ALTA_PRODUCTIVIDADES,
-  // altaProductividad, 
   GET_LIST_PRODUCTIVIDADES
 } from './store/actions/gestion-productividad.actions';
 import { appProductividadState } from './store/appProductividaes.reducer';
+import { PaginationModel } from 'src/app/model/paginationModel';
+import { PageEvent } from '@angular/material/paginator';
 
 const ANIOS: any = [
   { id: 1, descripcion: 2015 },
@@ -66,13 +67,14 @@ export class GestionProductividadComponent implements OnInit {
   anios: any = ANIOS;
   mes: any;
   servicios: Productividad[];
-  first = 0;
-  rows = 10;
-  step = 0;
-  page = 0;
-  totalPage: number | undefined;
-  totalElements: number | undefined;
-  pageSize: Number = 40;
+  
+
+  public step:            number            = 0;
+  public length:          number            = 100;
+  public pageSize:        number            = 5;
+  public pagination:      PaginationModel;
+  public pageSizeOptions: number[]          = [5, 10, 25, 100];
+  public pageEvent:       PageEvent;
 
   constructor(private authService: AuthService, private productividadServ: ProductividadService,
     private router: Router, private catalogoService: CatalogosService, public dialog: MatDialog,
@@ -85,15 +87,21 @@ export class GestionProductividadComponent implements OnInit {
       this.router.navigate(['/login']);
     }
 
+    this.pagination = {
+      size: 5,
+      page: 0
+    }
+
     this.initForm();
 
     this.listaProductividades$.subscribe(resp => {
-      this.servicios = resp.dataGet.data;
+      console.log(resp);
+      this.servicios = resp.dataGet.content;
     })
 
     this.catalogoCalveEmpleados();
     this.productividadForm.controls['anio'].setValue(this.fecha);
-    this.store.dispatch(GET_LIST_PRODUCTIVIDADES())
+    this.store.dispatch(GET_LIST_PRODUCTIVIDADES({pagination: this.pagination}))
 
   }
 
@@ -148,12 +156,6 @@ export class GestionProductividadComponent implements OnInit {
 
   }
 
-  buscarPorPagina(event: any) {
-    this.page = event.page;
-    this.pageSize = event.rows;
-    //this.BuscarServicios();
-    //console.log("Pagina: ", event);
-  }
 
   catalogoCalveEmpleados() {
     this.catalogoService.obtenerServicios().subscribe(list => {
@@ -173,15 +175,12 @@ export class GestionProductividadComponent implements OnInit {
 
     this.store.select('altaProductividades').subscribe(data => {
       if(data.dataHigh.status===200) {
-        //console.log('respuetsa: ', data.dataHigh.data);
         let newProductividad: Productividad = {...data.dataHigh.data};
         this.messageService.clear();
         this.messageService.add({severity:'success', summary:'OK', detail: data.dataHigh.message!});
-        //console.log('empleado: ', this.productividadForm.controls['empleado'].value)
         newProductividad.empleadoId = this.productividadForm.controls['empleado'].value.empleadoId;
         newProductividad.empleado = {clave: this.productividadForm.controls['empleado'].value.clave}
         this.servicios = [...this.servicios, newProductividad];
-        //console.log('Lista de productividades final: ', this.servicios);
 
         this.productividadForm.reset();
       } else {
@@ -229,29 +228,19 @@ export class GestionProductividadComponent implements OnInit {
   nextStep() {
     this.step++;
   }
-
   prevStep() {
     this.step--;
   }
 
-  next() {
-    this.first = this.first + this.rows;
-  }
+  getPaginatorData(event){
+    this.pagination = {
+      page: event.pageIndex,
+      size: event.pageSize,
+    }
+    this.store.dispatch(GET_LIST_PRODUCTIVIDADES({pagination: this.pagination}));
 
-  prev() {
-    this.first = this.first - this.rows;
-  }
-
-  reset() {
-    this.first = 0;
-  }
-
-  isLastPage(): boolean {
-    return this.servicios ? this.first === (this.servicios.length - this.rows) : true;
-  }
-
-  isFirstPage(): boolean {
-    return this.servicios ? this.first === 0 : true;
+    return event;
+    
   }
 
 }
