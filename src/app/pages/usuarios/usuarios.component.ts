@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { PaginationModel } from 'src/app/model/paginationModel';
 import { Usuario } from 'src/app/model/usuario';
 import { AuthService } from 'src/app/services/auth.service';
 import { obtenerUsuarios } from './store/acctions/usuarios.actions';
@@ -12,52 +15,56 @@ import { AppUsuariosState } from './store/appUsuarios.reducers';
   styleUrls: ['./usuarios.component.css']
 })
 export class UsuariosComponent implements OnInit {
+  
+  public step:            number            = 0;
+  public usuarios:        Usuario[]         = [];
+  public length:          number            = 100;
+  public pageSize:        number            = 5;
+  public pagination:      PaginationModel;
+  public pageSizeOptions: number[]          = [5, 10, 25, 100];
+  public pageEvent:       PageEvent;
+  public filtrosForm: FormGroup;
+  
 
-  usuarios: Usuario[] = [];
-  first = 0;
-  rows = 10;
-  step = 0;
-  page = 0;
-  totalPage: number | undefined;
-  totalElements: number | undefined;
-  pageSize: Number = 40;
-
-  constructor(private authService: AuthService, private store: Store<AppUsuariosState>,
-    private router: Router) { }
+  constructor(private authService: AuthService, 
+    private store: Store<AppUsuariosState>,
+    private router: Router,
+    private formBuilder: FormBuilder,
+    ) { }
 
   ngOnInit(): void {
+    this.pagination = {
+      size: 5,
+      page: 0
+    }
 
-    this.store.dispatch(obtenerUsuarios());
+    this.filtrosForm = this.formBuilder.group({
+      nombreUsuario: [null],
+      usuario: [null]
+    })
+    
+    this.store.dispatch(obtenerUsuarios({pagination: this.pagination}));
 
     if (!this.authService.isAuthtenticated()) {
       this.router.navigate(['/login']);
     }
     this.store.select('usuarios').subscribe(data => {
-      console.log('usuarios paginador: ', data);
+      
       this.usuarios = data.payload.content;
+      this.length = data.payload.totalElements;
     })
 
+  }
+
+  getPaginatorData(event){
+    this.pagination = {
+      page: event.pageIndex,
+      size: event.pageSize,
+    }
+    this.store.dispatch(obtenerUsuarios({pagination: this.pagination}));
+
+    return event;
     
-    // this.BuscarUsuarios();
-  }
-
-  llamarMetodoBuscarUsuarios() {
-    this.page = 0;
-    this.pageSize = 40;
-    // this.BuscarUsuarios()
-  }
-
-  BuscarUsuarios() {
-    // this.usuarioService.obtenerUsarios().subscribe(
-    //   usuarios => this.usuarios = usuarios
-    // );
-  }
-
-  buscarPorPagina(event: any) {
-    this.page = event.page;
-    this.pageSize = event.rows;
-    // this.BuscarUsuarios();
-    //console.log("Pagina: ", event);
   }
 
   setStep(index: number) {
@@ -72,36 +79,14 @@ export class UsuariosComponent implements OnInit {
     this.step--;
   }
 
-  public filtros: any = {
-    clee: '',
-    nombre: ''
-  };
+  
 
   BuscarUusario() {
-    console.log("Buscar usuario");
+    const filtrosBusqueda = this.filtrosForm.value;
+    console.log(filtrosBusqueda); 
   }
 
-  next() {
-    this.first = this.first + this.rows;
-  }
-
-  prev() {
-    this.first = this.first - this.rows;
-  }
-
-  reset() {
-    this.first = 0;
-  }
-
-  isLastPage(): boolean {
-    return this.usuarios ? this.first === (this.usuarios.length - this.rows) : true;
-  }
-
-  isFirstPage(): boolean {
-    return this.usuarios ? this.first === 0 : true;
-  }
-
-  mostrar(){
+  mostrarBonos(){
     console.log("Mostrar")
   }
 

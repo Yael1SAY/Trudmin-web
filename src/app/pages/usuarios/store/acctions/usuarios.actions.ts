@@ -1,8 +1,10 @@
 import { createAction, props } from "@ngrx/store";
+import { PaginationModel } from "src/app/model/paginationModel";
 import { Usuario } from "../../../../model/usuario"
 
 export const obtenerUsuarios = createAction(
-    '[Usuarios] Obtener Usuario'
+    '[Usuarios] Obtener Usuario',
+    props<{ pagination: PaginationModel }>()
 );
 
 export const obtenerUsuariosSuccess = createAction(

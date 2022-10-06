@@ -59,8 +59,6 @@ import { environment } from '../environments/environment';
 import { _usuariosReducer } from './pages/usuarios/store/reducers/usuarios.reducers';
 import { NuevoUsuarioModule } from './pages/nuevo-usuario/nuevo-usuario.module';
 import { UsuariosModule } from './pages/usuarios/usuarios.module';
-import { appUsuarioReducers } from './pages/nuevo-usuario/store/appUsuario.reducers';
-import { UsuarioEffects } from './pages/nuevo-usuario/store/effects/usuario.effects';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { ProductividadModule } from './pages/gestion-productividad/productividades.module';

@@ -17,7 +17,7 @@ export class UsuariosEffects {
             ofType(obtenerUsuarios),
             tap(data => console.log('effect tap', data)),
             mergeMap(
-                () => this.usuarioServices.obtenerUsarios()
+                (data) => this.usuarioServices.obtenerUsarios(data.pagination)
                     .pipe(
                         map((data) => {
                             return obtenerUsuariosSuccess({payload: data})

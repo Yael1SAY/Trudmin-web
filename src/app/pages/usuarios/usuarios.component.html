@@ -6,32 +6,33 @@
   <div class="col-12">
     <div class="card">
       <div class="card-body">
-
-        <div class="row">
-          <div class="col-md-4">
-            <div style="font-size: 12px">
-              <mat-form-field class="mat-form-full-width" appearance="outline">
-                <mat-label>Nombre</mat-label>
-                <input matInput [(ngModel)]="filtros.nombre">
-                <mat-icon matSuffix></mat-icon>
-              </mat-form-field>
+        <form [formGroup]="filtrosForm">
+          <div class="row">
+            <div class="col-md-4">
+              <div style="font-size: 12px">
+                <mat-form-field class="mat-form-full-width" appearance="outline">
+                  <mat-label>Nombre</mat-label>
+                  <input matInput formControlName="nombreUsuario">
+                  <mat-icon matSuffix></mat-icon>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div style="font-size: 12px">
+                <mat-form-field class="mat-form-full-width" appearance="outline">
+                  <mat-label>Nombre de usuario
+                  </mat-label>
+                  <input matInput formControlName="usuario">
+                  <mat-icon matSuffix></mat-icon>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <button id="idButtonPrimary" class="mat-form-full-width" style="margin-top: 6px" mat-raised-button
+                (click)="BuscarUusario()">Buscar</button>
             </div>
           </div>
-          <div class="col-md-4">
-            <div style="font-size: 12px">
-              <mat-form-field class="mat-form-full-width" appearance="outline">
-                <mat-label>Nombre de usuario
-                </mat-label>
-                <input matInput [(ngModel)]="filtros.clee">
-                <mat-icon matSuffix></mat-icon>
-              </mat-form-field>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <button id="idButtonPrimary" class="mat-form-full-width" style="margin-top: 6px" mat-raised-button
-              (click)="BuscarUusario()">Buscar</button>
-          </div>
-        </div>
+        </form>
 
         <hr class="m-t-0 m-b-10">
 
@@ -40,13 +41,13 @@
             <mat-expansion-panel disabled>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  <div class="col-1" id="idTextBody">
+                  <div class="col-2" id="idTextBody">
                     id
                   </div>
                   <div class="col-1" id="idTextBody">
                     Usuario
                   </div>
-                  <div class="col-1" id="idTextBody">
+                  <div class="col-2" id="idTextBody">
                     Nombre
                   </div>
                   <div class="col-2" id="idTextBody">
@@ -58,27 +59,24 @@
                   <div class="col-2" id="idTextBody">
                     E-mail
                   </div>
-                  <div class="col-2" id="idTextBody">
-                    Fecha creación
-                  </div>
                   <div class="col-1" id="idTextBody">
-                    Acciones
+                    Fecha creación
                   </div>
                 </mat-panel-title>
               </mat-expansion-panel-header>
             </mat-expansion-panel>
 
             <div *ngFor="let usuario of usuarios; let i= index;">
-              <mat-expansion-panel (opened)="setStep(i)" hideToggle>
+              <mat-expansion-panel (opened)="setStep(i)" [expanded]="step === i" hideToggle>
                 <mat-expansion-panel-header>
                   <mat-panel-title>
-                    <div class="col-1" id="idTextBody">
+                    <div class="col-2" id="idTextBody">
                       {{usuario.id}}
                     </div>
                     <div class="col-1" id="idTextBody">
                       {{usuario.nombreUsuario}}
                     </div>
-                    <div class="col-1" id="idTextBody">
+                    <div class="col-2" id="idTextBody">
                       {{usuario.nombre}}
                     </div>
                     <div class="col-2" id="idTextBody">
@@ -90,14 +88,8 @@
                     <div class="col-2" id="idTextBody">
                       {{usuario.email}}
                     </div>
-                    <div class="col-2" id="idTextBody">
-                      {{usuario.fechaCreacion}}
-                    </div>
                     <div class="col-1" id="idTextBody">
-                      <button id="idIconCss" mat-icon-button color="secondary" matTooltip=""
-                        aria-label="Example icon button with a heart icon" (click)="mostrar()">
-                        <mat-icon class="iconPrimaryCss">attach_money</mat-icon>
-                      </button>
+                      {{usuario.fechaCreacion}}
                     </div>
                   </mat-panel-title>
                 </mat-expansion-panel-header>
@@ -106,7 +98,7 @@
                   <div class="row">
                     <div class="col-1">
                       <button mat-icon-button pTooltip="Bonos de empleado"
-                        aria-label="Example icon button with a heart icon">
+                        aria-label="Example icon button with a heart icon" (click)="mostrarBonos()">
                         <mat-icon class="iconPrimaryCss">attach_money</mat-icon>
                       </button>
                     </div>
@@ -140,7 +132,8 @@
           </mat-accordion>
 
           <div>
-            <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page">
+            <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+              aria-label="Select page" (page)="pageEvent = getPaginatorData($event)">
             </mat-paginator>
           </div>
         </div>

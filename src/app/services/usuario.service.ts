@@ -7,6 +7,7 @@ import { AuthService } from '../services/auth.service';
 import { map, catchError, tap } from 'rxjs/operators';
 import swal from 'sweetalert2';
 import { environment } from 'src/environments/environment';
+import { PaginationModel } from '../model/paginationModel';
 
 const URL = environment.url;
 
@@ -44,10 +45,8 @@ export class UsuarioService {
     return false;
   }
 
-  obtenerUsarios(): Observable<any>{
-    let page: number = 0;
-    let size: number = 4;
-    return this.http.get<any>(`${URL}usuario/obtenerUsuarios/page/${page}/${size}`, {headers: this.agregarAuthorizationHeader()})
+  obtenerUsarios(pagination: PaginationModel): Observable<any>{
+    return this.http.get<any>(`${URL}usuario/obtenerUsuarios/page/${pagination.page}/${pagination.size}`, {headers: this.agregarAuthorizationHeader()})
     // .pipe(
     //   catchError(e =>{
     //     if(e.status==0){
