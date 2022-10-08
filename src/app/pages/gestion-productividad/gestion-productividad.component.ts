@@ -97,6 +97,7 @@ export class GestionProductividadComponent implements OnInit {
     this.listaProductividades$.subscribe(resp => {
       console.log(resp);
       this.servicios = resp.dataGet.content;
+      this.length = resp.dataGet.totalElements;
     })
 
     this.catalogoCalveEmpleados();
@@ -105,7 +106,7 @@ export class GestionProductividadComponent implements OnInit {
 
   }
 
-  initForm() {
+  private initForm() {
     this.productividadForm = this.formBuilder.group({
       empleado: [null, Validators.required],
       mes: [null, Validators.required],
