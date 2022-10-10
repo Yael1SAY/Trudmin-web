@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { PaginationModel } from 'src/app/model/paginationModel';
 import { Usuario } from 'src/app/model/usuario';
 import { AuthService } from 'src/app/services/auth.service';
+import { ExportService } from 'src/app/services/export.service';
 import { obtenerUsuarios } from './store/acctions/usuarios.actions';
 import { AppUsuariosState } from './store/appUsuarios.reducers';
 
@@ -30,6 +31,7 @@ export class UsuariosComponent implements OnInit {
     private store: Store<AppUsuariosState>,
     private router: Router,
     private formBuilder: FormBuilder,
+    private exportDataExcel: ExportService,
     ) { }
 
   ngOnInit(): void {
@@ -88,6 +90,11 @@ export class UsuariosComponent implements OnInit {
 
   mostrarBonos(){
     console.log("Mostrar")
+  }
+
+  export() {
+    console.log('Exportar datos a Excel: ', this.usuarios);
+    this.exportDataExcel.exportAsExcelFile(this.usuarios, 'Lista_usuarios');
   }
 
 }

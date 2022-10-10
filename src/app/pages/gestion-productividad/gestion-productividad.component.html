@@ -194,7 +194,7 @@
                         </mat-expansion-panel>
 
                         <div *ngFor="let servicio of servicios; let i= index;">
-                            <mat-expansion-panel (opened)="setStep(i)" [expanded]="step === i" hideToggle>
+                            <mat-expansion-panel (opened)="setStep(i)">
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
                                         <div class="col-md-1" id="idTextBody">
@@ -255,7 +255,7 @@
                                     </div>
                                 </div>
 
-                                <mat-action-row>
+                                <!-- <mat-action-row>
                                     <button id="idButtonTableCss" mat-button color="warn" (click)="prevStep()">
                                         <i class="mdi mdi-chevron-double-left"></i>
                                         Anterior
@@ -264,7 +264,7 @@
                                         Siguiente
                                         <i class="mdi mdi-chevron-double-right"></i>
                                     </button>
-                                </mat-action-row>
+                                </mat-action-row> -->
                             </mat-expansion-panel>
                         </div>
                     </mat-accordion>
@@ -273,6 +273,11 @@
                         <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
                             aria-label="Select page" (page)="pageEvent = getPaginatorData($event)">
                         </mat-paginator>
+                    </div>
+                    <div style="text-align: end; width: auto;">
+                        <button id="idButtonTableCss" mat-button color="warn" (click)='export()' >
+                            <mat-icon>archive</mat-icon> Exportar
+                        </button>
                     </div>
                 </div>
             </div>

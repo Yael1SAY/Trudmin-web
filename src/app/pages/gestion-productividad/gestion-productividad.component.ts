@@ -18,6 +18,7 @@ import {
 import { appProductividadState } from './store/appProductividaes.reducer';
 import { PaginationModel } from 'src/app/model/paginationModel';
 import { PageEvent } from '@angular/material/paginator';
+import { ExportService } from 'src/app/services/export.service';
 
 const ANIOS: any = [
   { id: 1, descripcion: 2015 },
@@ -76,10 +77,15 @@ export class GestionProductividadComponent implements OnInit {
   public pageSizeOptions: number[]          = [5, 10, 25, 100];
   public pageEvent:       PageEvent;
 
-  constructor(private authService: AuthService, private productividadServ: ProductividadService,
-    private router: Router, private catalogoService: CatalogosService, public dialog: MatDialog,
-    private formBuilder: FormBuilder, private messageService: MessageService,
-    private store: Store<appProductividadState>
+  constructor(private authService: AuthService, 
+    private productividadServ: ProductividadService,
+    private router: Router, 
+    private catalogoService: CatalogosService, 
+    public dialog: MatDialog,
+    private formBuilder: FormBuilder, 
+    private messageService: MessageService,
+    private store: Store<appProductividadState>,
+    private exportDataExcel: ExportService
   ) { }
 
   ngOnInit(): void {
@@ -242,6 +248,11 @@ export class GestionProductividadComponent implements OnInit {
 
     return event;
     
+  }
+
+  export() {
+    console.log('Exportar datos a Excel: ', this.servicios);
+    this.exportDataExcel.exportAsExcelFile(this.servicios, 'Lista_servicios');
   }
 
 }

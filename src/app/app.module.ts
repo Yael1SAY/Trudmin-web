@@ -11,6 +11,7 @@ import { NuevoUsuarioComponent } from './pages/nuevo-usuario/nuevo-usuario.compo
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UsuarioService } from './services/usuario.service';
 import { AuthService } from './services/auth.service';
+import { ExportService } from './services/export.service'
 
 /** Componentes de PrimeNG */
 import { AccordionModule } from 'primeng/accordion';
@@ -132,7 +133,7 @@ const routes: Routes = [
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     
   ],
-  providers: [UsuarioService, AuthService,
+  providers: [UsuarioService, AuthService, ExportService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ProductividadService,
