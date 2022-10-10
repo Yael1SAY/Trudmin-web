@@ -30,32 +30,35 @@
             <mat-expansion-panel disabled>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  <div class="col-1" id="idTextBody">
+                  <div class="col-md-1" id="idTextBody">
                     id
                   </div>
-                  <div class="col-1" id="idTextBody">
-                    Clave trabajador
+                  <div class="col-md-1" id="idTextBody">
+                    Clave
                   </div>
-                  <div class="col-2" id="idTextBody">
+                  <div class="col-md-2" id="idTextBody">
+                    Usuario
+                  </div>
+                  <div class="col-md-1" id="idTextBody">
                     Fecha inicio
                   </div>
-                  <div class="col-2" id="idTextBody">
-                    Fexha fin
+                  <div class="col-md-1" id="idTextBody">
+                    Fecha fin
                   </div>
-                  <div class="col-1" id="idTextBody">
+                  <div class="col-md-2" id="idTextBody">
+                    Puesto
+                  </div>
+                  <div class="col-md-1" id="idTextBody">
                     Sub-area
                   </div>
-                  <div class="col-1" id="idTextBody">
+                  <div class="col-md-1" id="idTextBody">
                     Area
                   </div>
-                  <div class="col-2" id="idTextBody">
+                  <div class="col-md-1" id="idTextBody">
                     Telefono
                   </div>
-                  <div class="col-1" id="idTextBody">
+                  <div class="col-md-1" id="idTextBody">
                     Estado
-                  </div>
-                  <div class="col-1" id="idTextBody">
-                    Acciones
                   </div>
                 </mat-panel-title>
               </mat-expansion-panel-header>
@@ -65,35 +68,35 @@
               <mat-expansion-panel (opened)="setStep(i)">
                 <mat-expansion-panel-header>
                   <mat-panel-title>
-                    <div class="col-1" id="idTextBody">
+                    <div class="col-md-1" id="idTextBody">
                       {{trabajadores.empleadoId}}
                     </div>
-                    <div class="col-1" id="idTextBody">
+                    <div class="col-md-1" id="idTextBody">
                       {{trabajadores.clave}}
                     </div>
-                    <div class="col-2" id="idTextBody">
-                      {{trabajadores.fechaInicio}}
+                    <div class="col-md-2" id="idTextBody">
+                      {{trabajadores.usuario.nombreUsuario}}
                     </div>
-                    <div class="col-2" id="idTextBody">
-                      {{trabajadores.fechaFin}}
+                    <div class="col-md-1" id="idTextBody">
+                      {{trabajadores.fechaInicio | date:'dd/MM/yyyy'}}
                     </div>
-                    <div class="col-1" id="idTextBody">
+                    <div class="col-md-1" id="idTextBody">
+                      {{trabajadores.fechaFin | date:'dd/MM/yyyy'}}
+                    </div>
+                    <div class="col-md-2" id="idTextBody">
+                      {{trabajadores.puesto.puesto}}
+                    </div>
+                    <div class="col-md-1" id="idTextBody">
                       {{trabajadores.subArea.subArea}}
                     </div>
-                    <div class="col-1" id="idTextBody">
+                    <div class="col-md-1" id="idTextBody">
                       {{trabajadores.subArea.area.area}}
                     </div>
-                    <div class="col-2" id="idTextBody">
+                    <div class="col-md-1" id="idTextBody">
                       {{trabajadores.telefono}}
                     </div>
-                    <div class="col-1" id="idTextBody">
-                      {{trabajadores.estatus}}
-                    </div>
-                    <div class="col-1" id="idTextBody">
-                      <button id="idIconCss" mat-icon-button color="secondary" matTooltip=""
-                        aria-label="Example icon button with a heart icon">
-                        <mat-icon class="iconPrimaryCss">attach_money</mat-icon>
-                      </button>
+                    <div class="col-md-1" id="idTextBody">
+                      {{trabajadores.estatus===true?'Activo':'Baja'}}
                     </div>
                   </mat-panel-title>
                 </mat-expansion-panel-header>

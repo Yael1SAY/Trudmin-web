@@ -63,6 +63,7 @@ import { UsuariosModule } from './pages/usuarios/usuarios.module';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { ProductividadModule } from './pages/gestion-productividad/productividades.module';
+import { TrabajadoresModule } from './pages/trabajadores/trabajadores.module';
 //import { AuthInterceptorService } from './auth-interceptor.service';
 
 const routes: Routes = [
@@ -99,6 +100,7 @@ const routes: Routes = [
     NuevoUsuarioModule,
     UsuariosModule,
     ProductividadModule,
+    TrabajadoresModule,
     AppRoutingModule,
     HttpClientModule,
     CommonModule,

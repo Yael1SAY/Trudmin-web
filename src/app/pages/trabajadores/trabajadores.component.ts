@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { PaginationModel } from 'src/app/model/paginationModel';
+import { Trabajadores } from 'src/app/model/trabajadores';
 import { AuthService } from 'src/app/services/auth.service';
 import { ExportService } from 'src/app/services/export.service';
 import { TrabajadoresService } from 'src/app/services/trabajadores.service';
+import { OBTENER_TRABAJADORES } from './store/acctions/trabajadores.actions';
+import { appTrabajadoresState } from './store/appTrabajadores.reducers';
 
 @Component({
   selector: 'app-trabajadores',
@@ -13,13 +17,15 @@ import { TrabajadoresService } from 'src/app/services/trabajadores.service';
 })
 export class TrabajadoresComponent implements OnInit {
 
-  public trabajadores:    any[]             = [];
+  public trabajadores:    Trabajadores[];
   public step:            number            = 0;
   public length:          number            = 100;
   public pageSize:        number            = 5;
   public pagination:      PaginationModel;
   public pageSizeOptions: number[]          = [5, 10, 25, 100];
   public pageEvent:       PageEvent;
+
+  listatrabajadores$ = this.store.select('listTrabajadores');
 
   public filtros: any = {
     clave: ''
@@ -28,13 +34,29 @@ export class TrabajadoresComponent implements OnInit {
   constructor(private trabajadoresService: TrabajadoresService, 
     private authService: AuthService,
     private router: Router,
-    private exportDataExcel: ExportService
+    private exportDataExcel: ExportService,
+    private store: Store<appTrabajadoresState>,
     ) { }
 
   ngOnInit(): void {
     if(!this.authService.isAuthtenticated()){
       this.router.navigate(['/login']);
     }
+
+    this.pagination = {
+      size: 5,
+      page: 0
+    }
+
+    this.listatrabajadores$.subscribe(resp => {
+      console.log(resp);
+      this.trabajadores = resp.dataGet.content;
+      this.length = resp.dataGet.totalElements;
+    })
+
+    this.store.dispatch(OBTENER_TRABAJADORES({pagination: this.pagination}));
+
+    
     // this.llamarMetodoBuscarUsuarios();
   }
 
@@ -45,10 +67,10 @@ export class TrabajadoresComponent implements OnInit {
   // }
 
   BuscarTrabajador() {
-    this.trabajadoresService.obtenerTrabajadores(this.authService.getRol()).subscribe(trabajadores =>{
-      this.trabajadores = trabajadores;
-      console.log(this.trabajadores);
-    });
+    // this.trabajadoresService.obtenerTrabajadores(this.authService.getRol()).subscribe(trabajadores =>{
+    //   this.trabajadores = trabajadores.content;
+    //   console.log(this.trabajadores);
+    // });
   }
 
   // buscarPorPagina(event: any) {

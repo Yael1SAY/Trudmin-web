@@ -11,8 +11,8 @@ import {
 
 
 export interface productividadState {
-    dataGet?: GenericResponse;
-    dataHigh?: GenericResponse;
+    dataGet?: GenericResponse<Productividad>;
+    dataHigh?: GenericResponse<Productividad>;
     pagination: PaginationModel,
     loaded: boolean;
     loading: boolean;

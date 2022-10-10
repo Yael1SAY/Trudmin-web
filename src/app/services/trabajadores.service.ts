@@ -6,6 +6,9 @@ import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../services/auth.service';
 import swal from 'sweetalert2';
+import { PaginationModel } from '../model/paginationModel';
+import { GenericResponse } from '../model/generic-response';
+import { Trabajadores } from '../model/trabajadores';
 
 const URL = environment.url;
 
@@ -26,22 +29,22 @@ export class TrabajadoresService {
     return this.httpHeader;
   }
 
-  obtenerTrabajadores(rol: string): Observable<any[]>{
-    return this.http.get<any[]>(`${URL}empleado/obtenerEmpleados`, {headers: this.agregarAuthorizationHeader()})
-    .pipe(
-      catchError(e =>{
-        if(e.status==0){
-          this.router.navigate(['/login']);
-          swal.fire("Servicio fuera de linea", 'No es posible conectar al servicio, contacte al administrador','error');
-          return throwError(() => e);
-        }
-        if(e.status==401){//realiza la validacion cuando no se a autenticado
-          this.router.navigate(['/login'])
-          return throwError(() => e);
-        }
-        //return map(response => response as Comprador[])
-        return throwError(() => e);
-      })
-    );
+  obtenerTrabajadores(pagination: PaginationModel): Observable<GenericResponse<Trabajadores>>{
+    return this.http.get<GenericResponse<Trabajadores>>(`${URL}empleado/obtenerEmpleados/page/${pagination.page}/${pagination.size}`, {headers: this.agregarAuthorizationHeader()})
+    // .pipe(
+    //   catchError(e =>{
+    //     if(e.status==0){
+    //       this.router.navigate(['/login']);
+    //       swal.fire("Servicio fuera de linea", 'No es posible conectar al servicio, contacte al administrador','error');
+    //       return throwError(() => e);
+    //     }
+    //     if(e.status==401){//realiza la validacion cuando no se a autenticado
+    //       this.router.navigate(['/login'])
+    //       return throwError(() => e);
+    //     }
+    //     //return map(response => response as Comprador[])
+    //     return throwError(() => e);
+    //   })
+    // );
   }
 }
