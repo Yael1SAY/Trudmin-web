@@ -143,10 +143,19 @@
               aria-label="Select page" (page)="pageEvent = getPaginatorData($event)">
             </mat-paginator>
           </div>
-          <div style="text-align: end; width: auto;">
-            <button id="idButtonTableCss" mat-button color="warn" (click)='export()'>
-              <mat-icon>archive</mat-icon> Exportar
-            </button>
+          <div class="row">
+            <div class="col-md-4">
+              <button id="idButtonPrimary" class="mat-form-full-width" style="margin-top: 6px" mat-raised-button
+              (click)='altaTrabajadorDialog()'>
+              <mat-icon>person_add</mat-icon> Alta trabajador
+              </button>
+            </div>
+            <div class="col-md-8" style="text-align: end;">
+              <button id="idButtonTableCss" mat-button color="warn" (click)='export()'>
+                <mat-icon>archive</mat-icon> Exportar
+              </button>
+            </div>
+            
           </div>
         </div>
       </div>

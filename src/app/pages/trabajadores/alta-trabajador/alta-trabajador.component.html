@@ -1,0 +1,123 @@
+<p-toast></p-toast>
+<p id="titulo">Alta de empleado</p>
+
+<div class="row" id="id_panel_main">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form [formGroup]="trabajadorNewForm">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div style="font-size: 12px">
+                                <mat-form-field class="mat-form-full-width" appearance="outline">
+                                    <mat-label>Clave</mat-label>
+                                    <input matInput formControlName="clave">
+                                    <mat-icon matSuffix></mat-icon>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div style="font-size: 12px">
+                                <mat-form-field class="mat-form-full-width" appearance="outline">
+                                    <mat-label>Estatus
+                                    </mat-label>
+                                    <input matInput formControlName="estatus">
+                                    <mat-icon matSuffix></mat-icon>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div style="font-size: 12px">
+                                <mat-form-field color="accent" appearance="fill" class="mat-form-full-width">
+                                    <mat-label>Fecha de ingreso</mat-label>
+                                    <input matInput [matDatepicker]="picker1" formControlName="fechaInicio">
+                                    <mat-hint>DD/MM/YYYY</mat-hint>
+                                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker1></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div style="font-size: 12px">
+                                <mat-form-field color="accent" appearance="fill" class="mat-form-full-width">
+                                    <mat-label>Fecha de egreso</mat-label>
+                                    <input matInput [matDatepicker]="picker2" formControlName="fechaFin">
+                                    <mat-hint>DD/MM/YYYY</mat-hint>
+                                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker2></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div style="font-size: 12px">
+                                <mat-form-field class="mat-form-full-width" appearance="outline">
+                                    <mat-label>Telefono</mat-label>
+                                    <input matInput formControlName="telefono">
+                                    <mat-icon matSuffix></mat-icon>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div style="font-size: 12px">
+                                <mat-form-field appearance="fill" class="mat-form-full-width">
+                                    <mat-label>Puesto</mat-label>
+                                    <mat-select formControlName="puesto">
+                                        <mat-option>--Seleccione--</mat-option>
+                                        <mat-option *ngFor="let puesto of catalogPuestos" [value]="puesto.puestoId">
+                                            {{puesto.puesto}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div style="font-size: 12px">
+                                <mat-form-field appearance="fill" class="mat-form-full-width">
+                                    <mat-label>Subarea</mat-label>
+                                    <mat-select formControlName="subarea" puesto>
+                                        <mat-option>--Seleccione--</mat-option>
+                                        <mat-option *ngFor="let subarea of catalogSubareas" [value]="subarea.subAreaId">
+                                            {{subarea.subArea}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div style="font-size: 12px">
+                                <mat-form-field appearance="fill" class="mat-form-full-width">
+                                    <mat-label>Usuario</mat-label>
+                                    <mat-select formControlName="usuario">
+                                        <mat-option>--Seleccione--</mat-option>
+                                        <mat-option *ngFor="let usuario of catalogUsuarios" [value]="usuario.id">
+                                            {{usuario.nombreUsuario}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="col-md-12">
+                                <button id="idButtonPrimary" class="mat-form-full-width" style="margin-top: 6px"
+                                    mat-raised-button (click)="AltaTrabajador()">REGISTRAR</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
