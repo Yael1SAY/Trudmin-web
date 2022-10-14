@@ -49,3 +49,15 @@ body {
     color: #ffffff;
     background-color: #f16d00;
 }
+
+#idButtonSecondary {
+    color: #ffffff;
+    background-color: deepskyblue;
+    width: 100%;
+}
+
+#idButtonCancel {
+    color: #ffffff;
+    background-color: dimgrey;
+    width: 100%;
+}

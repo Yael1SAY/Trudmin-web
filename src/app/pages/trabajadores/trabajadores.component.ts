@@ -104,7 +104,7 @@ export class TrabajadoresComponent implements OnInit {
       page: event.pageIndex,
       size: event.pageSize,
     }
-    // this.store.dispatch(GET_LIST_PRODUCTIVIDADES({pagination: this.pagination}));
+    this.store.dispatch(OBTENER_TRABAJADORES({ pagination: this.pagination }));
 
     return event;
 
@@ -123,8 +123,7 @@ export class TrabajadoresComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      // this.animal = result;
+      this.store.dispatch(OBTENER_TRABAJADORES({ pagination: this.pagination }));
     });
   }
 

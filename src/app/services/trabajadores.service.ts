@@ -9,6 +9,7 @@ import swal from 'sweetalert2';
 import { PaginationModel } from '../model/paginationModel';
 import { GenericResponse } from '../model/generic-response';
 import { Trabajadores } from '../model/trabajadores';
+import { AltaTrabajador } from '../model/altaTrabajador';
 
 const URL = environment.url;
 
@@ -46,5 +47,9 @@ export class TrabajadoresService {
     //     return throwError(() => e);
     //   })
     // );
+  }
+
+  altaTrabajador(trabajador: AltaTrabajador) {
+    return this.http.post<GenericResponse<Trabajadores>>(`${URL}empleado/altaEmpleado`, trabajador, {headers: this.agregarAuthorizationHeader()})
   }
 }

@@ -19,8 +19,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { APP_TRABAJADORES_REDUCER } from './store/appTrabajadores.reducers';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
@@ -29,7 +31,8 @@ import { MatNativeDateModule } from '@angular/material/core';
   ],
   imports: [
     CommonModule,
-    StoreModule.forFeature('listTrabajadores', trabajadoresReducer),
+    StoreModule.forFeature('listTrabajadores', APP_TRABAJADORES_REDUCER.listTrabajadores),
+    StoreModule.forFeature('altaTrabajador', APP_TRABAJADORES_REDUCER.altaTrabajador),
     EffectsModule.forFeature([TrabajadoresEffects]),
     ToastModule,
     FormsModule,
@@ -42,11 +45,12 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatButtonModule,
     MatTabsModule,
     MatPaginatorModule,
-    MatDatepickerModule,  
+    MatDatepickerModule,
     MatNativeDateModule,
+    MatDialogModule,
   ],
-  providers: [  
-    MatDatepickerModule,  
+  providers: [
+    MatDatepickerModule,
     MatNativeDateModule
   ],
   schemas: [

@@ -36,8 +36,11 @@
                   <div class="col-md-1" id="idTextBody">
                     Clave
                   </div>
-                  <div class="col-md-2" id="idTextBody">
+                  <div class="col-md-1" id="idTextBody">
                     Usuario
+                  </div>
+                  <div class="col-md-2" id="idTextBody">
+                    Nombre Trabajador
                   </div>
                   <div class="col-md-1" id="idTextBody">
                     Fecha inicio
@@ -45,7 +48,7 @@
                   <div class="col-md-1" id="idTextBody">
                     Fecha fin
                   </div>
-                  <div class="col-md-2" id="idTextBody">
+                  <div class="col-md-1" id="idTextBody">
                     Puesto
                   </div>
                   <div class="col-md-1" id="idTextBody">
@@ -74,8 +77,11 @@
                     <div class="col-md-1" id="idTextBody">
                       {{trabajadores.clave}}
                     </div>
-                    <div class="col-md-2" id="idTextBody">
+                    <div class="col-md-1" id="idTextBody">
                       {{trabajadores.usuario.nombreUsuario}}
+                    </div>
+                    <div class="col-md-2" id="idTextBody">
+                      {{trabajadores.usuario.nombre}} {{trabajadores.usuario.apellidoPaterno}}
                     </div>
                     <div class="col-md-1" id="idTextBody">
                       {{trabajadores.fechaInicio | date:'dd/MM/yyyy'}}
@@ -83,7 +89,7 @@
                     <div class="col-md-1" id="idTextBody">
                       {{trabajadores.fechaFin | date:'dd/MM/yyyy'}}
                     </div>
-                    <div class="col-md-2" id="idTextBody">
+                    <div class="col-md-1" id="idTextBody">
                       {{trabajadores.puesto.puesto}}
                     </div>
                     <div class="col-md-1" id="idTextBody">
@@ -146,8 +152,8 @@
           <div class="row">
             <div class="col-md-4">
               <button id="idButtonPrimary" class="mat-form-full-width" style="margin-top: 6px" mat-raised-button
-              (click)='altaTrabajadorDialog()'>
-              <mat-icon>person_add</mat-icon> Alta trabajador
+                (click)='altaTrabajadorDialog()'>
+                <mat-icon>person_add</mat-icon> Alta trabajador
               </button>
             </div>
             <div class="col-md-8" style="text-align: end;">
@@ -155,7 +161,7 @@
                 <mat-icon>archive</mat-icon> Exportar
               </button>
             </div>
-            
+
           </div>
         </div>
       </div>

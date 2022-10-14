@@ -1,6 +1,6 @@
 export class GenericResponse<T> {
     content: T[];
-    data: any;
+    data: T;
     message: string;
     status: number;
     totalElements: number;

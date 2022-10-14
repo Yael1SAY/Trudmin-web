@@ -13,6 +13,8 @@ import { UsuarioService } from './services/usuario.service';
 import { AuthService } from './services/auth.service';
 import { ExportService } from './services/export.service'
 
+import { DatePipe } from '@angular/common'
+
 /** Componentes de PrimeNG */
 import { AccordionModule } from 'primeng/accordion';
 import { ToastModule } from 'primeng/toast';
@@ -135,7 +137,7 @@ const routes: Routes = [
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     
   ],
-  providers: [UsuarioService, AuthService, ExportService,
+  providers: [UsuarioService, AuthService, ExportService, DatePipe,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ProductividadService,

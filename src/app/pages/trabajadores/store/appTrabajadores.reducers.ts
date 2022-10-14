@@ -4,8 +4,10 @@ import { trabajadoresReducer, TrabajadoresState } from "./reducers/trabajadores.
 
 export interface appTrabajadoresState {
     listTrabajadores: TrabajadoresState,
+    altaTrabajador: TrabajadoresState
 }
 
-export const APP_PRODUCTIVIDADES_REDUCER: ActionReducerMap<appTrabajadoresState> = {
+export const APP_TRABAJADORES_REDUCER: ActionReducerMap<appTrabajadoresState> = {
     listTrabajadores: trabajadoresReducer,
+    altaTrabajador: trabajadoresReducer
 }
