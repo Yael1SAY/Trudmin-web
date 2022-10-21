@@ -8,6 +8,7 @@ import { map, catchError, tap } from 'rxjs/operators';
 import swal from 'sweetalert2';
 import { environment } from 'src/environments/environment';
 import { PaginationModel } from '../model/paginationModel';
+import { GenericResponseAlta } from '../model/genericResponseAlta';
 
 const URL = environment.url;
 
@@ -65,7 +66,7 @@ export class UsuarioService {
   }
 
   registrarUsuario(usuario: Usuario){
-    return this.http.post<Usuario>(`${URL}usuario/crearUsuario`, usuario, {headers: this.agregarAuthorizationHeader()})
+    return this.http.post<GenericResponseAlta<Usuario>>(`${URL}usuario/crearUsuario`, usuario, {headers: this.agregarAuthorizationHeader()})
     // .pipe(
     //   catchError(e=> {
     //     if(e.status==0){

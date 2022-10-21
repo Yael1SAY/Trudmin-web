@@ -48,31 +48,55 @@
 
                     <div class="row">
                         <div class="col-md-4">
-                            <div style="font-size: 12px">
+                            <!-- <div style="font-size: 12px">
                                 <mat-form-field class="mat-form-full-width" appearance="outline">
                                     <mat-label>Criterio</mat-label>
                                     <input matInput formControlName="criterio" type="number" required>
                                     <mat-icon matSuffix></mat-icon>
                                 </mat-form-field>
-                            </div>
+                            </div> -->
+                            <mat-form-field appearance="fill" class="mat-form-full-width">
+                                <mat-label>Criterio</mat-label>
+                                <mat-select formControlName="criterio" required>
+                                    <mat-option *ngFor="let bono of bonos" [value]="bono.descripcion">
+                                        {{bono.descripcion}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
                         </div>
                         <div class="col-md-4">
-                            <div style="font-size: 12px">
+                            <!-- <div style="font-size: 12px">
                                 <mat-form-field class="mat-form-full-width" appearance="outline">
                                     <mat-label>Solicitud de pedido %</mat-label>
                                     <input matInput formControlName="totalSolPed" type="number" required>
                                     <mat-icon matSuffix></mat-icon>
                                 </mat-form-field>
-                            </div>
+                            </div> -->
+                            <mat-form-field appearance="fill" class="mat-form-full-width">
+                                <mat-label>Solicitud de pedido %</mat-label>
+                                <mat-select formControlName="totalSolPed" required (selectionChange)="selectSP($event.value)">
+                                    <mat-option *ngFor="let porcentaje of porcentajes" [value]="porcentaje.descripcion">
+                                        {{porcentaje.descripcion}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
                         </div>
                         <div class="col-md-4">
-                            <div style="font-size: 12px">
+                            <!-- <div style="font-size: 12px">
                                 <mat-form-field class="mat-form-full-width" appearance="outline">
                                     <mat-label>Orden de compra %</mat-label>
                                     <input matInput formControlName="totalOC" type="number" required>
                                     <mat-icon matSuffix></mat-icon>
                                 </mat-form-field>
-                            </div>
+                            </div> -->
+                            <mat-form-field appearance="fill" class="mat-form-full-width">
+                                <mat-label>Orden de compra %</mat-label>
+                                <mat-select formControlName="totalOC" required (selectionChange)="selectOC($event.value)">
+                                    <mat-option *ngFor="let porcentaje of porcentajes" [value]="porcentaje.descripcion">
+                                        {{porcentaje.descripcion}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
                         </div>
 
                     </div>
@@ -82,7 +106,7 @@
                             <div style="font-size: 12px">
                                 <mat-form-field class="mat-form-full-width" appearance="outline">
                                     <mat-label>Dias OC</mat-label>
-                                    <input matInput formControlName="diasOc" type="number" required>
+                                    <input matInput formControlName="diasOc" type="number" readonly>
                                     <mat-icon matSuffix></mat-icon>
                                 </mat-form-field>
                             </div>
@@ -91,46 +115,70 @@
                             <div style="font-size: 12px">
                                 <mat-form-field class="mat-form-full-width" appearance="outline">
                                     <mat-label>Dias SP</mat-label>
-                                    <input matInput formControlName="diasSP" type="number" required>
+                                    <input matInput formControlName="diasSP" type="number" readonly>
                                     <mat-icon matSuffix></mat-icon>
                                 </mat-form-field>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div style="font-size: 12px">
+                            <!-- <div style="font-size: 12px">
                                 <mat-form-field class="mat-form-full-width" appearance="outline">
                                     <mat-label>Discrecional</mat-label>
                                     <input matInput formControlName="discrecional" type="number" required>
                                     <mat-icon matSuffix></mat-icon>
                                 </mat-form-field>
-                            </div>
+                            </div> -->
+                            <mat-form-field appearance="fill" class="mat-form-full-width">
+                                <mat-label>Discrecional</mat-label>
+                                <mat-select formControlName="discrecional" required>
+                                    <mat-option *ngFor="let bono of bonos" [value]="bono.descripcion">
+                                        {{bono.descripcion}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
                         </div>
 
                     </div>
                     <div class="row">
                         <div class="col-md-4">
-                            <div style="font-size: 12px">
+                            <!-- <div style="font-size: 12px">
                                 <mat-form-field class="mat-form-full-width" appearance="outline">
                                     <mat-label>Ahorro</mat-label>
                                     <input matInput formControlName="ahorro" type="number" required>
                                     <mat-icon matSuffix></mat-icon>
                                 </mat-form-field>
-                            </div>
+                            </div> -->
+                            <mat-form-field appearance="fill" class="mat-form-full-width">
+                                <mat-label>Ahorro</mat-label>
+                                <mat-select formControlName="ahorro" required>
+                                    <mat-option *ngFor="let bono of bonos" [value]="bono.descripcion">
+                                        {{bono.descripcion}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
                         </div>
                         <div class="col-md-4">
-                            <div style="font-size: 12px">
+                            <!-- <div style="font-size: 12px">
                                 <mat-form-field class="mat-form-full-width" appearance="outline">
                                     <mat-label>Captura a timepo</mat-label>
                                     <input matInput formControlName="capturaTiempo" type="number" required>
                                     <mat-icon matSuffix></mat-icon>
                                 </mat-form-field>
-                            </div>
+                            </div> -->
+                            <mat-form-field appearance="fill" class="mat-form-full-width">
+                                <mat-label>Captura a timepo</mat-label>
+                                <mat-select formControlName="capturaTiempo" required>
+                                    <mat-option *ngFor="let bono of bonos" [value]="bono.descripcion">
+                                        {{bono.descripcion}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
                         </div>
                         <div class="col-md-4">
                             <div style="font-size: 12px">
                                 <mat-form-field class="mat-form-full-width" appearance="outline">
                                     <mat-label>Total</mat-label>
-                                    <input matInput formControlName="total" type="number" required>
+                                    <input matInput formControlName="total" type="number" >
                                     <mat-icon matSuffix></mat-icon>
                                 </mat-form-field>
                             </div>

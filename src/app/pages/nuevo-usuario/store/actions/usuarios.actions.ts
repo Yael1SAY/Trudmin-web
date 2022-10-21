@@ -1,16 +1,18 @@
 import { createAction, props } from "@ngrx/store";
+import { GenericResponseError } from "src/app/model/generic-response-error";
+import { GenericResponseAlta } from "src/app/model/genericResponseAlta";
 import { Usuario } from "../../../../model/usuario"
 
-export const altaUsuario = createAction('[Usuario] Alta Usuario',
+export const ALTA_USUARIO = createAction('[Usuario] Alta Usuario',
     props<{ usuario: Usuario }>()
 );
 
-export const altaUsuarioSuccess = createAction(
-    '[Usuario] Alta usuario success',
-    props<{ usuario: Usuario }>()
+export const ALTA_USUARIO_OK = createAction(
+    '[Usuario] Alta usuario OK',
+    props<{ dataUsuario: GenericResponseAlta<Usuario> }>()
 );
 
-export const altaUsuarioError = createAction(
+export const ALTA_USUARIO_ERROR = createAction(
     '[Usuario] Alta usuario error',
-    props<{ payload: any }>()
+    props<{ dataUsuario: GenericResponseAlta<Usuario> }>()
 );

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -12,42 +12,18 @@ import { ProductividadService } from 'src/app/services/productividad.service';
 import Swal from 'sweetalert2';
 import { EditarProductividadComponent } from '../editar-productividad/editar-productividad.component';
 import {
-  ALTA_PRODUCTIVIDADES,
+  ALTA_PRODUCTIVIDAD,
+  ALTA_PRODUCTIVIDAD_OK,
   GET_LIST_PRODUCTIVIDADES
 } from './store/actions/gestion-productividad.actions';
 import { appProductividadState } from './store/appProductividaes.reducer';
 import { PaginationModel } from 'src/app/model/paginationModel';
 import { PageEvent } from '@angular/material/paginator';
 import { ExportService } from 'src/app/services/export.service';
+import { Subscription } from 'rxjs';
+import { ANIOS, BONOS_GENERICO, MESES, PORCENTAJES_OC_SP } from '../../catalogs/catalogos'
 
-const ANIOS: any = [
-  { id: 1, descripcion: 2015 },
-  { id: 2, descripcion: 2016 },
-  { id: 3, descripcion: 2017 },
-  { id: 4, descripcion: 2018 },
-  { id: 5, descripcion: 2019 },
-  { id: 6, descripcion: 2020 },
-  { id: 7, descripcion: 2021 },
-  { id: 1, descripcion: 2022 },
-  { id: 1, descripcion: 2023 },
-  { id: 1, descripcion: 2024 },
-  { id: 1, descripcion: 2025 }
-];
 
-const MESES: any = [
-  { id: "01", descripcion: "Enero" },
-  { id: "02", descripcion: "Febrero" },
-  { id: "03", descripcion: "Marzo" },
-  { id: "04", descripcion: "Abril" },
-  { id: "05", descripcion: "Mayo" },
-  { id: "06", descripcion: "Junio" },
-  { id: "07", descripcion: "Julio" },
-  { id: "08", descripcion: "Agosto" },
-  { id: "09", descripcion: "Septiembre" },
-  { id: "10", descripcion: "Octubre" },
-  { id: "11", descripcion: "Noviembre" },
-  { id: "12", descripcion: "Diciembre" }
-];
 
 @Component({
   selector: 'app-productividad',
@@ -55,10 +31,14 @@ const MESES: any = [
   styleUrls: ['./gestion-productividad.component.css'],
   providers: [MessageService]
 })
-export class GestionProductividadComponent implements OnInit {
+export class GestionProductividadComponent implements OnInit, OnDestroy {
 
   public productividadForm: FormGroup;
-  listaProductividades$ = this.store.select('listProductividades');
+  private listaProductividades$ = this.store.select('listProductividades');
+  private altaProductividad$ = this.store.select('altaProductividades');
+
+  private listaProdSubscription: Subscription;
+  private altaProdSubscription: Subscription;
 
   catalogoClaveEmpleados: clavesEmpleado[];
   fecha = new Date().getFullYear();
@@ -66,27 +46,32 @@ export class GestionProductividadComponent implements OnInit {
   periodos: any;
   meses: any = MESES;
   anios: any = ANIOS;
+  porcentajes: any = PORCENTAJES_OC_SP;
+  bonos: any = BONOS_GENERICO;
   mes: any;
   servicios: Productividad[];
-  
 
-  public step:            number            = 0;
-  public length:          number            = 100;
-  public pageSize:        number            = 5;
-  public pagination:      PaginationModel;
-  public pageSizeOptions: number[]          = [5, 10, 25, 100];
-  public pageEvent:       PageEvent;
 
-  constructor(private authService: AuthService, 
+  public step: number = 0;
+  public length: number = 100;
+  public pageSize: number = 5;
+  public pagination: PaginationModel;
+  public pageSizeOptions: number[] = [5, 10, 25, 100];
+  public pageEvent: PageEvent;
+
+
+  constructor(private authService: AuthService,
     private productividadServ: ProductividadService,
-    private router: Router, 
-    private catalogoService: CatalogosService, 
+    private router: Router,
+    private catalogoService: CatalogosService,
     public dialog: MatDialog,
-    private formBuilder: FormBuilder, 
+    private formBuilder: FormBuilder,
     private messageService: MessageService,
     private store: Store<appProductividadState>,
-    private exportDataExcel: ExportService
+    private exportDataExcel: ExportService,
+
   ) { }
+
 
   ngOnInit(): void {
     if (!this.authService.isAuthtenticated()) {
@@ -100,15 +85,15 @@ export class GestionProductividadComponent implements OnInit {
 
     this.initForm();
 
-    this.listaProductividades$.subscribe(resp => {
-      console.log(resp);
+    this.listaProdSubscription = this.listaProductividades$.subscribe(resp => {
+      console.log('Respuesta en ngon init: ', resp);
       this.servicios = resp.dataGet.content;
       this.length = resp.dataGet.totalElements;
     })
 
     this.catalogoCalveEmpleados();
     this.productividadForm.controls['anio'].setValue(this.fecha);
-    this.store.dispatch(GET_LIST_PRODUCTIVIDADES({pagination: this.pagination}))
+    this.store.dispatch(GET_LIST_PRODUCTIVIDADES({ pagination: this.pagination }));
 
   }
 
@@ -120,14 +105,16 @@ export class GestionProductividadComponent implements OnInit {
       periodo: [null, Validators.required],
       totalSolPed: [null, Validators.required],
       totalOC: [null, Validators.required],
-      diasOc: [null, Validators.required],
-      diasSP: [null, Validators.required],
+      diasOc: [null],
+      diasSP: [null],
       criterio: [null, Validators.required],
       discrecional: [null, Validators.required],
       ahorro: [null, Validators.required],
       capturaTiempo: [null, Validators.required],
-      total: [null, Validators.required]
+      total: [null]
     })
+
+
   }
 
   llamarMetodoBuscarServicios() {
@@ -178,23 +165,22 @@ export class GestionProductividadComponent implements OnInit {
     productividad.mes = this.productividadForm.controls['mes'].value.descripcion;
     productividad.empleadoId = this.productividadForm.controls['empleado'].value.empleadoId
 
-    this.store.dispatch(ALTA_PRODUCTIVIDADES({ altaProductividades: productividad }));
+    this.store.dispatch(ALTA_PRODUCTIVIDAD({ productividad: productividad }));
 
-    this.store.select('altaProductividades').subscribe(data => {
-      if(data.dataHigh.status===200) {
-        let newProductividad: Productividad = {...data.dataHigh.data};
-        this.messageService.clear();
-        this.messageService.add({severity:'success', summary:'OK', detail: data.dataHigh.message!});
-        newProductividad.empleadoId = this.productividadForm.controls['empleado'].value.empleadoId;
-        newProductividad.empleado = {clave: this.productividadForm.controls['empleado'].value.clave}
-        this.servicios = [...this.servicios, newProductividad];
-
-        this.productividadForm.reset();
+    this.altaProdSubscription = this.altaProductividad$.subscribe(data => {
+      console.log("Data: ", data);
+      if (data.dataProductividad.status === 200) {
+        this.messageService.add({severity:'success', summary:'OK', detail: data.dataProductividad.message!});
       } else {
-        this.messageService.clear();
         this.messageService.add({severity:'error', summary:'Error', detail: data.error!.message});
       }
-    });
+      this.altaProdSubscription.unsubscribe();
+    })
+  }
+
+  ngOnDestroy(): void {
+    this.altaProdSubscription.unsubscribe();
+    this.listaProdSubscription.unsubscribe();
   }
 
   openDialogEditarRegistro(servicioId: number) {
@@ -239,20 +225,31 @@ export class GestionProductividadComponent implements OnInit {
     this.step--;
   }
 
-  getPaginatorData(event){
+  getPaginatorData(event) {
     this.pagination = {
       page: event.pageIndex,
       size: event.pageSize,
     }
-    this.store.dispatch(GET_LIST_PRODUCTIVIDADES({pagination: this.pagination}));
+    this.store.dispatch(GET_LIST_PRODUCTIVIDADES({ pagination: this.pagination }));
 
     return event;
-    
+
   }
 
   export() {
     console.log('Exportar datos a Excel: ', this.servicios);
     this.exportDataExcel.exportAsExcelFile(this.servicios, 'Lista_servicios');
+  }
+
+  selectSP(event) {
+    let bonos: number = 0;
+    
+    this.productividadForm.controls['diasSP'].setValue(bonos)
+  }
+
+  selectOC(event) {
+    console.log(event)
+    this.productividadForm.controls['diasOc'].setValue(event)
   }
 
 }

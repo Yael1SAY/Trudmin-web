@@ -37,8 +37,6 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
-    console.log("nombreUsuario: ", JSON.stringify(this.usuario));
-    console.log();
     //valida que el usuario y password no esten vacias
     if (this.usuario!.nombreUsuario == null || this.usuario!.password == null) {
       swal.fire('Error Login', 'Username o Password vacios!', 'error');

@@ -45,7 +45,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
-import {MatPaginatorModule} from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { EditarUsuarioComponent } from './pages/editar-usuario/editar-usuario.component';
 import { MisBonosComponent } from './pages/mis-bonos/mis-bonos.component';
@@ -130,12 +131,13 @@ const routes: Routes = [
     MatSelectModule,
     MatTabsModule,
     MatPaginatorModule,
+    MatSnackBarModule,
     //StoreModule.forRoot({ usuario: _usuarioReducer, usuarios: _usuariosReducer }),
     //StoreModule.forRoot(appReducers),
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-    
+
   ],
   providers: [UsuarioService, AuthService, ExportService, DatePipe,
     {

@@ -15,10 +15,10 @@ export class HeaderComponent implements OnInit {
   usuario: any;
 
   visibleSidebar1: any;
-  visibleSidebar2: any;
-  visibleSidebar3: any;
-  visibleSidebar4: any;
-  visibleSidebar5: any;
+  // visibleSidebar2: any;
+  // visibleSidebar3: any;
+  // visibleSidebar4: any;
+  // visibleSidebar5: any;
 
   showFiller = false;
 
@@ -28,7 +28,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.primengConfig.ripple = true;
     this.usuario = this.authService.comprador;
-    //console.log("usuario: ", this.usuario);
+    console.log("usuario Header: ", this.usuario);
   }
 
   showToast(){

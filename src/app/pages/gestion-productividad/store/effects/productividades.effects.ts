@@ -4,8 +4,9 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { map, mergeMap, tap } from "rxjs";
 import { ProductividadService } from "src/app/services/productividad.service";
 import { 
-    ALTA_PRODUCTIVIDADES,
-    ALTA_PRODUCTIVIDADES_SUCCESS,
+    ALTA_PRODUCTIVIDAD,
+    ALTA_PRODUCTIVIDAD_OK,
+    ALTA_PRODUCTIVIDAD_ERROR,
     // altaProductividad, altaProductividadSuccess, 
     GET_LIST_PRODUCTIVIDADES, GET_LIST_PRODUCTIVIDADES_SUCCESS } from "../actions/gestion-productividad.actions";
 
@@ -33,13 +34,13 @@ export class ProductividadesEffects {
 
     altaProductividad$ = createEffect(
         () => this.actions$.pipe(
-            ofType(ALTA_PRODUCTIVIDADES),
+            ofType(ALTA_PRODUCTIVIDAD),
             tap(data => console.log('effect altaProductividad', data)),
             mergeMap(
-                (data) => this.productividadServices.altaDeProductividad(data.altaProductividades)
+                (data) => this.productividadServices.altaDeProductividad(data.productividad)
                     .pipe(
                         map((data) => {
-                            return ALTA_PRODUCTIVIDADES_SUCCESS({altaProductividades: data})
+                            return ALTA_PRODUCTIVIDAD_OK({dataProductividad: data})
                         }),
                     )
             )
