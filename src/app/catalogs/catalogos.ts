@@ -6,10 +6,10 @@ export const ANIOS: any = [
     { id: 5, descripcion: 2019 },
     { id: 6, descripcion: 2020 },
     { id: 7, descripcion: 2021 },
-    { id: 1, descripcion: 2022 },
-    { id: 1, descripcion: 2023 },
-    { id: 1, descripcion: 2024 },
-    { id: 1, descripcion: 2025 }
+    { id: 8, descripcion: 2022 },
+    { id: 9, descripcion: 2023 },
+    { id: 10, descripcion: 2024 },
+    { id: 11, descripcion: 2025 }
   ];
   
   export const MESES: any = [
@@ -51,9 +51,7 @@ export const ANIOS: any = [
   ];
 
   export const BONOS_GENERICO: any = [
-    {id: 1, descripcion: "-2"},
-    {id: 1, descripcion: "-1"},
-    {id: 1, descripcion: "0"},
-    {id: 1, descripcion: "1"},
-    {id: 1, descripcion: "2"},
+    {id: 1, descripcion: 0},
+    {id: 2, descripcion: 1},
+    {id: 3, descripcion: 2},
   ];

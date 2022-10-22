@@ -31,7 +31,7 @@ import { ANIOS, BONOS_GENERICO, MESES, PORCENTAJES_OC_SP } from '../../catalogs/
   styleUrls: ['./gestion-productividad.component.css'],
   providers: [MessageService]
 })
-export class GestionProductividadComponent implements OnInit, OnDestroy {
+export class GestionProductividadComponent implements OnInit {
 
   public productividadForm: FormGroup;
   private listaProductividades$ = this.store.select('listProductividades');
@@ -69,7 +69,6 @@ export class GestionProductividadComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private store: Store<appProductividadState>,
     private exportDataExcel: ExportService,
-
   ) { }
 
 
@@ -86,9 +85,9 @@ export class GestionProductividadComponent implements OnInit, OnDestroy {
     this.initForm();
 
     this.listaProdSubscription = this.listaProductividades$.subscribe(resp => {
-      console.log('Respuesta en ngon init: ', resp);
       this.servicios = resp.dataGet.content;
       this.length = resp.dataGet.totalElements;
+
     })
 
     this.catalogoCalveEmpleados();
@@ -170,18 +169,18 @@ export class GestionProductividadComponent implements OnInit, OnDestroy {
     this.altaProdSubscription = this.altaProductividad$.subscribe(data => {
       console.log("Data: ", data);
       if (data.dataProductividad.status === 200) {
-        this.messageService.add({severity:'success', summary:'OK', detail: data.dataProductividad.message!});
+        this.messageService.add({ severity: 'success', summary: 'OK', detail: data.dataProductividad.message! });
       } else {
-        this.messageService.add({severity:'error', summary:'Error', detail: data.error!.message});
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: data.error!.message });
       }
       this.altaProdSubscription.unsubscribe();
     })
   }
 
-  ngOnDestroy(): void {
-    this.altaProdSubscription.unsubscribe();
-    this.listaProdSubscription.unsubscribe();
-  }
+  // ngOnDestroy(): void {
+  //   this.altaProdSubscription.unsubscribe();
+  //   this.listaProdSubscription.unsubscribe();
+  // }
 
   openDialogEditarRegistro(servicioId: number) {
     console.log('abriendo modal actualizar registro de productividad');
@@ -218,12 +217,12 @@ export class GestionProductividadComponent implements OnInit, OnDestroy {
     this.step = index;
   }
 
-  nextStep() {
-    this.step++;
-  }
-  prevStep() {
-    this.step--;
-  }
+  // nextStep() {
+  //   this.step++;
+  // }
+  // prevStep() {
+  //   this.step--;
+  // }
 
   getPaginatorData(event) {
     this.pagination = {
@@ -236,20 +235,53 @@ export class GestionProductividadComponent implements OnInit, OnDestroy {
 
   }
 
-  export() {
+  public export() {
     console.log('Exportar datos a Excel: ', this.servicios);
     this.exportDataExcel.exportAsExcelFile(this.servicios, 'Lista_servicios');
   }
 
-  selectSP(event) {
-    let bonos: number = 0;
-    
-    this.productividadForm.controls['diasSP'].setValue(bonos)
+  public selectSP(event) {
+    this.productividadForm.controls['diasSP'].setValue(this.bonosPorProductividad(event));
+    this.sumaTotal();
   }
 
-  selectOC(event) {
-    console.log(event)
-    this.productividadForm.controls['diasOc'].setValue(event)
+  public selectOC(event) {
+    this.productividadForm.controls['diasOc'].setValue(this.bonosPorProductividad(event))
+    this.sumaTotal();
+  }
+
+  private bonosPorProductividad(porcentaje: number): number {
+    let total: number = 0;
+    switch (true) {
+      case (porcentaje < 60):
+        total = 0;
+        break
+      case (porcentaje < 70):
+        total = 1
+        break
+      case (porcentaje < 80):
+        total = 2
+        break
+      case (porcentaje < 90):
+        total = 3
+        break
+      case (porcentaje <= 100):
+        total = 4
+        break
+    }
+    return total
+  }
+
+  public sumaTotal(): void {
+    let total: number = 0;
+    let diasOc = this.productividadForm.controls['diasOc'].value == null ? 0 : this.productividadForm.controls['diasOc'].value; 
+    let diasSP = this.productividadForm.controls['diasSP'].value == null ? 0 : this.productividadForm.controls['diasSP'].value;
+    let criterio = this.productividadForm.controls['criterio'].value == null ? 0 : this.productividadForm.controls['criterio'].value;
+    let discrecional = this.productividadForm.controls['discrecional'].value == null ? 0 : this.productividadForm.controls['discrecional'].value;
+    let ahorro = this.productividadForm.controls['ahorro'].value == null ? 0 : this.productividadForm.controls['ahorro'].value;
+    let capturaTiempo = this.productividadForm.controls['capturaTiempo'].value == null ? 0 : this.productividadForm.controls['capturaTiempo'].value;
+    total = diasOc + diasSP + criterio + discrecional + ahorro + capturaTiempo;
+    this.productividadForm.controls['total'].setValue(total);
   }
 
 }
