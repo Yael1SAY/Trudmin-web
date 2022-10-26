@@ -16,7 +16,7 @@ import {
   ALTA_PRODUCTIVIDAD_OK,
   GET_LIST_PRODUCTIVIDADES
 } from './store/actions/gestion-productividad.actions';
-import { appProductividadState } from './store/appProductividaes.reducer';
+import { appProductividadesState } from './store/appProductividaes.reducer';
 import { PaginationModel } from 'src/app/model/paginationModel';
 import { PageEvent } from '@angular/material/paginator';
 import { ExportService } from 'src/app/services/export.service';
@@ -67,7 +67,7 @@ export class GestionProductividadComponent implements OnInit {
     public dialog: MatDialog,
     private formBuilder: FormBuilder,
     private messageService: MessageService,
-    private store: Store<appProductividadState>,
+    private store: Store<appProductividadesState>,
     private exportDataExcel: ExportService,
   ) { }
 

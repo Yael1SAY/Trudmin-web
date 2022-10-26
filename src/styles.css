@@ -61,3 +61,7 @@ body {
     background-color: dimgrey;
     width: 100%;
 }
+
+p-chart {
+    overflow-x: auto;
+   }

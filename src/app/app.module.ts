@@ -65,7 +65,8 @@ import { NuevoUsuarioModule } from './pages/nuevo-usuario/nuevo-usuario.module';
 import { UsuariosModule } from './pages/usuarios/usuarios.module';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { ProductividadModule } from './pages/gestion-productividad/productividades.module';
+import { ProductividadesModule } from './pages/gestion-productividad/productividades.module';
+import { ProductividadModule } from './pages/productividad/productividad.module';
 import { TrabajadoresModule } from './pages/trabajadores/trabajadores.module';
 //import { AuthInterceptorService } from './auth-interceptor.service';
 
@@ -103,6 +104,7 @@ const routes: Routes = [
     NuevoUsuarioModule,
     UsuariosModule,
     ProductividadModule,
+    ProductividadesModule,
     TrabajadoresModule,
     AppRoutingModule,
     HttpClientModule,

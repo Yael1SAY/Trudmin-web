@@ -6,37 +6,42 @@
             <div class="card-body">
                 <mat-tab-group mat-align-tabs="center">
                     <mat-tab label="Productividad por comprador" id="titulo">
-                        <br>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <mat-form-field appearance="fill" class="mat-form-full-width">
-                                    <mat-label>Clave de empleado</mat-label>
-                                    <mat-select (selectionChange)="actualizaComprador($event.value)" required>
-                                        <mat-option>--Seleccione--</mat-option>
-                                        <mat-option *ngFor="let empleado of catalogoClaveEmpleados"
-                                            [value]="empleado.empleadoId">
-                                            {{empleado.clave}}
-                                        </mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-                            <div class="col-md-3">
-                                <mat-form-field appearance="fill" class="mat-form-full-width">
-                                    <mat-label>Año</mat-label>
-                                    <mat-select (selectionChange)="actualizarAnio($event.value)"
-                                        [(ngModel)]="datos.anio" required>
-                                        <mat-option>--Seleccione--</mat-option>
-                                        <mat-option *ngFor="let anio of anios" [value]="anio.descripcion">
-                                            {{anio.descripcion}}
-                                        </mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-                            <!-- <div class="col-md-4">
+                        <!-- Agregar FORM -->
+                        <form [formGroup]="productividadForm">
+                            <br>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <mat-form-field appearance="fill" class="mat-form-full-width">
+                                        <mat-label>Clave de empleado</mat-label>
+                                        <mat-select required formControlName="empleadoId">
+                                            <mat-option>--Seleccione--</mat-option>
+                                            <mat-option *ngFor="let empleado of catalogoClaveEmpleados"
+                                                [value]="empleado.empleadoId">
+                                                {{empleado.clave}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field appearance="fill" class="mat-form-full-width">
+                                        <mat-label>Año</mat-label>
+                                        <mat-select required formControlName="anio">
+                                            <mat-option>--Seleccione--</mat-option>
+                                            <mat-option *ngFor="let anio of anios" [value]="anio.descripcion">
+                                                {{anio.descripcion}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <button (click)="buscar()">BUSCAR</button>
+                                </div>
+                                <!-- <div class="col-md-4">
                                       <button id="idButtonPrimary" class="mat-form-full-width" style="margin-top: 6px" mat-raised-button
                                         (click)="BuscarUusario()">Buscar</button>
                                     </div> -->
-                        </div>
+                            </div>
+                        </form>
 
                         <!-- <hr class="m-t-0 m-b-10"> -->
                         <div class="row">
@@ -45,7 +50,8 @@
                                 <div class="card" class="shadow p-3 mb-5 bg-body rounded">
                                     <p id="sub-titulo">Productividad</p>
                                     <div class="card">
-                                        <p-chart type="bar" [data]="basicData" [options]="basicOptions"></p-chart>
+                                        <p-chart type="bar" [data]="basicData" [options]="basicOptions" width="850px"
+                                            height="300px" [responsive]="false"></p-chart>
                                     </div>
                                 </div>
                             </div>
@@ -66,8 +72,7 @@
                             <div class="col-md-3">
                                 <mat-form-field appearance="fill" class="mat-form-full-width">
                                     <mat-label>Año</mat-label>
-                                    <mat-select (selectionChange)="actualizarAnio($event.value)"
-                                        [(ngModel)]="datos.anio" required>
+                                    <mat-select required>
                                         <mat-option>--Seleccione--</mat-option>
                                         <mat-option *ngFor="let anio of anios" [value]="anio.descripcion">
                                             {{anio.descripcion}}
@@ -84,7 +89,7 @@
                                     <div class="col-md-12">
                                         <mat-form-field appearance="fill" class="mat-form-full-width">
                                             <mat-label>Mes</mat-label>
-                                            <mat-select [(ngModel)]="mes" required>
+                                            <mat-select required>
                                                 <mat-option *ngFor="let mes of meses" [value]="mes">
                                                     {{mes.descripcion}}
                                                 </mat-option>
@@ -92,7 +97,8 @@
                                         </mat-form-field>
                                     </div>
                                     <div class="card">
-                                        <p-chart type="bar" [data]="basicData" [options]="basicOptions"></p-chart>
+                                        <p-chart type="bar" [data]="basicData" [options]="basicOptions" width="850px"
+                                            height="300px" [responsive]="false"></p-chart>
                                     </div>
                                 </div>
                             </div>

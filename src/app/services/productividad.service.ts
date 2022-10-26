@@ -120,4 +120,9 @@ export class ProductividadService implements HttpInterceptor {
       })
     )
   }
+
+  obtenerProductividadEficiencia(filtros: any) {
+    return this.http.get<any>(`${URL}servicio/obtenerServiciosProductividad/${filtros.filtros.empleadoId}/${filtros.filtros.anio}`,
+    { headers: this.agregarAuthorizationHeader() })
+  }
 }

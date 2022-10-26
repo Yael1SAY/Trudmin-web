@@ -1,39 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { ANIOS, MESES } from 'src/app/catalogs/catalogos';
 import { clavesEmpleado } from 'src/app/model/ClavesEmpleado';
 import { AuthService } from 'src/app/services/auth.service';
 import { CatalogosService } from 'src/app/services/catalogos.service';
 import { ProductividadService } from 'src/app/services/productividad.service';
-
-const ANIOS: any = [
-  { id: 1, descripcion: 2015 },
-  { id: 2, descripcion: 2016 },
-  { id: 3, descripcion: 2017 },
-  { id: 4, descripcion: 2018 },
-  { id: 5, descripcion: 2019 },
-  { id: 6, descripcion: 2020 },
-  { id: 7, descripcion: 2021 },
-  { id: 1, descripcion: 2022 },
-  { id: 1, descripcion: 2023 },
-  { id: 1, descripcion: 2024 },
-  { id: 1, descripcion: 2025 }
-];
-
-const MESES: any = [
-  { id: "01", descripcion: "Enero" },
-  { id: "02", descripcion: "Febrero" },
-  { id: "03", descripcion: "Marzo" },
-  { id: "04", descripcion: "Abril" },
-  { id: "05", descripcion: "Mayo" },
-  { id: "06", descripcion: "Junio" },
-  { id: "07", descripcion: "Julio" },
-  { id: "08", descripcion: "Agosto" },
-  { id: "09", descripcion: "Septiembre" },
-  { id: "10", descripcion: "Octubre" },
-  { id: "11", descripcion: "Noviembre" },
-  { id: "12", descripcion: "Diciembre" }
-];
+import { AppProductividadState } from './store/appProductividad.reducers'
+import { OBTENER_PRODUCTIVIDAD } from './store/actions/productividad.actions';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 
 @Component({
@@ -43,44 +19,84 @@ const MESES: any = [
 })
 export class ProductividadComponent implements OnInit {
 
-  usuario: any;
+  public productividadForm: FormGroup;
   basicData: any;
   basicOptions: any;
   totalData: any;
-  claveEmpleado: number;
+  // claveEmpleado: number;
   fecha = new Date().getFullYear();
   catalogoClaveEmpleados: clavesEmpleado[];
   anios: any = ANIOS;
   meses: any = MESES;
-  mes:any;
+  mes: any;
+  dataMeses: string[] = [];
+  dataOC: number[] = [];
+  dataSP: number[] = [];
 
-  public datos: any = {
-    empleadoId: "",
-    anio: ""
-  }
+  private productividad$ = this.store.select('productividad');
 
-  constructor(private authService: AuthService, private productividadServ: ProductividadService,
-    private router: Router, private catalogoService: CatalogosService, public dialog: MatDialog) { }
+  // public datos: any = {
+  //   empleadoId: "",
+  //   anio: ""
+  // }
+
+  constructor(private authService: AuthService,
+    private productividadServ: ProductividadService,
+    private router: Router,
+    private catalogoService: CatalogosService,
+    public dialog: MatDialog,
+    private store: Store<AppProductividadState>,
+    private formBuilder: FormBuilder,
+  ) { }
 
   ngOnInit(): void {
 
-    this.datos.anio = this.fecha;
+    this.initForm();
+
+    this.productividad$.subscribe(data => {
+      this.limpiarGrafica();
+      let datos: any = { ...data }
+      let dataGrafica = datos.productividad.dataProductividad.data
+      console.log('data: ', dataGrafica);
+      for (let item of dataGrafica) {
+        this.dataMeses.push(item.mes)
+        this.dataOC.push(item.totalOC)
+        this.dataSP.push(item.totalSolPed)
+      }
+      
+      this.mostrarGrafica(this.dataSP, this.dataOC);
+    })
+
+    this.productividadForm.controls['anio'].setValue(this.fecha);
     this.mes = new Date().getMonth();
     console.log("Mes actual: ", this.mes);
     this.catalogoCalveEmpleados();
 
+
+  }
+
+  private initForm() {
+    this.productividadForm = this.formBuilder.group({
+      empleadoId: [null],
+      anio: [null],
+    })
+
+
+  }
+
+  mostrarGrafica(dataGraficaSp: number[], dataGraficaOC: number[]) {
     this.basicData = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      labels: this.dataMeses,
       datasets: [
         {
           label: 'Solicitudes de pedido',
           backgroundColor: '#42A5F5',
-          data: [65, 59, 80, 81, 56, 55, 40]
+          data: dataGraficaSp
         },
         {
           label: 'Orden de compras',
           backgroundColor: '#FFA726',
-          data: [28, 48, 40, 19, 86, 27, 90]
+          data: dataGraficaOC
         }
       ]
     };
@@ -99,6 +115,12 @@ export class ProductividadComponent implements OnInit {
         }
       ]
     };
+  }
+
+  limpiarGrafica() {
+    this.dataMeses = [];
+    this.dataOC = [];
+    this.dataSP = [];
   }
 
   actualizaComprador(valor) {
@@ -129,10 +151,18 @@ export class ProductividadComponent implements OnInit {
 
   catalogoCalveEmpleados() {
     this.catalogoService.obtenerServicios().subscribe(list => {
-      console.log("Catalogo de claves de empleados: ", list);
       this.catalogoClaveEmpleados = list;
-      console.log("Catalogo de claves de empleados mapeado: ", this.catalogoClaveEmpleados);
     });
+  }
+
+
+  buscar() {
+    let filtros: any = {
+      empleadoId: this.productividadForm.controls['empleadoId'].value,
+      anio: this.productividadForm.controls['anio'].value
+    };
+
+    this.store.dispatch(OBTENER_PRODUCTIVIDAD({ filtros: filtros }))
   }
 
 }

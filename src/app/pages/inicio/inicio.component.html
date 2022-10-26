@@ -26,8 +26,8 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <button id="idButtonPrimary" class="mat-form-full-width" appearance="outline"
-                            mat-raised-button (click)="openDialogactualizarPerfil()">
+                        <button id="idButtonPrimary" class="mat-form-full-width" appearance="outline" mat-raised-button
+                            (click)="openDialogactualizarPerfil()">
                             <mat-icon>edit</mat-icon>
                             Actualizar perfil
                         </button>
@@ -48,7 +48,8 @@
         <div class="card" class="shadow p-3 mb-5 bg-body rounded">
             <p id="sub-titulo">Mi productividad</p>
             <div class="card">
-                <p-chart type="bar" [data]="basicData" [options]="basicOptions"></p-chart>
+                <p-chart type="bar" [data]="basicData" [options]="basicOptions" width="930px" height="300px"
+                    [responsive]="false"></p-chart>
             </div>
         </div>
     </div>
