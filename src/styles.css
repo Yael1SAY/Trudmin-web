@@ -3,6 +3,7 @@
 html,
 body {
     height: 100%;
+    overflow-x: hidden;
 }
 
 body {
@@ -64,4 +65,4 @@ body {
 
 p-chart {
     overflow-x: auto;
-   }
+}

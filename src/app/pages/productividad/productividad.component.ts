@@ -23,7 +23,6 @@ export class ProductividadComponent implements OnInit {
   basicData: any;
   basicOptions: any;
   totalData: any;
-  // claveEmpleado: number;
   fecha = new Date().getFullYear();
   catalogoClaveEmpleados: clavesEmpleado[];
   anios: any = ANIOS;
@@ -32,13 +31,9 @@ export class ProductividadComponent implements OnInit {
   dataMeses: string[] = [];
   dataOC: number[] = [];
   dataSP: number[] = [];
+  public showGrafic: boolean = false
 
   private productividad$ = this.store.select('productividad');
-
-  // public datos: any = {
-  //   empleadoId: "",
-  //   anio: ""
-  // }
 
   constructor(private authService: AuthService,
     private productividadServ: ProductividadService,
@@ -56,20 +51,37 @@ export class ProductividadComponent implements OnInit {
     this.productividad$.subscribe(data => {
       this.limpiarGrafica();
       let datos: any = { ...data }
-      let dataGrafica = datos.productividad.dataProductividad.data
-      console.log('data: ', dataGrafica);
-      for (let item of dataGrafica) {
-        this.dataMeses.push(item.mes)
-        this.dataOC.push(item.totalOC)
-        this.dataSP.push(item.totalSolPed)
+      let sumaOC: number = 0;
+      let sumaSP: number = 0;
+      let dataGrafica: any[] = datos.productividad.dataProductividad.data;
+      if(dataGrafica !== undefined && dataGrafica.length > 0) {
+        this.showGrafic = true;
+      } else {
+        this.showGrafic = false;
       }
-      
-      this.mostrarGrafica(this.dataSP, this.dataOC);
+      // console.log('data grafica: ', dataGrafica);
+      for (let item of dataGrafica) {
+        this.dataMeses.push(item.mes);
+        this.dataOC.push(item.totalOC);
+        this.dataSP.push(item.totalSolPed);
+        sumaOC += item.totalOC;
+        sumaSP += item.totalSolPed;
+      }
+      let promedioOC = sumaOC/(dataGrafica.length);
+      let promedioSP = sumaSP/(dataGrafica.length);
+      let redondeadoOC = Math.ceil((promedioOC)/ 5) * 5;
+      let redondeadoSP = Math.ceil((promedioSP)/ 5) * 5;
+      let array = [];
+      array.push(redondeadoOC);
+      array.push(redondeadoSP);
+      // console.log('array: ', array)
+
+      this.mostrarGrafica(this.dataSP, this.dataOC, array);
     })
 
     this.productividadForm.controls['anio'].setValue(this.fecha);
     this.mes = new Date().getMonth();
-    console.log("Mes actual: ", this.mes);
+    // console.log("Mes actual: ", this.mes);
     this.catalogoCalveEmpleados();
 
 
@@ -84,36 +96,36 @@ export class ProductividadComponent implements OnInit {
 
   }
 
-  mostrarGrafica(dataGraficaSp: number[], dataGraficaOC: number[]) {
+  mostrarGrafica(dataGraficaSp: number[], dataGraficaOC: number[], array: number[]) {
     this.basicData = {
       labels: this.dataMeses,
       datasets: [
         {
-          label: 'Solicitudes de pedido',
+          label: 'Solicitud de pedido',
           backgroundColor: '#42A5F5',
           data: dataGraficaSp
         },
         {
-          label: 'Orden de compras',
+          label: 'Orden de compra',
           backgroundColor: '#FFA726',
           data: dataGraficaOC
         }
-      ]
+      ],
     };
     this.totalData = {
-      labels: ['Documentos'],
+      labels: ['Solicitud de Pedido', 'Orden de Compra'],
       datasets: [
         {
-          label: 'Solicitudes de pedido',
+          label: 'SolPed y OC',
           backgroundColor: '#42A5F5',
-          data: [65]
+          data: array
         },
-        {
-          label: 'Orden de compras',
-          backgroundColor: '#FFA726',
-          data: [90]
-        }
-      ]
+        // {
+        //   label: 'Orden de compras',
+        //   backgroundColor: '#FFA726',
+        //   data: [arrayOC]
+        // }
+      ],
     };
   }
 

@@ -18,12 +18,13 @@ export class ProductividadService implements HttpInterceptor {
 
   private httpHeader = new HttpHeaders({ 'Content-Type': 'application/json' })
 
-  constructor(private http: HttpClient, private router: Router, private authService: AuthService) { }
+  constructor(private http: HttpClient, 
+    private router: Router, 
+    private authService: AuthService
+    ) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token: string = localStorage.getItem('token');
-    //console.log("token: ", token);
-
     let request = req;
 
     if (token) {
@@ -36,7 +37,7 @@ export class ProductividadService implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((err: HttpErrorResponse) => {
         //console.log("Error intercept: ", err);
-
+        
         if (err.status === 401) {
           this.router.navigateByUrl('/login');
         }

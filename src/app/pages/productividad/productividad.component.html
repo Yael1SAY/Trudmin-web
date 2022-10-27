@@ -4,13 +4,11 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <mat-tab-group mat-align-tabs="center">
+                <mat-tab-group mat-align-tabs="center" dynamicHeight>
                     <mat-tab label="Productividad por comprador" id="titulo">
-                        <!-- Agregar FORM -->
                         <form [formGroup]="productividadForm">
-                            <br>
-                            <div class="row">
-                                <div class="col-md-3">
+                            <div class="row" style="padding-top: 15px;">
+                                <div class="col-md-4">
                                     <mat-form-field appearance="fill" class="mat-form-full-width">
                                         <mat-label>Clave de empleado</mat-label>
                                         <mat-select required formControlName="empleadoId">
@@ -22,7 +20,7 @@
                                         </mat-select>
                                     </mat-form-field>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <mat-form-field appearance="fill" class="mat-form-full-width">
                                         <mat-label>Año</mat-label>
                                         <mat-select required formControlName="anio">
@@ -33,20 +31,16 @@
                                         </mat-select>
                                     </mat-form-field>
                                 </div>
-                                <div class="col-md-3">
-                                    <button (click)="buscar()">BUSCAR</button>
+                                <div class="col-md-4">
+                                    <button id="idButtonPrimary" class="mat-form-full-width" style="margin-top: 6px"
+                                        mat-raised-button (click)="buscar()">Buscar</button>
                                 </div>
-                                <!-- <div class="col-md-4">
-                                      <button id="idButtonPrimary" class="mat-form-full-width" style="margin-top: 6px" mat-raised-button
-                                        (click)="BuscarUusario()">Buscar</button>
-                                    </div> -->
                             </div>
                         </form>
 
-                        <!-- <hr class="m-t-0 m-b-10"> -->
-                        <div class="row">
+
+                        <div class="row" *ngIf="showGrafic">
                             <div class="col-md-8">
-                                <!-- <p id="sub-titulo">Productividad por año</p> -->
                                 <div class="card" class="shadow p-3 mb-5 bg-body rounded">
                                     <p id="sub-titulo">Productividad</p>
                                     <div class="card">
@@ -56,11 +50,11 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <!-- <p id="sub-titulo">Productividad total por año</p> -->
                                 <div class="card" class="shadow p-3 mb-5 bg-body rounded">
                                     <p id="sub-titulo">Total</p>
                                     <div class="card">
-                                        <p-chart type="bar" [data]="totalData" [options]="basicOptions"></p-chart>
+                                        <p-chart type="bar" [data]="totalData" [options]="basicOptions" width="380px">
+                                        </p-chart>
                                     </div>
                                 </div>
                             </div>
@@ -107,7 +101,8 @@
                                 <div class="card" class="shadow p-3 mb-5 bg-body rounded">
                                     <p id="sub-titulo">Total</p>
                                     <div class="card">
-                                        <p-chart type="bar" [data]="totalData" [options]="basicOptions"></p-chart>
+                                        <p-chart type="bar" [data]="totalData" [options]="basicOptions" width="380px">
+                                        </p-chart>
                                     </div>
                                 </div>
                             </div>
