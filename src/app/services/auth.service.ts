@@ -79,6 +79,7 @@ export class AuthService implements HttpInterceptor{
     let payload = this.obtenerPayload(accessToken);
     var listRol: String[] = [];
     this._usuario = new Usuario();
+    this._usuario.id = payload.id;
     this._usuario.nombre = payload.nombre;
     this._usuario.apellidoPaterno = payload.apellidoPaterno;
     this._usuario.apellidoMaterno = payload.apellidoMaterno;

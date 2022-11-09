@@ -15,14 +15,14 @@
                     </div>
                 </div>
                 <div class="row">
-                    <p style="color: darkgray;">Nombre: <b>{{usuario.nombre}} {{usuario.apellidoPaterno}}
-                            {{usuario.apellidoMaterno}}</b></p>
+                    <p style="color: darkgray;">Nombre: <strong>{{usuario.nombre}} {{usuario.apellidoPaterno}}
+                            {{usuario.apellidoMaterno}}</strong></p>
                 </div>
                 <div class="row">
-                    <p style="color: darkgray;">Usuario: <b>{{usuario.nombreUsuario}}</b></p>
+                    <p style="color: darkgray;">Usuario: <strong>{{usuario.nombreUsuario}}</strong></p>
                 </div>
                 <div class="row">
-                    <p style="color: darkgray;">E-mail: <b>{{usuario.email}}</b></p>
+                    <p style="color: darkgray;">E-mail: <strong>{{usuario.email}}</strong></p>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
@@ -48,7 +48,7 @@
         <div class="card" class="shadow p-3 mb-5 bg-body rounded">
             <p id="sub-titulo">Mi productividad</p>
             <div class="card">
-                <p-chart type="bar" [data]="basicData" [options]="basicOptions" width="930px" height="300px"
+                <p-chart type="bar" [data]="basicData" [options]="basicOptions" width="920px" height="400px"
                     [responsive]="false"></p-chart>
             </div>
         </div>
@@ -57,4 +57,4 @@
 </div>
 
 
-<!-- <app-footer></app-footer> -->
+<app-footer></app-footer>

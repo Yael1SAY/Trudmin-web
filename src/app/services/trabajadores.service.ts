@@ -10,6 +10,7 @@ import { PaginationModel } from '../model/paginationModel';
 import { GenericResponse } from '../model/generic-response';
 import { Trabajadores } from '../model/trabajadores';
 import { AltaTrabajador } from '../model/altaTrabajador';
+import { GenericResponseAlta } from '../model/genericResponseAlta';
 
 const URL = environment.url;
 
@@ -18,20 +19,20 @@ const URL = environment.url;
 })
 export class TrabajadoresService {
 
-  private httpHeader = new HttpHeaders({'Content-Type': 'application/json'})
+  private httpHeader = new HttpHeaders({ 'Content-Type': 'application/json' })
 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) { }
 
-  private agregarAuthorizationHeader(){
+  private agregarAuthorizationHeader() {
     let token = this.authService.token;
-    if(token != null){
+    if (token != null) {
       return this.httpHeader.append('Authorization', 'Bearer ' + token);
     }
     return this.httpHeader;
   }
 
-  obtenerTrabajadores(pagination: PaginationModel): Observable<GenericResponse<Trabajadores>>{
-    return this.http.get<GenericResponse<Trabajadores>>(`${URL}empleado/obtenerEmpleados/page/${pagination.page}/${pagination.size}`, {headers: this.agregarAuthorizationHeader()})
+  obtenerTrabajadores(pagination: PaginationModel): Observable<GenericResponse<Trabajadores>> {
+    return this.http.get<GenericResponse<Trabajadores>>(`${URL}empleado/obtenerEmpleados/page/${pagination.page}/${pagination.size}`, { headers: this.agregarAuthorizationHeader() })
     // .pipe(
     //   catchError(e =>{
     //     if(e.status==0){
@@ -50,6 +51,10 @@ export class TrabajadoresService {
   }
 
   altaTrabajador(trabajador: AltaTrabajador) {
-    return this.http.post<GenericResponse<Trabajadores>>(`${URL}empleado/altaEmpleado`, trabajador, {headers: this.agregarAuthorizationHeader()})
+    return this.http.post<GenericResponse<Trabajadores>>(`${URL}empleado/altaEmpleado`, trabajador, { headers: this.agregarAuthorizationHeader() })
+  }
+
+  obtenerTrabajadorPorUsuarioId(usuarioId: number) {
+    return this.http.get<GenericResponseAlta<Trabajadores>>(`${URL}empleado/obtenerEmpleadoPorUsuarioId/${usuarioId}`, { headers: this.agregarAuthorizationHeader() })
   }
 }
