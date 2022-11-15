@@ -46,9 +46,9 @@ export const _productividadReducer = createReducer(
         ...state,
         dataProductividad: { ...dataProductividad },
     })),
-    on(ALTA_PRODUCTIVIDAD_ERROR, (state, { dataError }) => ({
+    on(ALTA_PRODUCTIVIDAD_ERROR, (state, { dataProductividad }) => ({
         ...state,
-        dataError: { ...dataError },
+        dataProductividad: { ...dataProductividad },
     })),
 )
 

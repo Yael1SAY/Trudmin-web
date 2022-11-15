@@ -24,6 +24,6 @@ export const ALTA_PRODUCTIVIDAD_OK = createAction('[Gestion Productividad] Alta 
     props<{ dataProductividad: GenericResponseAlta<Productividad> }>());
 
 export const ALTA_PRODUCTIVIDAD_ERROR = createAction('[Gestion Productividad] Alta de nueva productividad success',
-    props<{ dataError: GenericResponseError }>());
+    props<{ dataProductividad: GenericResponseAlta<Productividad> }>());
 
 /**-------------------------------------------------------------------------------------------------------------------------- */

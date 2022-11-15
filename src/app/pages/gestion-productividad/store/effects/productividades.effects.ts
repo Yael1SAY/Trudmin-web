@@ -1,7 +1,7 @@
 import { DataSource } from "@angular/cdk/collections";
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { map, mergeMap, tap } from "rxjs";
+import { catchError, map, mergeMap, of, tap } from "rxjs";
 import { ProductividadService } from "src/app/services/productividad.service";
 import { 
     ALTA_PRODUCTIVIDAD,
@@ -42,6 +42,9 @@ export class ProductividadesEffects {
                         map((data) => {
                             return ALTA_PRODUCTIVIDAD_OK({dataProductividad: data})
                         }),
+                        catchError((error) =>
+                        of(ALTA_PRODUCTIVIDAD_ERROR({ dataProductividad: error.error }))
+                        )
                     )
             )
         )

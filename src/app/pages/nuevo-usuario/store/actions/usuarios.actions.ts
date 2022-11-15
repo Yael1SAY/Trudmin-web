@@ -1,5 +1,4 @@
 import { createAction, props } from "@ngrx/store";
-import { GenericResponseError } from "src/app/model/generic-response-error";
 import { GenericResponseAlta } from "src/app/model/genericResponseAlta";
 import { Usuario } from "../../../../model/usuario"
 

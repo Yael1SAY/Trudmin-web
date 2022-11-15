@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -11,17 +11,14 @@ import { CatalogosService } from 'src/app/services/catalogos.service';
 import { ProductividadService } from 'src/app/services/productividad.service';
 import Swal from 'sweetalert2';
 import { EditarProductividadComponent } from '../editar-productividad/editar-productividad.component';
-import {
-  ALTA_PRODUCTIVIDAD,
-  ALTA_PRODUCTIVIDAD_OK,
-  GET_LIST_PRODUCTIVIDADES
-} from './store/actions/gestion-productividad.actions';
+import { GET_LIST_PRODUCTIVIDADES } from './store/actions/gestion-productividad.actions';
 import { appProductividadesState } from './store/appProductividaes.reducer';
 import { PaginationModel } from 'src/app/model/paginationModel';
 import { PageEvent } from '@angular/material/paginator';
 import { ExportService } from 'src/app/services/export.service';
 import { Subscription } from 'rxjs';
-import { ANIOS, BONOS_GENERICO, MESES, PORCENTAJES_OC_SP } from '../../catalogs/catalogos'
+import { ANIOS } from '../../catalogs/catalogos'
+import { NuevaProductividadComponent } from './nueva-productividad/nueva-productividad.component';
 
 
 
@@ -35,20 +32,13 @@ export class GestionProductividadComponent implements OnInit {
 
   public productividadForm: FormGroup;
   private listaProductividades$ = this.store.select('listProductividades');
-  private altaProductividad$ = this.store.select('altaProductividades');
 
   private listaProdSubscription: Subscription;
-  private altaProdSubscription: Subscription;
 
   catalogoClaveEmpleados: clavesEmpleado[];
   fecha = new Date().getFullYear();
-  claveEmpleado: number;
-  periodos: any;
-  meses: any = MESES;
+  // claveEmpleado: number;
   anios: any = ANIOS;
-  porcentajes: any = PORCENTAJES_OC_SP;
-  bonos: any = BONOS_GENERICO;
-  mes: any;
   servicios: Productividad[];
 
 
@@ -99,56 +89,9 @@ export class GestionProductividadComponent implements OnInit {
   private initForm() {
     this.productividadForm = this.formBuilder.group({
       empleado: [null, Validators.required],
-      mes: [null, Validators.required],
       anio: [null, Validators.required],
-      periodo: [null, Validators.required],
-      totalSolPed: [null, Validators.required],
-      totalOC: [null, Validators.required],
-      diasOc: [null],
-      diasSP: [null],
-      criterio: [null, Validators.required],
-      discrecional: [null, Validators.required],
-      ahorro: [null, Validators.required],
-      capturaTiempo: [null, Validators.required],
-      total: [null]
     })
-
-
   }
-
-  llamarMetodoBuscarServicios() {
-    // this.page = 0;
-    // this.pageSize = 40;
-    //this.BuscarServicios()
-  }
-
-  actualizaComprador(valor) {
-    // if (valor != undefined) {
-    //   this.productividadForm.controls['empleadoId'].setValue(valor);
-    //   this.productividadServ.obtenerServicios(valor, this.fecha).subscribe(servicios => {
-    //     this.servicios = servicios;
-    //   });
-    // } else {
-    //   this.servicios = [];
-    // }
-  }
-
-  actualizarAnio(valor: any) {
-    // console.log("descripcion anio: ", valor);
-    // if (valor != undefined) {
-    //   this.fecha = valor;
-    //   if (this.claveEmpleado != undefined) {
-    //     this.productividadServ.obtenerServicios(this.claveEmpleado, this.fecha).subscribe(servicios => {
-    //       this.servicios = servicios;
-    //     });
-    //   }
-    // } else {
-    //   this.fecha = new Date().getFullYear();
-    //   this.actualizaComprador(this.claveEmpleado);
-    // }
-
-  }
-
 
   catalogoCalveEmpleados() {
     this.catalogoService.obtenerServicios().subscribe(list => {
@@ -156,42 +99,29 @@ export class GestionProductividadComponent implements OnInit {
     });
   }
 
-  guardarRegistro() {
-    let productividad: Productividad = { ...this.productividadForm.value };
-
-    productividad.periodo = this.productividadForm.controls['mes'].value.id + '-' +
-      this.productividadForm.controls['anio'].value;
-    productividad.mes = this.productividadForm.controls['mes'].value.descripcion;
-    productividad.empleadoId = this.productividadForm.controls['empleado'].value.empleadoId
-
-    this.store.dispatch(ALTA_PRODUCTIVIDAD({ productividad: productividad }));
-
-    this.altaProdSubscription = this.altaProductividad$.subscribe(data => {
-      console.log("Data: ", data);
-      if (data.dataProductividad.status === 200) {
-        this.messageService.add({ severity: 'success', summary: 'OK', detail: data.dataProductividad.message! });
-      } else {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: data.error!.message });
-      }
-      this.altaProdSubscription.unsubscribe();
-    })
-  }
-
-  // ngOnDestroy(): void {
-  //   this.altaProdSubscription.unsubscribe();
-  //   this.listaProdSubscription.unsubscribe();
-  // }
-
   openDialogEditarRegistro(servicioId: number) {
     console.log('abriendo modal actualizar registro de productividad');
-    const dialogRef = this.dialog.open(EditarProductividadComponent, {
+    const dialogRefEdit = this.dialog.open(EditarProductividadComponent, {
       data: { id: servicioId }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRefEdit.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
   }
+
+  openDialogAltaRegistro() {
+    console.log('abriendo modal nuevo registro de productividad');
+    const dialogRefAlta = this.dialog.open(NuevaProductividadComponent, {
+      data: {}
+    });
+
+    dialogRefAlta.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this.store.dispatch(GET_LIST_PRODUCTIVIDADES({ pagination: this.pagination }));
+    });
+  }
+
 
   eliminarRegistro(servicioId: number) {
     console.log("ServicioId: ", servicioId);
@@ -217,14 +147,7 @@ export class GestionProductividadComponent implements OnInit {
     this.step = index;
   }
 
-  // nextStep() {
-  //   this.step++;
-  // }
-  // prevStep() {
-  //   this.step--;
-  // }
-
-  getPaginatorData(event) {
+  getPaginatorData(event: any) {
     this.pagination = {
       page: event.pageIndex,
       size: event.pageSize,
@@ -240,48 +163,8 @@ export class GestionProductividadComponent implements OnInit {
     this.exportDataExcel.exportAsExcelFile(this.servicios, 'Lista_servicios');
   }
 
-  public selectSP(event) {
-    this.productividadForm.controls['diasSP'].setValue(this.bonosPorProductividad(event));
-    this.sumaTotal();
-  }
-
-  public selectOC(event) {
-    this.productividadForm.controls['diasOc'].setValue(this.bonosPorProductividad(event))
-    this.sumaTotal();
-  }
-
-  private bonosPorProductividad(porcentaje: number): number {
-    let total: number = 0;
-    switch (true) {
-      case (porcentaje < 60):
-        total = 0;
-        break
-      case (porcentaje < 70):
-        total = 1
-        break
-      case (porcentaje < 80):
-        total = 2
-        break
-      case (porcentaje < 90):
-        total = 3
-        break
-      case (porcentaje <= 100):
-        total = 4
-        break
-    }
-    return total
-  }
-
-  public sumaTotal(): void {
-    let total: number = 0;
-    let diasOc = this.productividadForm.controls['diasOc'].value == null ? 0 : this.productividadForm.controls['diasOc'].value; 
-    let diasSP = this.productividadForm.controls['diasSP'].value == null ? 0 : this.productividadForm.controls['diasSP'].value;
-    let criterio = this.productividadForm.controls['criterio'].value == null ? 0 : this.productividadForm.controls['criterio'].value;
-    let discrecional = this.productividadForm.controls['discrecional'].value == null ? 0 : this.productividadForm.controls['discrecional'].value;
-    let ahorro = this.productividadForm.controls['ahorro'].value == null ? 0 : this.productividadForm.controls['ahorro'].value;
-    let capturaTiempo = this.productividadForm.controls['capturaTiempo'].value == null ? 0 : this.productividadForm.controls['capturaTiempo'].value;
-    total = diasOc + diasSP + criterio + discrecional + ahorro + capturaTiempo;
-    this.productividadForm.controls['total'].setValue(total);
+  buscar() {
+    console.log('Buscar registros');
   }
 
 }

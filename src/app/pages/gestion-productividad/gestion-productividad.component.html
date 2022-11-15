@@ -5,14 +5,12 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <p id="sub-titulo">Nuevo Registro</p>
                 <form [formGroup]="productividadForm">
                     <div class="row">
                         <div class="col-md-4">
                             <mat-form-field appearance="fill" class="mat-form-full-width">
                                 <mat-label>Clave de empleado</mat-label>
-                                <mat-select (selectionChange)="actualizaComprador($event.value)"
-                                    formControlName="empleado" required>
+                                <mat-select formControlName="empleado" required>
                                     <mat-option>--Seleccione--</mat-option>
                                     <mat-option *ngFor="let empleado of catalogoClaveEmpleados" [value]="empleado">
                                         {{empleado.clave}}
@@ -23,7 +21,7 @@
                         <div class="col-md-4">
                             <mat-form-field appearance="fill" class="mat-form-full-width">
                                 <mat-label>Año</mat-label>
-                                <mat-select (selectionChange)="actualizarAnio($event.value)" formControlName="anio"
+                                <mat-select formControlName="anio"
                                     required>
                                     <mat-option>--Seleccione--</mat-option>
                                     <mat-option *ngFor="let anio of anios" [value]="anio.descripcion">
@@ -32,121 +30,19 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
-
                         <div class="col-md-4">
-                            <mat-form-field appearance="fill" class="mat-form-full-width">
-                                <mat-label>Mes</mat-label>
-                                <mat-select formControlName="mes" required>
-                                    <mat-option *ngFor="let mes of meses" [value]="mes">
-                                        {{mes.descripcion}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4">
-                            <mat-form-field appearance="fill" class="mat-form-full-width">
-                                <mat-label>Criterio</mat-label>
-                                <mat-select formControlName="criterio" required (selectionChange)='sumaTotal()'>
-                                    <mat-option *ngFor="let bono of bonos" [value]="bono.descripcion">
-                                        {{bono.descripcion}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-md-4">
-                            <mat-form-field appearance="fill" class="mat-form-full-width">
-                                <mat-label>Solicitud de pedido %</mat-label>
-                                <mat-select formControlName="totalSolPed" required (selectionChange)="selectSP($event.value)">
-                                    <mat-option *ngFor="let porcentaje of porcentajes" [value]="porcentaje.descripcion">
-                                        {{porcentaje.descripcion}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-md-4">
-                            <mat-form-field appearance="fill" class="mat-form-full-width">
-                                <mat-label>Orden de compra %</mat-label>
-                                <mat-select formControlName="totalOC" required (selectionChange)="selectOC($event.value)">
-                                    <mat-option *ngFor="let porcentaje of porcentajes" [value]="porcentaje.descripcion">
-                                        {{porcentaje.descripcion}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div style="font-size: 12px">
-                                <mat-form-field class="mat-form-full-width" appearance="outline">
-                                    <mat-label>Dias OC</mat-label>
-                                    <input matInput formControlName="diasOc" type="number" readonly>
-                                    <mat-icon matSuffix></mat-icon>
-                                </mat-form-field>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div style="font-size: 12px">
-                                <mat-form-field class="mat-form-full-width" appearance="outline">
-                                    <mat-label>Dias SP</mat-label>
-                                    <input matInput formControlName="diasSP" type="number" readonly>
-                                    <mat-icon matSuffix></mat-icon>
-                                </mat-form-field>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <mat-form-field appearance="fill" class="mat-form-full-width">
-                                <mat-label>Discrecional</mat-label>
-                                <mat-select formControlName="discrecional" required (selectionChange)='sumaTotal()'>
-                                    <mat-option *ngFor="let bono of bonos" [value]="bono.descripcion">
-                                        {{bono.descripcion}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <mat-form-field appearance="fill" class="mat-form-full-width">
-                                <mat-label>Ahorro</mat-label>
-                                <mat-select formControlName="ahorro" required (selectionChange)='sumaTotal()'>
-                                    <mat-option *ngFor="let bono of bonos" [value]="bono.descripcion">
-                                        {{bono.descripcion}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-md-4">
-                            <mat-form-field appearance="fill" class="mat-form-full-width">
-                                <mat-label>Captura a timepo</mat-label>
-                                <mat-select formControlName="capturaTiempo" required (selectionChange)='sumaTotal()'>
-                                    <mat-option *ngFor="let bono of bonos" [value]="bono.descripcion">
-                                        {{bono.descripcion}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-md-4">
-                            <div style="font-size: 12px">
-                                <mat-form-field class="mat-form-full-width" appearance="outline">
-                                    <mat-label>Total</mat-label>
-                                    <input matInput formControlName="total" type="number" readonly>
-                                    <mat-icon matSuffix></mat-icon>
-                                </mat-form-field>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-9"></div>
-                        <div class="col-md-3">
                             <button id="idButtonPrimary" class="mat-form-full-width" style="margin-top: 6px"
-                                mat-raised-button (click)="guardarRegistro()">GUARDAR</button>
+                                mat-raised-button (click)="buscar()">BUSCAR</button>
+                        </div>
+
+                    </div>
+
+                    <hr class="m-t-0 m-b-10">
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <button id="idButtonPrimary" class="mat-form-full-width" style="margin-top: 6px"
+                                mat-raised-button (click)="openDialogAltaRegistro()">NUEVO</button>
                         </div>
                     </div>
                 </form>
@@ -260,17 +156,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- <mat-action-row>
-                                    <button id="idButtonTableCss" mat-button color="warn" (click)="prevStep()">
-                                        <i class="mdi mdi-chevron-double-left"></i>
-                                        Anterior
-                                    </button>
-                                    <button id="idButtonTableCss" mat-button color="warn" (click)="nextStep()">
-                                        Siguiente
-                                        <i class="mdi mdi-chevron-double-right"></i>
-                                    </button>
-                                </mat-action-row> -->
                             </mat-expansion-panel>
                         </div>
                     </mat-accordion>
