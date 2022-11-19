@@ -8,7 +8,7 @@ import {
     ALTA_PRODUCTIVIDAD,
     ALTA_PRODUCTIVIDAD_OK,
     ALTA_PRODUCTIVIDAD_ERROR,
-    GET_LIST_PRODUCTIVIDADES, GET_LIST_PRODUCTIVIDADES_SUCCESS
+    GET_LIST_PRODUCTIVIDADES, GET_LIST_PRODUCTIVIDADES_SUCCESS, GET_LIST_PRODUCTIVIDADES_ERROR
 } from "../actions/gestion-productividad.actions";
 
 
@@ -35,6 +35,10 @@ export const _productividadReducer = createReducer(
         pagination: {...pagination}
     })),
     on(GET_LIST_PRODUCTIVIDADES_SUCCESS, (state, { productividadesResponse }) => ({
+        ...state,
+        dataGet: { ...productividadesResponse },
+    })),
+    on(GET_LIST_PRODUCTIVIDADES_ERROR, (state, { productividadesResponse }) => ({
         ...state,
         dataGet: { ...productividadesResponse },
     })),

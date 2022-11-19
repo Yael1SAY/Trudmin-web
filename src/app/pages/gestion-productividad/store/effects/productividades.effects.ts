@@ -8,7 +8,7 @@ import {
     ALTA_PRODUCTIVIDAD_OK,
     ALTA_PRODUCTIVIDAD_ERROR,
     // altaProductividad, altaProductividadSuccess, 
-    GET_LIST_PRODUCTIVIDADES, GET_LIST_PRODUCTIVIDADES_SUCCESS } from "../actions/gestion-productividad.actions";
+    GET_LIST_PRODUCTIVIDADES, GET_LIST_PRODUCTIVIDADES_SUCCESS, GET_LIST_PRODUCTIVIDADES_ERROR } from "../actions/gestion-productividad.actions";
 
 @Injectable()
 export class ProductividadesEffects {
@@ -22,11 +22,14 @@ export class ProductividadesEffects {
             ofType(GET_LIST_PRODUCTIVIDADES),
             tap(data => console.log('effect getProductividades', data)),
             mergeMap(
-                (data) => this.productividadServices.obtenerProductividadesPage(data.pagination)
+                (data) => this.productividadServices.obtenerProductividadesPage(data.pagination, data.clave, data.anio)
                     .pipe(
                         map((data) => {
                             return GET_LIST_PRODUCTIVIDADES_SUCCESS({productividadesResponse: data})
                         }),
+                        catchError((error) =>
+                        of(GET_LIST_PRODUCTIVIDADES_ERROR({productividadesResponse: error.error}))
+                        )
                     )
             )
         )

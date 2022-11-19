@@ -75,15 +75,18 @@ export class GestionProductividadComponent implements OnInit {
     this.initForm();
 
     this.listaProdSubscription = this.listaProductividades$.subscribe(resp => {
+      this.messageService.clear();
+      if (resp.dataGet.status !== 200 && resp.dataGet.status !== undefined) {
+        this.messageService.add({ severity: 'warn', summary: 'Error', detail: resp.dataGet.error });
+      }
       this.servicios = resp.dataGet.content;
       this.length = resp.dataGet.totalElements;
 
     })
 
+
     this.catalogoCalveEmpleados();
     this.productividadForm.controls['anio'].setValue(this.fecha);
-    this.store.dispatch(GET_LIST_PRODUCTIVIDADES({ pagination: this.pagination }));
-
   }
 
   private initForm() {
@@ -118,7 +121,7 @@ export class GestionProductividadComponent implements OnInit {
 
     dialogRefAlta.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      this.store.dispatch(GET_LIST_PRODUCTIVIDADES({ pagination: this.pagination }));
+      this.store.dispatch(GET_LIST_PRODUCTIVIDADES({ pagination: this.pagination, clave: this.obtenerFiltros().empleado, anio: this.obtenerFiltros().anio }));
     });
   }
 
@@ -152,7 +155,7 @@ export class GestionProductividadComponent implements OnInit {
       page: event.pageIndex,
       size: event.pageSize,
     }
-    this.store.dispatch(GET_LIST_PRODUCTIVIDADES({ pagination: this.pagination }));
+    this.store.dispatch(GET_LIST_PRODUCTIVIDADES({ pagination: this.pagination, clave: this.obtenerFiltros().empleado, anio: this.obtenerFiltros().anio }));
 
     return event;
 
@@ -164,7 +167,14 @@ export class GestionProductividadComponent implements OnInit {
   }
 
   buscar() {
-    console.log('Buscar registros');
+    this.store.dispatch(GET_LIST_PRODUCTIVIDADES({ pagination: this.pagination, clave: this.obtenerFiltros().empleado, anio: this.obtenerFiltros().anio }));
+
+  }
+
+  obtenerFiltros() {
+    const EMPLEADO = this.productividadForm.controls['empleado'].value;
+    const ANIO = this.productividadForm.controls['anio'].value;
+    return { empleado: EMPLEADO.clave, anio: ANIO }
   }
 
 }
