@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import {ToastModule} from 'primeng/toast';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import {ToastModule} from 'primeng/toast';
     MatButtonModule,
     MatSelectModule,
     ToastModule,
+    MatDialogModule,
     StoreModule.forFeature('listProductividades', APP_PRODUCTIVIDADES_REDUCER.listProductividades),
     StoreModule.forFeature('altaProductividades', APP_PRODUCTIVIDADES_REDUCER.altaProductividades),
 

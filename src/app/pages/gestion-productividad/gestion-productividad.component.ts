@@ -114,13 +114,13 @@ export class GestionProductividadComponent implements OnInit {
   }
 
   openDialogAltaRegistro() {
-    console.log('abriendo modal nuevo registro de productividad');
     const dialogRefAlta = this.dialog.open(NuevaProductividadComponent, {
-      data: {}
+      data: {},
+      width: '900px',
     });
+    
 
     dialogRefAlta.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
       this.store.dispatch(GET_LIST_PRODUCTIVIDADES({ pagination: this.pagination, clave: this.obtenerFiltros().empleado, anio: this.obtenerFiltros().anio }));
     });
   }

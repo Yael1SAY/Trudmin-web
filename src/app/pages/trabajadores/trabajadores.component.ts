@@ -116,10 +116,8 @@ export class TrabajadoresComponent implements OnInit {
   }
 
   altaTrabajadorDialog() {
-
     const dialogRef = this.dialog.open(AltaTrabajadorComponent, {
-       width: '900px',
-      // data: { name: this.name, animal: this.animal },
+       width: '900px'
     });
 
     dialogRef.afterClosed().subscribe(result => {

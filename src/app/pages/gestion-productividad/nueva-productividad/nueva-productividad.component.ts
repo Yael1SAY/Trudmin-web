@@ -22,21 +22,17 @@ import { appProductividadesState } from '../store/appProductividaes.reducer';
 export class NuevaProductividadComponent implements OnInit {
 
   public productividadForm: FormGroup;
-  catalogoClaveEmpleados: clavesEmpleado[];
-  fecha = new Date().getFullYear();
-  claveEmpleado: number;
-  periodos: any;
-  meses: any = MESES;
-  anios: any = ANIOS;
-  porcentajes: any = PORCENTAJES_OC_SP;
-  bonos: any = BONOS_GENERICO;
-  mes: any;
+  public catalogoClaveEmpleados: clavesEmpleado[];
+  private fecha = new Date().getFullYear();
+  public meses: any = MESES;
+  public anios: any = ANIOS;
+  public porcentajes: any = PORCENTAJES_OC_SP;
+  public bonos: any = BONOS_GENERICO;
 
   private altaProductividad$ = this.store.select('altaProductividades');
-
   private altaProdSubscription: Subscription;
 
-  constructor(    
+  constructor(
     private authService: AuthService,
     private router: Router,
     public dialog: MatDialog,
@@ -89,6 +85,7 @@ export class NuevaProductividadComponent implements OnInit {
     this.store.dispatch(ALTA_PRODUCTIVIDAD({ productividad: productividad }));
 
     this.altaProdSubscription = this.altaProductividad$.subscribe(data => {
+      this.messageService.clear();
       if (data.dataProductividad.status === 200) {
         this.messageService.add({ severity: 'success', summary: 'OK', detail: data.dataProductividad.message });
       } else {
@@ -98,12 +95,12 @@ export class NuevaProductividadComponent implements OnInit {
     })
   }
 
-  public selectSP(event) {
+  public selectSP(event: any) {
     this.productividadForm.controls['diasSP'].setValue(this.bonosPorProductividad(event));
     this.sumaTotal();
   }
 
-  public selectOC(event) {
+  public selectOC(event: any) {
     this.productividadForm.controls['diasOc'].setValue(this.bonosPorProductividad(event))
     this.sumaTotal();
   }
@@ -129,7 +126,7 @@ export class NuevaProductividadComponent implements OnInit {
 
   public sumaTotal(): void {
     let total: number = 0;
-    let diasOc = this.productividadForm.controls['diasOc'].value == null ? 0 : this.productividadForm.controls['diasOc'].value; 
+    let diasOc = this.productividadForm.controls['diasOc'].value == null ? 0 : this.productividadForm.controls['diasOc'].value;
     let diasSP = this.productividadForm.controls['diasSP'].value == null ? 0 : this.productividadForm.controls['diasSP'].value;
     let criterio = this.productividadForm.controls['criterio'].value == null ? 0 : this.productividadForm.controls['criterio'].value;
     let discrecional = this.productividadForm.controls['discrecional'].value == null ? 0 : this.productividadForm.controls['discrecional'].value;

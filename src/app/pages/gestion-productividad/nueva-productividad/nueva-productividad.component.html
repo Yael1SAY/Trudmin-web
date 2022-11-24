@@ -1,144 +1,149 @@
 <p-toast></p-toast>
-<p id="sub-titulo">Nuevo Registro</p>
+<h1 mat-dialog-title id="sub-titulo">Nuevo Registro</h1>
 <form [formGroup]="productividadForm">
-    <div class="row">
-        <div class="col-md-4">
-            <mat-form-field appearance="fill" class="mat-form-full-width">
-                <mat-label>Clave de empleado</mat-label>
-                <mat-select formControlName="empleado" required>
-                    <mat-option>--Seleccione--</mat-option>
-                    <mat-option *ngFor="let empleado of catalogoClaveEmpleados" [value]="empleado">
-                        {{empleado.clave}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-        <div class="col-md-4">
-            <mat-form-field appearance="fill" class="mat-form-full-width">
-                <mat-label>Año</mat-label>
-                <mat-select formControlName="anio" required>
-                    <mat-option>--Seleccione--</mat-option>
-                    <mat-option *ngFor="let anio of anios" [value]="anio.descripcion">
-                        {{anio.descripcion}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-
-        <div class="col-md-4">
-            <mat-form-field appearance="fill" class="mat-form-full-width">
-                <mat-label>Mes</mat-label>
-                <mat-select formControlName="mes" required>
-                    <mat-option *ngFor="let mes of meses" [value]="mes">
-                        {{mes.descripcion}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-
-    </div>
-
-    <div class="row">
-        <div class="col-md-4">
-            <mat-form-field appearance="fill" class="mat-form-full-width">
-                <mat-label>Criterio</mat-label>
-                <mat-select formControlName="criterio" required (selectionChange)='sumaTotal()'>
-                    <mat-option *ngFor="let bono of bonos" [value]="bono.descripcion">
-                        {{bono.descripcion}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-        <div class="col-md-4">
-            <mat-form-field appearance="fill" class="mat-form-full-width">
-                <mat-label>Solicitud de pedido %</mat-label>
-                <mat-select formControlName="totalSolPed" required (selectionChange)="selectSP($event.value)">
-                    <mat-option *ngFor="let porcentaje of porcentajes" [value]="porcentaje.descripcion">
-                        {{porcentaje.descripcion}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-        <div class="col-md-4">
-            <mat-form-field appearance="fill" class="mat-form-full-width">
-                <mat-label>Orden de compra %</mat-label>
-                <mat-select formControlName="totalOC" required (selectionChange)="selectOC($event.value)">
-                    <mat-option *ngFor="let porcentaje of porcentajes" [value]="porcentaje.descripcion">
-                        {{porcentaje.descripcion}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-
-    </div>
-
-    <div class="row">
-        <div class="col-md-4">
-            <div style="font-size: 12px">
-                <mat-form-field class="mat-form-full-width" appearance="outline">
-                    <mat-label>Dias OC</mat-label>
-                    <input matInput formControlName="diasOc" type="number" readonly>
-                    <mat-icon matSuffix></mat-icon>
+    <div mat-dialog-content>
+        <div class="row">
+            <div class="col-md-4">
+                <mat-form-field appearance="fill" class="mat-form-full-width">
+                    <mat-label>Clave de empleado</mat-label>
+                    <mat-select formControlName="empleado" required>
+                        <mat-option>--Seleccione--</mat-option>
+                        <mat-option *ngFor="let empleado of catalogoClaveEmpleados" [value]="empleado">
+                            {{empleado.clave}}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div style="font-size: 12px">
-                <mat-form-field class="mat-form-full-width" appearance="outline">
-                    <mat-label>Dias SP</mat-label>
-                    <input matInput formControlName="diasSP" type="number" readonly>
-                    <mat-icon matSuffix></mat-icon>
+            <div class="col-md-4">
+                <mat-form-field appearance="fill" class="mat-form-full-width">
+                    <mat-label>Año</mat-label>
+                    <mat-select formControlName="anio" required>
+                        <mat-option>--Seleccione--</mat-option>
+                        <mat-option *ngFor="let anio of anios" [value]="anio.descripcion">
+                            {{anio.descripcion}}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
             </div>
-        </div>
-        <div class="col-md-4">
-            <mat-form-field appearance="fill" class="mat-form-full-width">
-                <mat-label>Discrecional</mat-label>
-                <mat-select formControlName="discrecional" required (selectionChange)='sumaTotal()'>
-                    <mat-option *ngFor="let bono of bonos" [value]="bono.descripcion">
-                        {{bono.descripcion}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
+
+            <div class="col-md-4">
+                <mat-form-field appearance="fill" class="mat-form-full-width">
+                    <mat-label>Mes</mat-label>
+                    <mat-select formControlName="mes" required>
+                        <mat-option *ngFor="let mes of meses" [value]="mes">
+                            {{mes.descripcion}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
         </div>
 
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            <mat-form-field appearance="fill" class="mat-form-full-width">
-                <mat-label>Ahorro</mat-label>
-                <mat-select formControlName="ahorro" required (selectionChange)='sumaTotal()'>
-                    <mat-option *ngFor="let bono of bonos" [value]="bono.descripcion">
-                        {{bono.descripcion}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-        <div class="col-md-4">
-            <mat-form-field appearance="fill" class="mat-form-full-width">
-                <mat-label>Captura a timepo</mat-label>
-                <mat-select formControlName="capturaTiempo" required (selectionChange)='sumaTotal()'>
-                    <mat-option *ngFor="let bono of bonos" [value]="bono.descripcion">
-                        {{bono.descripcion}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-        <div class="col-md-4">
-            <div style="font-size: 12px">
-                <mat-form-field class="mat-form-full-width" appearance="outline">
-                    <mat-label>Total</mat-label>
-                    <input matInput formControlName="total" type="number" readonly>
-                    <mat-icon matSuffix></mat-icon>
+        <div class="row">
+            <div class="col-md-4">
+                <mat-form-field appearance="fill" class="mat-form-full-width">
+                    <mat-label>Criterio</mat-label>
+                    <mat-select formControlName="criterio" required (selectionChange)='sumaTotal()'>
+                        <mat-option *ngFor="let bono of bonos" [value]="bono.descripcion">
+                            {{bono.descripcion}}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field appearance="fill" class="mat-form-full-width">
+                    <mat-label>Solicitud de pedido %</mat-label>
+                    <mat-select formControlName="totalSolPed" required (selectionChange)="selectSP($event.value)">
+                        <mat-option *ngFor="let porcentaje of porcentajes" [value]="porcentaje.descripcion">
+                            {{porcentaje.descripcion}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field appearance="fill" class="mat-form-full-width">
+                    <mat-label>Orden de compra %</mat-label>
+                    <mat-select formControlName="totalOC" required (selectionChange)="selectOC($event.value)">
+                        <mat-option *ngFor="let porcentaje of porcentajes" [value]="porcentaje.descripcion">
+                            {{porcentaje.descripcion}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div style="font-size: 12px">
+                    <mat-form-field class="mat-form-full-width" appearance="outline">
+                        <mat-label>Dias OC</mat-label>
+                        <input matInput formControlName="diasOc" type="number" readonly>
+                        <mat-icon matSuffix></mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div style="font-size: 12px">
+                    <mat-form-field class="mat-form-full-width" appearance="outline">
+                        <mat-label>Dias SP</mat-label>
+                        <input matInput formControlName="diasSP" type="number" readonly>
+                        <mat-icon matSuffix></mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field appearance="fill" class="mat-form-full-width">
+                    <mat-label>Discrecional</mat-label>
+                    <mat-select formControlName="discrecional" required (selectionChange)='sumaTotal()'>
+                        <mat-option *ngFor="let bono of bonos" [value]="bono.descripcion">
+                            {{bono.descripcion}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <mat-form-field appearance="fill" class="mat-form-full-width">
+                    <mat-label>Ahorro</mat-label>
+                    <mat-select formControlName="ahorro" required (selectionChange)='sumaTotal()'>
+                        <mat-option *ngFor="let bono of bonos" [value]="bono.descripcion">
+                            {{bono.descripcion}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field appearance="fill" class="mat-form-full-width">
+                    <mat-label>Captura a timepo</mat-label>
+                    <mat-select formControlName="capturaTiempo" required (selectionChange)='sumaTotal()'>
+                        <mat-option *ngFor="let bono of bonos" [value]="bono.descripcion">
+                            {{bono.descripcion}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <div style="font-size: 12px">
+                    <mat-form-field class="mat-form-full-width" appearance="outline">
+                        <mat-label>Total</mat-label>
+                        <input matInput formControlName="total" type="number" readonly>
+                        <mat-icon matSuffix></mat-icon>
+                    </mat-form-field>
+                </div>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-9"></div>
-        <div class="col-md-3">
+    <div mat-dialog-actions class="row">
+        <div class="col-md-6">
             <button id="idButtonPrimary" class="mat-form-full-width" style="margin-top: 6px" mat-raised-button
                 (click)="guardarRegistro()">GUARDAR</button>
+        </div>
+        <div class="col-md-6">
+            <button id="idButtonCancel" class="mat-form-full-width" style="margin-top: 6px" mat-button
+                mat-dialog-close>CERRAR</button>
         </div>
     </div>
 </form>
