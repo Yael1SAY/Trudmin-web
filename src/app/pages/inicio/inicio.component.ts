@@ -142,7 +142,8 @@ export class InicioComponent implements OnInit {
 
   openDialogMisBonos() {
     const dialogRef = this.dialog.open(MisBonosComponent, {
-      data: {}
+      data: {empleadoId: this.trabajador.empleadoId},
+      width: '900px'
     });
 
     dialogRef.afterClosed().subscribe(result => {

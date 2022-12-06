@@ -1,1 +1,123 @@
-<p>mis-bonos works!</p>
+<h2 mat-dialog-title id="titulo">Mis Bonos</h2>
+
+<mat-dialog-content class="mat-typography">
+    <div class="card">
+        <form [formGroup]="filterForm">
+            <mat-tab-group animationDuration="1000ms">
+                <mat-tab label="Tabla">
+                    <div class="row" style="padding-top: 15px;">
+                        <div class="col-md-8">
+                            <mat-form-field appearance="fill" class="mat-form-full-width">
+                                <mat-label>Año</mat-label>
+                                <mat-select formControlName="anio">
+                                    <mat-option>--Seleccione--</mat-option>
+                                    <mat-option *ngFor="let anio of anios" [value]="anio.descripcion">
+                                        {{anio.descripcion}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <button id="idButtonPrimary" class="mat-form-full-width" style="margin-top: 6px"
+                                mat-raised-button (click)="buscar()">Buscar</button>
+                        </div>
+                    </div>
+                    <hr class="m-t-0 m-b-10">
+                    <div class="row">
+                        <mat-accordion class="example-headers-align">
+                            <mat-expansion-panel disabled>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        <div class="col-md-3" id="idTextBody">
+                                            Mes
+                                        </div>
+                                        <div class="col-md-3" id="idTextBody">
+                                            Periodo
+                                        </div>
+                                        <div class="col-md-3" id="idTextBody">
+                                            Anio
+                                        </div>
+                                        <div class="col-md-3" id="idTextBody">
+                                            Total de bonos
+                                        </div>
+
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+                            </mat-expansion-panel>
+
+                            <div *ngFor="let bonos of bonos; let i= index;">
+                                <mat-expansion-panel (opened)="setStep(i)">
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            <div class="col-md-3" id="idTextBody">
+                                                {{bonos.mes}}
+                                            </div>
+                                            <div class="col-md-3" id="idTextBody">
+                                                {{bonos.periodo}}
+                                            </div>
+                                            <div class="col-md-3" id="idTextBody">
+                                                {{bonos.anio}}
+                                            </div>
+                                            <div class="col-md-3" id="idTextBody">
+                                                {{bonos.total}}
+                                            </div>
+                                        </mat-panel-title>
+                                    </mat-expansion-panel-header>
+
+                                    <div class="button-row">
+                                        <div class="row">
+                                            <div class="col-md-1">
+                                                <button mat-icon-button color="secondary" pTooltip="Editar empleado"
+                                                    aria-label="Example icon button with a heart icon"
+                                                    (click)="openDialogEditarRegistro(servicio.idServicio)">
+                                                    <mat-icon class="iconPrimaryCss">edit</mat-icon>
+                                                </button>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <button mat-icon-button color="secondary" pTooltip="Baja empleado"
+                                                    aria-label="Example icon button with a heart icon"
+                                                    (click)="eliminarRegistro(servicio.idServicio)">
+                                                    <mat-icon class="iconPrimaryCss">delete_outline</mat-icon>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </mat-expansion-panel>
+                            </div>
+                        </mat-accordion>
+                    </div>
+
+                </mat-tab>
+                <mat-tab label="Grafica">
+
+                    <div class="row" style="padding-top: 15px;">
+
+                        <div class="col-md-8">
+                            <mat-form-field appearance="fill" class="mat-form-full-width">
+                                <mat-label>Año</mat-label>
+                                <mat-select formControlName="anio">
+                                    <mat-option>--Seleccione--</mat-option>
+                                    <mat-option *ngFor="let anio of anios" [value]="anio.descripcion">
+                                        {{anio.descripcion}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <button id="idButtonPrimary" class="mat-form-full-width" style="margin-top: 6px"
+                                mat-raised-button (click)="buscar()">Buscar</button>
+                        </div>
+                    </div>
+                    <hr class="m-t-0 m-b-10">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p-chart type="bar" [data]="totalData" [options]="basicOptions" width="auto">
+                            </p-chart>
+                        </div>
+                    </div>
+
+                </mat-tab>
+            </mat-tab-group>
+        </form>
+    </div>
+</mat-dialog-content>

@@ -27,6 +27,14 @@ import { TooltipModule } from 'primeng/tooltip';
 import { RippleModule } from 'primeng/ripple';
 import { ChartModule } from 'primeng/chart';
 
+/** Modules */
+import { MisBonosModule } from './pages/mis-bonos/mis-bonos.module';
+import { NuevoUsuarioModule } from './pages/nuevo-usuario/nuevo-usuario.module';
+import { UsuariosModule } from './pages/usuarios/usuarios.module';
+import { ProductividadesModule } from './pages/gestion-productividad/productividades.module';
+import { ProductividadModule } from './pages/productividad/productividad.module';
+import { TrabajadoresModule } from './pages/trabajadores/trabajadores.module';
+
 
 /** Componentes de Material */
 import { MatSliderModule } from '@angular/material/slider';
@@ -60,15 +68,9 @@ import { AccesoRutasGuard } from './guards/acceso-rutas.guard';
  */
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
-import { _usuariosReducer } from './pages/usuarios/store/reducers/usuarios.reducers';
-import { NuevoUsuarioModule } from './pages/nuevo-usuario/nuevo-usuario.module';
-import { UsuariosModule } from './pages/usuarios/usuarios.module';
+// import { _usuariosReducer } from './pages/usuarios/store/reducers/usuarios.reducers';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { ProductividadesModule } from './pages/gestion-productividad/productividades.module';
-import { ProductividadModule } from './pages/productividad/productividad.module';
-import { TrabajadoresModule } from './pages/trabajadores/trabajadores.module';
-//import { AuthInterceptorService } from './auth-interceptor.service';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -103,6 +105,7 @@ const routes: Routes = [
     BrowserModule,
     NuevoUsuarioModule,
     UsuariosModule,
+    MisBonosModule,
     ProductividadModule,
     ProductividadesModule,
     TrabajadoresModule,
