@@ -34,6 +34,7 @@ container {
 
 #id-icono {
     color: aliceblue;
+    font-size: 2rem;
 }
 
 #id-body {
@@ -51,5 +52,16 @@ container {
     border-width: 2px;
     border-color: aliceblue;
     border-style: solid;
+}
+
+#id-upload {
+    opacity: 0.0; 
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    bottom: 0; 
+    right: 0; 
+    width: 100%; 
+    height:100%;
 }
 

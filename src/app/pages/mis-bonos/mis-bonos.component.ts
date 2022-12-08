@@ -38,13 +38,10 @@ export class MisBonosComponent implements OnInit {
       this.router.navigate(['/login']);
     }
 
-    console.log("datos del modal: ", this.data.empleadoId);
-
     this.initForm();
     this.filterForm.controls['anio'].setValue(this.fecha);
 
     this.misBonos$.subscribe(data => {
-      console.log("datos de mis bonos: ", data);
       if (data.dataMisBonos.status === 200){
         this.bonos = data.dataMisBonos.data;
         this.mostrarGrafica(this.bonos);
@@ -72,10 +69,10 @@ export class MisBonosComponent implements OnInit {
   mostrarGrafica(data: Bono[]) {
     let meses: string[] = [];
     let bonos: number[] = [];
-    console.log("data para grafica: ", data.forEach(item => {
+    data.forEach(item => {
       meses.push(item.mes);
       bonos.push(item.total);
-    }))
+    });
     this.totalData = {
       labels: meses,
       datasets: [
@@ -84,11 +81,6 @@ export class MisBonosComponent implements OnInit {
           backgroundColor: '#42A5F5',
           data: bonos
         },
-        // {
-        //   label: 'Orden de compras',
-        //   backgroundColor: '#FFA726',
-        //   data: [arrayOC]
-        // }
       ],
     };
   }

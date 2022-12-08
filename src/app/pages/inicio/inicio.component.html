@@ -9,8 +9,9 @@
                 <p id="sub-titulo">Mi Perfil</p>
                 <div class="container">
                     <div class="conatiner-body" [ngStyle]="{'background-image':'url(' + idImagen + ')'}">
-                        <div id="id-body" (click)="cambiarImagen()">
-                            <i class="bi bi-camera-fill" id="id-icono" style="font-size: 2rem;"></i>
+                        <div id="id-body">
+                            <input id="id-upload" type="file" accept="image/*" (change)="onFileSelected($event)" />
+                            <em class="bi bi-camera-fill" id="id-icono" style="font-size: 2rem;"></em>
                         </div>
                     </div>
                 </div>

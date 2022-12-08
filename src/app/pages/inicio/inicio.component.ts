@@ -1,7 +1,9 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
+import { File } from 'src/app/model/file';
 import { Trabajadores } from 'src/app/model/trabajadores';
 import { Usuario } from 'src/app/model/usuario';
 import { AuthService } from 'src/app/services/auth.service';
@@ -28,35 +30,34 @@ export class InicioComponent implements OnInit {
   private dataSP: number[] = [];
   public showGrafic: boolean = false
 
-  idImagen = "../../../assets/Images/spider-man.jpg";
+  idImagen: any = "../../../assets/Images/spider-man.jpg";
 
-  constructor(public authService: AuthService, 
+  constructor(public authService: AuthService,
     private trabajadoresService: TrabajadoresService,
     public dialog: MatDialog,
     private store: Store<AppProductividadState>,
     private datepipe: DatePipe,
-    ) { }
+    private domSanitizer: DomSanitizer
+  ) { }
 
   ngOnInit(): void {
     this.usuario = this.authService.comprador;
 
     this.trabajadoresService.obtenerTrabajadorPorUsuarioId(this.usuario.id).subscribe(resp => {
       this.trabajador = resp.data;
-      console.log('EmpleadoId: ', this.trabajador.empleadoId)
       let filtros: any = {
         empleadoId: this.trabajador.empleadoId,
         anio: new Date().getFullYear(),
       };
-  
+
       this.store.dispatch(OBTENER_PRODUCTIVIDAD({ filtros: filtros }))
     });
 
     this.productividad$.subscribe(data => {
-      console.log('================data: ', data)
       this.limpiarGrafica();
       let datos: any = { ...data }
       let dataGrafica: any[] = datos.productividad.dataProductividad.data;
-      if(dataGrafica !== undefined && dataGrafica.length > 0) {
+      if (dataGrafica !== undefined && dataGrafica.length > 0) {
         this.showGrafic = true;
       } else {
         this.showGrafic = false;
@@ -68,11 +69,11 @@ export class InicioComponent implements OnInit {
       }
 
       this.mostrarGrafica(this.dataSP, this.dataOC);
-    });  
-    
+    });
+
   }
 
-  mostrarGrafica(dataGraficaSp: number[], dataGraficaOC: number[]){
+  mostrarGrafica(dataGraficaSp: number[], dataGraficaOC: number[]) {
     this.basicData = {
       labels: this.dataMeses,
       datasets: [
@@ -96,38 +97,24 @@ export class InicioComponent implements OnInit {
     this.dataSP = [];
   }
 
-  applyLightTheme() {
-    this.basicOptions = {
-      plugins: {
-        legend: {
-          labels: {
-            color: '#495057'
-          }
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    let fileSend: File;
+    const reader = new FileReader();
+    if (file) {
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        fileSend = {
+          name: file.name,
+          type: file.type,
+          size: file.size,
+          base64: reader.result
         }
-      },
-      scales: {
-        x: {
-          ticks: {
-            color: '#495057'
-          },
-          grid: {
-            color: '#ebedef'
-          }
-        },
-        y: {
-          ticks: {
-            color: '#495057'
-          },
-          grid: {
-            color: '#ebedef'
-          }
-        }
-      }
-    };
-  }
+        this.idImagen = reader.result;
+      };
+    }
 
-  cambiarImagen() {
-    console.log("Cambiando imagen de perfil")
+    this.domSanitizer.bypassSecurityTrustStyle(this.idImagen);
   }
 
   openDialogactualizarPerfil() {
@@ -142,7 +129,7 @@ export class InicioComponent implements OnInit {
 
   openDialogMisBonos() {
     const dialogRef = this.dialog.open(MisBonosComponent, {
-      data: {empleadoId: this.trabajador.empleadoId},
+      data: { empleadoId: this.trabajador.empleadoId },
       width: '900px'
     });
 
